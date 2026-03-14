@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pietro De Giglio</title>
+    <title>Pietro De Giglio | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -230,7 +230,9 @@
         /* === STRUTTURA MODALE FISSA CON SCROLL INTERNO === */
         .modal-content {
             background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 90%; max-width: 800px; max-height: 85vh; padding: 40px 20px 40px 40px; border-radius: 20px; 
+            width: 90%; max-width: 800px; max-height: 85vh; 
+            padding: 20px 20px 30px 40px; /* Padding superiore e destro ridotti per la X */
+            border-radius: 20px; 
             border: 1px solid rgba(57, 255, 20, 0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
             position: relative; z-index: 10; transform: scale(0.9); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex; flex-direction: column; overflow: hidden; 
@@ -240,9 +242,11 @@
         .modal-inner-scroll {
             overflow-y: auto;
             flex: 1; 
+            margin-top: 45px; /* Spinge la zona scrollabile (e la sua barra) SOTTO il bottone X */
             padding-right: 20px; 
         }
 
+        /* Scrollbar interna: ora non tocca la X! */
         .modal-inner-scroll::-webkit-scrollbar { width: 6px; }
         .modal-inner-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; margin-block: 5px; }
         .modal-inner-scroll::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 10px; }
@@ -258,7 +262,7 @@
         }
         .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border-color: var(--toxic-green);}
         
-        .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; padding-right: 40px;}
+        .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
@@ -270,7 +274,7 @@
             background: var(--toxic-green); color: var(--bg-color);
             text-decoration: none; font-weight: 800; border-radius: 8px;
             text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3); margin-bottom: 10px;
         }
         .modal-link-btn i { margin-right: 8px; font-size: 18px; }
         .modal-link-btn:hover { box-shadow: 0 0 25px var(--toxic-green); transform: translateY(-3px); }
@@ -305,9 +309,11 @@
             section { padding: 80px 20px 20px; } 
             h2.section-title { font-size: 28px; }
             .card { min-width: 280px; padding: 30px 20px; } 
-            .modal-content { padding: 30px 10px 30px 20px; width: 95%; max-height: 90vh;}
-            .modal-inner-scroll { padding-right: 10px; }
-            .modal-title { font-size: 22px; padding-right: 35px; }
+            
+            /* Responsive modale */
+            .modal-content { padding: 15px 10px 30px 20px; width: 95%; max-height: 90vh;}
+            .modal-inner-scroll { margin-top: 45px; padding-right: 10px; }
+            .modal-title { font-size: 22px; }
             .close-btn { top: 10px; right: 10px; width: 35px; height: 35px; font-size: 28px; }
             .planet-1 { width: 120px; height: 120px; } .planet-2 { width: 60px; height: 60px; }
         }
@@ -319,7 +325,7 @@
     <div class="cyber-grid-highlight" id="lightGrid"></div>
 
     <header id="main-header">
-        <div class="logo"><span>Pietro De Giglio</span></div>
+        <div class="logo">PIETRO<span>.</span></div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -678,7 +684,7 @@
     </div>
 
     <script>
-        // Logica click sicura: se mi muovo trascinando annullo il click
+        // LOGICA CLICK MIGLIORATA
         document.querySelectorAll('.card').forEach(card => {
             let startX, startY;
             
@@ -687,12 +693,11 @@
                 startY = e.clientY;
             });
             
-            // Usiamo il normale evento "click", è molto più affidabile
             card.addEventListener('click', function(e) {
                 let diffX = Math.abs(e.clientX - startX);
                 let diffY = Math.abs(e.clientY - startY);
                 
-                // Apri solo se il mouse si è mosso meno di 5px (non stai trascinando)
+                // Apre la modale solo se il click è stato fermo (meno di 5px di spostamento)
                 if (diffX < 5 && diffY < 5) {
                     const title = this.getAttribute('data-title');
                     const desc = this.getAttribute('data-desc');
