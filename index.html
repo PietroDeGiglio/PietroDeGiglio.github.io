@@ -145,7 +145,7 @@
         }
         .slider-pagination .dash:hover { background: rgba(57, 255, 20, 0.5); }
         .slider-pagination .dash.active {
-            background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); width: 35px; /* Larghezza controllata per evitare layout shift */
+            background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); width: 45px;
         }
 
         .card {
@@ -680,92 +680,28 @@
     </div>
 
     <script>
-        // Logica scorrimento vs click: blocca temporaneamente gli eventi "pointer" dei figli durante lo scorrimento
-        const sliders = document.querySelectorAll('.slider-container');
-
-        sliders.forEach(slider => {
-            const pagination = document.createElement('div');
-            pagination.classList.add('slider-pagination');
-            pagination.classList.add('reveal', 'active'); 
-            slider.parentNode.insertBefore(pagination, slider.nextSibling);
-
-            const cards = Array.from(slider.querySelectorAll('.card'));
-            const dashes = [];
-
-            cards.forEach((card, index) => {
-                let dash = document.createElement('div');
-                dash.classList.add('dash');
-                
-                dash.addEventListener('click', () => {
-                    const scrollTarget = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
-                    slider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
-                });
-                
-                pagination.appendChild(dash);
-                dashes.push(dash);
-            });
-
-            const observerOptions = { root: slider, rootMargin: '0px', threshold: 0.6 };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const index = cards.indexOf(entry.target);
-                        dashes.forEach(d => d.classList.remove('active'));
-                        if(dashes[index]) dashes[index].classList.add('active');
-                    }
-                });
-            }, observerOptions);
-
-            cards.forEach(card => observer.observe(card));
-
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                slider.style.cursor = 'grabbing';
-                slider.style.scrollSnapType = 'none'; 
-                slider.classList.add('is-dragging'); // Disabilita click figli
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            });
-
-            slider.addEventListener('mouseleave', () => {
-                isDown = false;
-                slider.style.cursor = 'grab';
-                slider.style.scrollSnapType = 'x mandatory'; 
-                slider.classList.remove('is-dragging');
-            });
-
-            window.addEventListener('mouseup', () => {
-                isDown = false;
-                slider.style.cursor = 'grab';
-                slider.style.scrollSnapType = 'x mandatory'; 
-                setTimeout(() => slider.classList.remove('is-dragging'), 50); // Ritardo per bloccare il click fasullo
-            });
-
-            slider.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; 
-                slider.scrollLeft = scrollLeft - walk;
-            });
-        });
-
-        // Apertura Modale pulita (i click partono solo se .is-dragging non è attivo sul padre)
+        // LOGICA CLICK MIGLIORATA
         document.querySelectorAll('.card').forEach(card => {
+            let startX, startY;
+            
+            card.addEventListener('mousedown', function(e) {
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+            
             card.addEventListener('click', function(e) {
-                if (this.parentNode.classList.contains('is-dragging')) return;
+                let diffX = Math.abs(e.clientX - startX);
+                let diffY = Math.abs(e.clientY - startY);
                 
-                const title = this.getAttribute('data-title');
-                const desc = this.getAttribute('data-desc');
-                const img = this.getAttribute('data-img');
-                const link = this.getAttribute('data-link');
-                
-                openModal(title, desc, img, link);
+                // Apre la modale solo se il click è stato fermo (meno di 5px di spostamento)
+                if (diffX < 5 && diffY < 5) {
+                    const title = this.getAttribute('data-title');
+                    const desc = this.getAttribute('data-desc');
+                    const img = this.getAttribute('data-img');
+                    const link = this.getAttribute('data-link');
+                    
+                    openModal(title, desc, img, link);
+                }
             });
         });
 
@@ -884,6 +820,83 @@
             requestAnimationFrame(animateBackgroundOrbs);
         }
         animateBackgroundOrbs();
+
+        const sliders = document.querySelectorAll('.slider-container');
+
+        sliders.forEach(slider => {
+            const pagination = document.createElement('div');
+            pagination.classList.add('slider-pagination');
+            pagination.classList.add('reveal', 'active'); 
+            slider.parentNode.insertBefore(pagination, slider.nextSibling);
+
+            const cards = Array.from(slider.querySelectorAll('.card'));
+            const dashes = [];
+
+            cards.forEach((card, index) => {
+                let dash = document.createElement('div');
+                dash.classList.add('dash');
+                
+                dash.addEventListener('click', () => {
+                    const scrollTarget = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+                    slider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+                });
+                
+                pagination.appendChild(dash);
+                dashes.push(dash);
+            });
+
+            const updateDashes = () => {
+                const sliderRect = slider.getBoundingClientRect();
+                
+                cards.forEach((card, index) => {
+                    const cardRect = card.getBoundingClientRect();
+                    const cardCenter = cardRect.left + (cardRect.width / 2);
+                    const isVisible = (cardCenter > sliderRect.left && cardCenter < sliderRect.right);
+                    
+                    if(isVisible) {
+                        dashes[index].classList.add('active');
+                    } else {
+                        dashes[index].classList.remove('active');
+                    }
+                });
+            };
+
+            updateDashes();
+            slider.addEventListener('scroll', updateDashes);
+            window.addEventListener('resize', updateDashes);
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.style.cursor = 'grabbing';
+                slider.style.scrollSnapType = 'none'; 
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
+            });
+
+            window.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; 
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
     </script>
 </body>
 </html>
