@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* === VARIABILI COLORI === */
+        /* === VARIABILI COLORI E VARIABILE SCROLL === */
         :root {
             --bg-color: #050505; 
             --card-bg: #111111; 
             --toxic-green: #39ff14; 
             --text-main: #ffffff;
             --text-muted: #888888;
+            /* Variabile magica controllata da JS per le animazioni allo scorrimento */
+            --scroll-pos: 0; 
         }
 
-        /* === STILI BASE E SFONDO VISUALE === */
+        /* === STILI BASE E SFONDO VISUALE DINAMICO === */
         * {
             margin: 0;
             padding: 0;
@@ -29,14 +31,14 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             overflow-x: hidden;
-            /* Bagliori verdi sfumati di fondo allineati con le zone luminose della griglia */
+            /* I bagliori di fondo si spostano lentamente allo scroll */
             background-image: 
-                radial-gradient(circle at 15% 30%, rgba(57, 255, 20, 0.08), transparent 35%),
-                radial-gradient(circle at 85% 70%, rgba(57, 255, 20, 0.06), transparent 35%);
+                radial-gradient(circle at 15% calc(30% - (var(--scroll-pos) * 0.1px)), rgba(57, 255, 20, 0.08), transparent 35%),
+                radial-gradient(circle at 85% calc(70% - (var(--scroll-pos) * 0.2px)), rgba(57, 255, 20, 0.06), transparent 35%);
             background-attachment: fixed;
         }
 
-        /* LIVELLO 1: Griglia base verde scuro su tutto lo schermo */
+        /* LIVELLO 1: Griglia base (Scorre creando profondità) */
         body::before {
             content: "";
             position: fixed;
@@ -45,11 +47,13 @@
                 linear-gradient(rgba(57, 255, 20, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(57, 255, 20, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
+            /* Il movimento legato allo scorrimento (0.3 = scorre al 30% della velocità della pagina) */
+            background-position: center calc(var(--scroll-pos) * -0.3px);
             z-index: -2;
             pointer-events: none;
         }
 
-        /* LIVELLO 2: Griglia luminosa e intensa visibile SOLO in aree circolari (Effetto Faro) */
+        /* LIVELLO 2: Aree luminose / Fari (Si muovono in modo indipendente) */
         body::after {
             content: "";
             position: fixed;
@@ -58,92 +62,75 @@
                 linear-gradient(rgba(57, 255, 20, 0.3) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(57, 255, 20, 0.3) 1px, transparent 1px);
             background-size: 40px 40px;
+            /* La griglia luminosa si muove assieme a quella scura */
+            background-position: center calc(var(--scroll-pos) * -0.3px);
             z-index: -1;
             pointer-events: none;
-            /* Questa maschera nasconde la griglia forte tranne che nei cerchi */
+            
+            /* Le "maschere" a forma di cerchio si muovono a velocità diverse per un effetto 3D */
             -webkit-mask-image: 
-                radial-gradient(circle at 15% 30%, black 0%, transparent 35%),
-                radial-gradient(circle at 85% 70%, black 0%, transparent 40%),
-                radial-gradient(circle at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 45%);
+                radial-gradient(circle at 15% calc(30% - (var(--scroll-pos) * 0.1px)), black 0%, transparent 35%),
+                radial-gradient(circle at 85% calc(70% - (var(--scroll-pos) * 0.2px)), black 0%, transparent 40%),
+                radial-gradient(circle at 50% calc(100% - (var(--scroll-pos) * 0.15px)), rgba(0,0,0,0.6) 0%, transparent 45%);
             mask-image: 
-                radial-gradient(circle at 15% 30%, black 0%, transparent 35%),
-                radial-gradient(circle at 85% 70%, black 0%, transparent 40%),
-                radial-gradient(circle at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 45%);
+                radial-gradient(circle at 15% calc(30% - (var(--scroll-pos) * 0.1px)), black 0%, transparent 35%),
+                radial-gradient(circle at 85% calc(70% - (var(--scroll-pos) * 0.2px)), black 0%, transparent 40%),
+                radial-gradient(circle at 50% calc(100% - (var(--scroll-pos) * 0.15px)), rgba(0,0,0,0.6) 0%, transparent 45%);
         }
 
         html { scroll-behavior: smooth; }
 
-        /* === HEADER SCURO RIPRISTINATO (A SCOMPARSA) === */
+        /* === HEADER === */
         header {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 20px 50px;
-            background: rgba(5, 5, 5, 0.85); /* Sfondo scuro originale */
+            background: rgba(5, 5, 5, 0.85);
             backdrop-filter: blur(12px); 
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             border-bottom: 1px solid rgba(57, 255, 20, 0.15);
-            /* Transizione per nascondere l'header */
             transition: transform 0.3s ease-in-out; 
         }
 
-        /* Classe aggiunta da JS per far scorrere l'header in alto */
         header.header-hidden {
             transform: translateY(-100%);
         }
 
         .logo { 
-            font-weight: 800; 
-            font-size: 24px; 
-            color: var(--toxic-green); /* Colore neon originale */
+            font-weight: 800; font-size: 24px; color: var(--toxic-green); 
             text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); 
         }
 
         nav ul { list-style: none; display: flex; gap: 30px; }
         
         nav a {
-            text-decoration: none;
-            color: var(--text-main); /* Link bianchi originali */
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
+            text-decoration: none; color: var(--text-main);
+            font-weight: 600; font-size: 14px; text-transform: uppercase;
+            letter-spacing: 1px; transition: 0.3s;
         }
-        
         nav a:hover {
-            color: var(--toxic-green);
-            text-shadow: 0 0 12px rgba(57, 255, 20, 0.7);
+            color: var(--toxic-green); text-shadow: 0 0 12px rgba(57, 255, 20, 0.7);
         }
 
         /* === SEZIONI === */
         section {
             padding: 80px 50px 40px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: flex; flex-direction: column; justify-content: center;
         }
 
         h2.section-title {
-            font-size: 35px;
-            margin-bottom: 30px;
-            border-left: 5px solid var(--toxic-green);
-            padding-left: 15px;
-            text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
+            font-size: 35px; margin-bottom: 30px; border-left: 5px solid var(--toxic-green);
+            padding-left: 15px; text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
         }
 
         /* === HERO SECTION === */
         #home { 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: row; 
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            padding-top: 120px;
+            min-height: 100vh; display: flex; flex-direction: row; 
+            align-items: center; justify-content: space-between; gap: 40px; padding-top: 120px;
         }
 
         .hero-text { flex: 1; }
@@ -152,74 +139,40 @@
         .hero-subtitle { font-size: 20px; color: var(--text-muted); margin-top: 20px; max-width: 600px; }
         
         .hero-slogan {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--toxic-green);
-            margin-top: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 24px; font-weight: 600; color: var(--toxic-green);
+            margin-top: 25px; text-transform: uppercase; letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
         }
 
-        .hero-image-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .hero-image-container { flex: 1; display: flex; justify-content: center; align-items: center; }
         .profile-pic {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            object-fit: cover;
+            width: 350px; height: 350px; border-radius: 50%; object-fit: cover;
             border: 4px solid var(--toxic-green);
             box-shadow: 0 0 40px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.2);
             transition: transform 0.5s ease;
         }
-        .profile-pic:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(57, 255, 20, 0.5);
-        }
+        .profile-pic:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(57, 255, 20, 0.5); }
 
         /* === ANIMAZIONI SCROLL REVEAL === */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* === CARD E SLIDESHOW === */
         .slider-container {
-            display: flex;
-            gap: 25px;
-            overflow-x: auto; 
-            padding-bottom: 30px;
-            padding-top: 10px;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: thin;
-            scrollbar-color: var(--toxic-green) var(--bg-color);
+            display: flex; gap: 25px; overflow-x: auto; 
+            padding-bottom: 30px; padding-top: 10px; scroll-snap-type: x mandatory;
+            scrollbar-width: thin; scrollbar-color: var(--toxic-green) var(--bg-color);
         }
         .slider-container::-webkit-scrollbar { height: 6px; }
         .slider-container::-webkit-scrollbar-thumb { background: var(--toxic-green); border-radius: 10px; }
 
         .card {
-            background-color: var(--card-bg);
-            min-width: 320px;
-            max-width: 350px;
-            border-radius: 20px;
-            padding: 30px;
-            cursor: pointer;
-            scroll-snap-align: start;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s ease;
+            background-color: var(--card-bg); min-width: 320px; max-width: 350px;
+            border-radius: 20px; padding: 30px; cursor: pointer; scroll-snap-align: start;
+            border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s ease;
         }
         .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--toxic-green);
+            transform: translateY(-8px); border-color: var(--toxic-green);
             box-shadow: 0 10px 30px rgba(57, 255, 20, 0.15);
         }
         .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--toxic-green); }
@@ -227,22 +180,55 @@
         
         .card-btn {
             margin-top: 20px; background: transparent; color: var(--text-main);
-            border: 1px solid var(--toxic-green); padding: 8px 15px;
-            border-radius: 50px; cursor: pointer; transition: 0.3s; font-size: 13px;
+            border: 1px solid var(--toxic-green); padding: 8px 15px; border-radius: 50px; 
+            cursor: pointer; transition: 0.3s; font-size: 13px;
         }
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); font-weight: bold; }
 
-        /* === FINESTRA MODALE === */
+        /* ==========================================================
+           EFFETTO GALASSIA NELLA FINESTRA MODALE 
+           ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px);
+            background-color: rgba(2, 0, 10, 0.95);
+            backdrop-filter: blur(5px);
             display: none; justify-content: center; align-items: center; z-index: 2000;
+            overflow: hidden; 
         }
+
+        .modal-overlay::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: 
+                radial-gradient(circle at 30% 40%, rgba(76, 29, 149, 0.2), transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(15, 23, 60, 0.4), transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(57, 255, 20, 0.05), transparent 60%),
+                radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 80px 120px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 150px 60px, #aaaaaa, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 220px 200px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 300px 90px, #cccccc, rgba(0,0,0,0));
+            background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat, repeat, repeat, repeat;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 250px 250px, 350px 350px, 200px 200px, 400px 400px, 300px 300px;
+            z-index: 0;
+            animation: rotateGalaxy 180s linear infinite; 
+            opacity: 0;
+            transition: opacity 1s ease-in-out; 
+        }
+
+        .modal-overlay.active::before { opacity: 1; }
+
+        @keyframes rotateGalaxy {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .modal-content {
             background: var(--card-bg); width: 90%; max-width: 600px; padding: 40px;
             border-radius: 20px; border: 2px solid var(--toxic-green);
             box-shadow: 0 0 50px rgba(57, 255, 20, 0.3); position: relative;
+            z-index: 1; 
         }
+        
         .close-btn {
             position: absolute; top: 15px; right: 25px; font-size: 30px; color: var(--text-muted);
             cursor: pointer; transition: 0.3s;
@@ -257,17 +243,12 @@
             border-top: 1px solid rgba(57, 255, 20, 0.2); margin-top: 40px;
         }
         footer h2 { color: var(--toxic-green); margin-bottom: 15px; }
-        
-        .social-links { 
-            display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; 
-        }
-        
+        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
         .social-links a {
             color: var(--bg-color); background: var(--toxic-green); padding: 10px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; 
             font-size: 14px; display: flex; align-items: center; gap: 8px; 
         }
-        
         .social-links a i { font-size: 18px; }
         .social-links a:hover { box-shadow: 0 0 20px var(--toxic-green); transform: scale(1.05); }
 
@@ -381,25 +362,29 @@
     </div>
 
     <script>
+        // Finestra Modale (Universo)
         function openModal(title, description) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerHTML = description;
-            document.getElementById('myModal').style.display = 'flex';
+            let modal = document.getElementById('myModal');
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.add('active'); }, 10);
             document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
-            document.getElementById('myModal').style.display = 'none';
+            let modal = document.getElementById('myModal');
+            modal.classList.remove('active');
+            setTimeout(() => { modal.style.display = 'none'; }, 500); 
             document.body.style.overflow = 'auto'; 
         }
 
         window.onclick = function(event) {
             let modal = document.getElementById('myModal');
-            if (event.target == modal) {
-                closeModal();
-            }
+            if (event.target == modal) { closeModal(); }
         }
 
+        // Scroll Reveal Elements
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -412,26 +397,31 @@
             }
         }
 
-        // --- Logica Header a Scomparsa ---
+        // Logica Scroll: Header a scomparsa e Sfondo Parallasse Dinamico
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
 
         window.addEventListener("scroll", function() {
-            revealElements();
-
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
+            // 1. Aggiorna la variabile CSS per muovere la griglia e i fari in base allo scroll
+            document.documentElement.style.setProperty('--scroll-pos', scrollTop);
+
+            // 2. Animazione comparsa elementi
+            revealElements();
+
+            // 3. Nascondi/Mostra Header
             if (scrollTop > lastScrollTop && scrollTop > 80) {
-                // Se scorri giù e hai superato i primi 80px, nascondi l'header
                 header.classList.add('header-hidden');
             } else {
-                // Se scorri su, mostra l'header
                 header.classList.remove('header-hidden');
             }
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
         });
 
+        // Trigger iniziale
         revealElements(); 
+        document.documentElement.style.setProperty('--scroll-pos', window.pageYOffset || document.documentElement.scrollTop);
     </script>
 </body>
 </html>
