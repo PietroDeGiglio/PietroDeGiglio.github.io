@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pietro De Giglio | Portfolio</title>
+    <title>Pietro De Giglio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -133,7 +133,7 @@
             user-select: none; 
         }
         .slider-container::-webkit-scrollbar { display: none; }
-        .slider-container.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+        /* Rimosso pointer-events: none da qui per la nuova logica JS */
 
         /* TRATTINI CLICCABILI */
         .slider-pagination {
@@ -231,8 +231,7 @@
         .modal-content {
             background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 90%; max-width: 800px; max-height: 85vh; 
-            padding: 20px 20px 30px 40px; /* Padding superiore e destro ridotti per la X */
-            border-radius: 20px; 
+            padding: 20px 20px 30px 40px; border-radius: 20px; 
             border: 1px solid rgba(57, 255, 20, 0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
             position: relative; z-index: 10; transform: scale(0.9); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex; flex-direction: column; overflow: hidden; 
@@ -242,11 +241,10 @@
         .modal-inner-scroll {
             overflow-y: auto;
             flex: 1; 
-            margin-top: 45px; /* Spinge la zona scrollabile (e la sua barra) SOTTO il bottone X */
+            margin-top: 45px; 
             padding-right: 20px; 
         }
 
-        /* Scrollbar interna: ora non tocca la X! */
         .modal-inner-scroll::-webkit-scrollbar { width: 6px; }
         .modal-inner-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; margin-block: 5px; }
         .modal-inner-scroll::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 10px; }
@@ -262,7 +260,7 @@
         }
         .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border-color: var(--toxic-green);}
         
-        .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
+        .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; padding-right: 40px;}
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
@@ -309,11 +307,9 @@
             section { padding: 80px 20px 20px; } 
             h2.section-title { font-size: 28px; }
             .card { min-width: 280px; padding: 30px 20px; } 
-            
-            /* Responsive modale */
             .modal-content { padding: 15px 10px 30px 20px; width: 95%; max-height: 90vh;}
             .modal-inner-scroll { margin-top: 45px; padding-right: 10px; }
-            .modal-title { font-size: 22px; }
+            .modal-title { font-size: 22px; padding-right: 35px; }
             .close-btn { top: 10px; right: 10px; width: 35px; height: 35px; font-size: 28px; }
             .planet-1 { width: 120px; height: 120px; } .planet-2 { width: 60px; height: 60px; }
         }
@@ -325,7 +321,7 @@
     <div class="cyber-grid-highlight" id="lightGrid"></div>
 
     <header id="main-header">
-        <div class="logo">PIETRO<span>.</span></div>
+        <div class="logo"><span>Pietro De Giglio</span></div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -635,7 +631,7 @@
                  data-desc="<strong>Submitted to:</strong> Entertainment Computing (2026)<br><strong>Autori:</strong> Alessandro Pagano, Francesca Travisani, Pietro De Giglio, Veronica Rossano<br><br><strong>Abstract:</strong> Digital games and immersive technologies increasingly support social inclusion and accessibility awareness, yet many sighted people overlook the everyday barriers faced by people with visual impairments. Traditional campaigns rarely convey what it feels like to navigate a city without vision. We present Sense of Blindness, a fully non-visual virtual reality experience that simulates urban navigation using spatial audio and haptic cues only, and we evaluate its impact on empathy, perceived immersion/presence, reflective awareness of accessibility barriers, and perceived educational value. In a user study with 48 sighted participants, we collected post-experience responses with a questionnaire grounded in an adapted Gameful Experience Scale (GAMEX) framework and analysed outcomes at the construct level. Results show strong endorsement of empathy and high perceived educational value, while reflective awareness varies across age groups, suggesting the need for age-sensitive scaffolding and debriefing in educational deployments. Perceived immersion/presence is positively associated with both reflective awareness and educational value, indicating immersion as a supportive mechanism for reflection and learning in non-visual navigation. Stress/tension emerges as a separable experiential dimension rather than a necessary driver of educational impact. We discuss implications for designing sensory-first, socially impactful VR experiences that promote accessibility awareness and more inclusive urban cultures." 
                  data-img="" data-link="">
                 <h3>Simulating Non-Visual VR Urban Navigation to Increase Awareness of Urban Accessibility Barriers</h3>
-                <p>Entertainment Computing • 2026</p>
+                <p>Entertainment Computing • 2026 (Submitted)</p>
                 <button class="card-btn">Leggi Abstract</button>
             </div>
 
@@ -684,21 +680,30 @@
     </div>
 
     <script>
-        // LOGICA CLICK MIGLIORATA
+        // Gestione drag vs click robusta
         document.querySelectorAll('.card').forEach(card => {
             let startX, startY;
-            
+            let isDragging = false;
+
             card.addEventListener('mousedown', function(e) {
                 startX = e.clientX;
                 startY = e.clientY;
+                isDragging = false; 
+            });
+
+            card.addEventListener('mousemove', function(e) {
+                if (startX === undefined || startY === undefined) return;
+                let diffX = Math.abs(e.clientX - startX);
+                let diffY = Math.abs(e.clientY - startY);
+                // Se si muove di oltre 5px, lo consideriamo un trascinamento
+                if (diffX > 5 || diffY > 5) {
+                    isDragging = true;
+                }
             });
             
             card.addEventListener('click', function(e) {
-                let diffX = Math.abs(e.clientX - startX);
-                let diffY = Math.abs(e.clientY - startY);
-                
-                // Apre la modale solo se il click è stato fermo (meno di 5px di spostamento)
-                if (diffX < 5 && diffY < 5) {
+                if (!isDragging) {
+                    // Click pulito: apro la modale
                     const title = this.getAttribute('data-title');
                     const desc = this.getAttribute('data-desc');
                     const img = this.getAttribute('data-img');
@@ -706,6 +711,10 @@
                     
                     openModal(title, desc, img, link);
                 }
+                // Resetto variabili
+                startX = undefined;
+                startY = undefined;
+                isDragging = false;
             });
         });
 
@@ -849,25 +858,24 @@
                 dashes.push(dash);
             });
 
-            const updateDashes = () => {
-                const sliderRect = slider.getBoundingClientRect();
-                
-                cards.forEach((card, index) => {
-                    const cardRect = card.getBoundingClientRect();
-                    const cardCenter = cardRect.left + (cardRect.width / 2);
-                    const isVisible = (cardCenter > sliderRect.left && cardCenter < sliderRect.right);
-                    
-                    if(isVisible) {
-                        dashes[index].classList.add('active');
-                    } else {
-                        dashes[index].classList.remove('active');
-                    }
-                });
+            // Usiamo IntersectionObserver per la paginazione, molto più efficiente!
+            const observerOptions = {
+                root: slider,
+                rootMargin: '0px',
+                threshold: 0.6 // Il 60% della card deve essere visibile
             };
 
-            updateDashes();
-            slider.addEventListener('scroll', updateDashes);
-            window.addEventListener('resize', updateDashes);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = cards.indexOf(entry.target);
+                        dashes.forEach(d => d.classList.remove('active'));
+                        if(dashes[index]) dashes[index].classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => observer.observe(card));
 
             let isDown = false;
             let startX;
@@ -876,6 +884,7 @@
             slider.addEventListener('mousedown', (e) => {
                 isDown = true;
                 slider.style.cursor = 'grabbing';
+                slider.style.scrollSnapType = 'none'; // Disabilita snap durante il drag
                 startX = e.pageX - slider.offsetLeft;
                 scrollLeft = slider.scrollLeft;
             });
@@ -883,11 +892,13 @@
             slider.addEventListener('mouseleave', () => {
                 isDown = false;
                 slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
             });
 
             window.addEventListener('mouseup', () => {
                 isDown = false;
                 slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
             });
 
             slider.addEventListener('mousemove', (e) => {
