@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pietro De Giglio</title>
+    <title>Pietro De Giglio | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -133,7 +133,7 @@
             user-select: none; 
         }
         .slider-container::-webkit-scrollbar { display: none; }
-        /* Rimosso pointer-events: none da qui per la nuova logica JS */
+        .slider-container.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 
         /* TRATTINI CLICCABILI */
         .slider-pagination {
@@ -145,7 +145,7 @@
         }
         .slider-pagination .dash:hover { background: rgba(57, 255, 20, 0.5); }
         .slider-pagination .dash.active {
-            background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); width: 45px;
+            background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); width: 35px; /* Larghezza controllata per evitare layout shift */
         }
 
         .card {
@@ -321,7 +321,7 @@
     <div class="cyber-grid-highlight" id="lightGrid"></div>
 
     <header id="main-header">
-        <div class="logo"><span>Pietro De Giglio</span></div>
+        <div class="logo">PIETRO<span>.</span></div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -680,41 +680,92 @@
     </div>
 
     <script>
-        // Gestione drag vs click robusta
+        // Logica scorrimento vs click: blocca temporaneamente gli eventi "pointer" dei figli durante lo scorrimento
+        const sliders = document.querySelectorAll('.slider-container');
+
+        sliders.forEach(slider => {
+            const pagination = document.createElement('div');
+            pagination.classList.add('slider-pagination');
+            pagination.classList.add('reveal', 'active'); 
+            slider.parentNode.insertBefore(pagination, slider.nextSibling);
+
+            const cards = Array.from(slider.querySelectorAll('.card'));
+            const dashes = [];
+
+            cards.forEach((card, index) => {
+                let dash = document.createElement('div');
+                dash.classList.add('dash');
+                
+                dash.addEventListener('click', () => {
+                    const scrollTarget = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+                    slider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+                });
+                
+                pagination.appendChild(dash);
+                dashes.push(dash);
+            });
+
+            const observerOptions = { root: slider, rootMargin: '0px', threshold: 0.6 };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = cards.indexOf(entry.target);
+                        dashes.forEach(d => d.classList.remove('active'));
+                        if(dashes[index]) dashes[index].classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => observer.observe(card));
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.style.cursor = 'grabbing';
+                slider.style.scrollSnapType = 'none'; 
+                slider.classList.add('is-dragging'); // Disabilita click figli
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
+                slider.classList.remove('is-dragging');
+            });
+
+            window.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+                slider.style.scrollSnapType = 'x mandatory'; 
+                setTimeout(() => slider.classList.remove('is-dragging'), 50); // Ritardo per bloccare il click fasullo
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; 
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+        // Apertura Modale pulita (i click partono solo se .is-dragging non è attivo sul padre)
         document.querySelectorAll('.card').forEach(card => {
-            let startX, startY;
-            let isDragging = false;
-
-            card.addEventListener('mousedown', function(e) {
-                startX = e.clientX;
-                startY = e.clientY;
-                isDragging = false; 
-            });
-
-            card.addEventListener('mousemove', function(e) {
-                if (startX === undefined || startY === undefined) return;
-                let diffX = Math.abs(e.clientX - startX);
-                let diffY = Math.abs(e.clientY - startY);
-                // Se si muove di oltre 5px, lo consideriamo un trascinamento
-                if (diffX > 5 || diffY > 5) {
-                    isDragging = true;
-                }
-            });
-            
             card.addEventListener('click', function(e) {
-                if (!isDragging) {
-                    // Click pulito: apro la modale
-                    const title = this.getAttribute('data-title');
-                    const desc = this.getAttribute('data-desc');
-                    const img = this.getAttribute('data-img');
-                    const link = this.getAttribute('data-link');
-                    
-                    openModal(title, desc, img, link);
-                }
-                // Resetto variabili
-                startX = undefined;
-                startY = undefined;
-                isDragging = false;
+                if (this.parentNode.classList.contains('is-dragging')) return;
+                
+                const title = this.getAttribute('data-title');
+                const desc = this.getAttribute('data-desc');
+                const img = this.getAttribute('data-img');
+                const link = this.getAttribute('data-link');
+                
+                openModal(title, desc, img, link);
             });
         });
 
@@ -833,82 +884,6 @@
             requestAnimationFrame(animateBackgroundOrbs);
         }
         animateBackgroundOrbs();
-
-        const sliders = document.querySelectorAll('.slider-container');
-
-        sliders.forEach(slider => {
-            const pagination = document.createElement('div');
-            pagination.classList.add('slider-pagination');
-            pagination.classList.add('reveal', 'active'); 
-            slider.parentNode.insertBefore(pagination, slider.nextSibling);
-
-            const cards = Array.from(slider.querySelectorAll('.card'));
-            const dashes = [];
-
-            cards.forEach((card, index) => {
-                let dash = document.createElement('div');
-                dash.classList.add('dash');
-                
-                dash.addEventListener('click', () => {
-                    const scrollTarget = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
-                    slider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
-                });
-                
-                pagination.appendChild(dash);
-                dashes.push(dash);
-            });
-
-            // Usiamo IntersectionObserver per la paginazione, molto più efficiente!
-            const observerOptions = {
-                root: slider,
-                rootMargin: '0px',
-                threshold: 0.6 // Il 60% della card deve essere visibile
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const index = cards.indexOf(entry.target);
-                        dashes.forEach(d => d.classList.remove('active'));
-                        if(dashes[index]) dashes[index].classList.add('active');
-                    }
-                });
-            }, observerOptions);
-
-            cards.forEach(card => observer.observe(card));
-
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                slider.style.cursor = 'grabbing';
-                slider.style.scrollSnapType = 'none'; // Disabilita snap durante il drag
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            });
-
-            slider.addEventListener('mouseleave', () => {
-                isDown = false;
-                slider.style.cursor = 'grab';
-                slider.style.scrollSnapType = 'x mandatory'; 
-            });
-
-            window.addEventListener('mouseup', () => {
-                isDown = false;
-                slider.style.cursor = 'grab';
-                slider.style.scrollSnapType = 'x mandatory'; 
-            });
-
-            slider.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; 
-                slider.scrollLeft = scrollLeft - walk;
-            });
-        });
     </script>
 </body>
 </html>
