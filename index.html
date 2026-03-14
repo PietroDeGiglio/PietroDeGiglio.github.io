@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pietro De Giglio | Portfolio</title>
+    <title>Pietro De Giglio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -26,14 +26,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-        body {
-            background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden;
-        }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
 
         /* =========================================
-           1. SFONDO: GRIGLIA CON 4 SCANNER AUTOMATICI + MOUSE
+           1. SFONDO: GRIGLIA E LUCI
            ========================================= */
-
         .cyber-grid-base {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
@@ -79,12 +76,9 @@
             z-index: 1000; border-bottom: 1px solid rgba(57, 255, 20, 0.2);
             transition: transform 0.4s cubic-bezier(0.3, 1, 0.2, 1); 
         }
-
         header.header-hidden { transform: translateY(-100%); }
-
         .logo { font-weight: 800; font-size: 26px; color: var(--text-main); letter-spacing: 2px; }
         .logo span { color: var(--toxic-green); text-shadow: 0 0 15px rgba(57, 255, 20, 0.8); }
-
         nav ul { list-style: none; display: flex; gap: 35px; }
         nav a {
             text-decoration: none; color: var(--text-main); font-weight: 600; 
@@ -100,34 +94,26 @@
 
         /* === SEZIONI E CARDS === */
         section { padding: 100px 50px 60px; display: flex; flex-direction: column; justify-content: center; }
-
         h2.section-title {
             font-size: 40px; margin-bottom: 40px; border-left: 6px solid var(--toxic-green);
             padding-left: 20px; text-shadow: 0 0 15px rgba(57, 255, 20, 0.4); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
         }
-
         #home { min-height: 100vh; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; padding-top: 120px; }
-
         .hero-text { flex: 1; }
         .hero-title { font-size: 75px; font-weight: 800; line-height: 1.05; letter-spacing: -1px; }
         .hero-title span { color: var(--toxic-green); text-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
         .hero-subtitle { font-size: 22px; color: var(--text-muted); margin-top: 25px; max-width: 600px; font-weight: 300; line-height: 1.6; }
-        
         .hero-slogan {
             display: inline-block; font-size: 20px; font-weight: 800; color: var(--bg-color); background: var(--toxic-green);
             margin-top: 35px; padding: 10px 25px; border-radius: 5px; text-transform: uppercase; letter-spacing: 3px;
             box-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
         }
-
         .hero-image-container { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
-        
         .hero-image-container::before {
             content: ''; position: absolute; width: 380px; height: 380px; border-radius: 50%;
             border: 1px dashed rgba(57, 255, 20, 0.5); animation: spinDash 20s linear infinite; z-index: -1;
         }
-
         @keyframes spinDash { 100% { transform: rotate(360deg); } }
-
         .profile-pic {
             width: 350px; height: 350px; border-radius: 50%; object-fit: cover;
             border: 4px solid var(--toxic-green); box-shadow: 0 0 50px rgba(57, 255, 20, 0.4), inset 0 0 30px rgba(57, 255, 20, 0.3);
@@ -143,27 +129,22 @@
             scroll-snap-type: x mandatory; scrollbar-width: none; 
         }
         .slider-container::-webkit-scrollbar { display: none; }
-
         .card {
             background: linear-gradient(145deg, #161616, #0a0a0a); min-width: 360px; max-width: 400px;
             border-radius: 25px; padding: 40px 30px; cursor: pointer; scroll-snap-align: center;
             border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; overflow: hidden;
+            position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
         }
-        
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
-        
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
         .card:hover::before { transform: scaleX(1); }
-        
-        .card h3 { font-size: 24px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
+        .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
         .card:hover h3 { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
         .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; }
-        
         .card-btn {
             margin-top: 25px; background: rgba(57, 255, 20, 0.05); color: var(--toxic-green);
             border: 1px solid rgba(57, 255, 20, 0.3); padding: 10px 20px; border-radius: 8px; 
-            cursor: pointer; transition: all 0.3s; font-size: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.3s; font-size: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; align-self: flex-start;
         }
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
@@ -175,7 +156,6 @@
             background-color: #010401; 
             display: none; justify-content: center; align-items: center; z-index: 2000; overflow: hidden; 
         }
-
         .cosmic-background {
             position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 0;
@@ -185,100 +165,67 @@
                 radial-gradient(circle at 50% 50%, rgba(5, 30, 5, 0.9), transparent 70%);
             animation: breatheNebula 20s infinite alternate linear;
         }
-
         .modal-overlay.active .cosmic-background { opacity: 1; }
-
         @keyframes breatheNebula { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(15deg); } }
-
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(1px 1px at 10% 20%, #fff, transparent), 
-                radial-gradient(2px 2px at 80% 80%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.9), transparent),
-                radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.6), transparent),
-                radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent),
-                radial-gradient(1.5px 1.5px at 25% 75%, rgba(200, 50, 50, 0.7), transparent),
-                radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent),
-                radial-gradient(1px 1px at 45% 85%, rgba(150, 200, 255, 0.8), transparent);
+                radial-gradient(1px 1px at 10% 20%, #fff, transparent), radial-gradient(2px 2px at 80% 80%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.9), transparent), radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.6), transparent),
+                radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent), radial-gradient(1.5px 1.5px at 25% 75%, rgba(200, 50, 50, 0.7), transparent),
+                radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent), radial-gradient(1px 1px at 45% 85%, rgba(150, 200, 255, 0.8), transparent);
             background-repeat: repeat; 
             background-size: 250px 250px, 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 200px 200px, 380px 380px;
             animation: rotateStars 240s linear infinite;
         }
-
         @keyframes rotateStars { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .central-sun {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; border-radius: 50%;
-            background: #fff;
-            box-shadow: 
-                0 0 100px 50px rgba(57, 255, 20, 0.6), 
-                0 0 200px 100px rgba(20, 100, 20, 0.4), 
-                0 0 20px 5px #fff; 
-            animation: pulseSun 4s infinite alternate;
-            z-index: 1;
+            width: 50px; height: 50px; border-radius: 50%; background: #fff;
+            box-shadow: 0 0 100px 50px rgba(57, 255, 20, 0.6), 0 0 200px 100px rgba(20, 100, 20, 0.4), 0 0 20px 5px #fff; 
+            animation: pulseSun 4s infinite alternate; z-index: 1;
         }
-
         @keyframes pulseSun { 
             0% { transform: translate(-50%, -50%) scale(0.9); box-shadow: 0 0 80px 40px rgba(57, 255, 20, 0.5), 0 0 150px 80px rgba(20, 100, 20, 0.3), 0 0 20px 5px #fff; } 
             100% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 120px 60px rgba(57, 255, 20, 0.8), 0 0 250px 120px rgba(20, 100, 20, 0.5), 0 0 30px 10px #fff; } 
         }
-
         .planet { position: absolute; border-radius: 50%; z-index: 2; }
-        
-        .planet-1 {
-            width: 250px; height: 250px; top: 15%; left: 20%;
-            background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); 
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9);
-            animation: orbitPlanet1 120s linear infinite;
-        }
-        .planet-2 {
-            width: 90px; height: 90px; bottom: 20%; right: 25%;
-            background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); 
-            box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15);
-            animation: orbitPlanet2 90s linear infinite;
-        }
-        .planet-3 {
-            width: 140px; height: 140px; top: 60%; left: 10%;
-            background: radial-gradient(circle at 80% 20%, #b23a27, #4a150e 70%, #000); 
-            box-shadow: inset -15px 15px 25px rgba(0,0,0,0.9), 0 0 20px rgba(178, 58, 39, 0.2);
-            animation: orbitPlanet3 150s linear infinite;
-        }
-        .planet-4 {
-            width: 50px; height: 50px; top: 10%; right: 15%;
-            background: radial-gradient(circle at 20% 80%, #5cb8ff, #1a4f80 60%, #000); 
-            box-shadow: inset 5px -5px 10px rgba(0,0,0,0.8), 0 0 10px rgba(92, 184, 255, 0.3);
-            animation: orbitPlanet4 60s linear infinite;
-        }
+        .planet-1 { width: 250px; height: 250px; top: 15%; left: 20%; background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9); animation: orbitPlanet1 120s linear infinite; }
+        .planet-2 { width: 90px; height: 90px; bottom: 20%; right: 25%; background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15); animation: orbitPlanet2 90s linear infinite; }
+        .planet-3 { width: 140px; height: 140px; top: 60%; left: 10%; background: radial-gradient(circle at 80% 20%, #b23a27, #4a150e 70%, #000); box-shadow: inset -15px 15px 25px rgba(0,0,0,0.9), 0 0 20px rgba(178, 58, 39, 0.2); animation: orbitPlanet3 150s linear infinite; }
+        .planet-4 { width: 50px; height: 50px; top: 10%; right: 15%; background: radial-gradient(circle at 20% 80%, #5cb8ff, #1a4f80 60%, #000); box-shadow: inset 5px -5px 10px rgba(0,0,0,0.8), 0 0 10px rgba(92, 184, 255, 0.3); animation: orbitPlanet4 60s linear infinite; }
 
         @keyframes orbitPlanet1 { from { transform: rotate(0deg) translateX(150px) rotate(0deg); } to { transform: rotate(360deg) translateX(150px) rotate(-360deg); } }
         @keyframes orbitPlanet2 { from { transform: rotate(360deg) translateX(-200px) rotate(0deg); } to { transform: rotate(0deg) translateX(-200px) rotate(-360deg); } }
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
         @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
 
-        /* Contenuto Modale (Scrollable per testi lunghi) */
+        /* === MODAL CONTENT (Supporta Immagini ora) === */
         .modal-content {
-            background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 90%; max-width: 800px; max-height: 85vh; padding: 50px; border-radius: 30px; 
-            border: 1px solid rgba(57, 255, 20, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            width: 90%; max-width: 800px; max-height: 85vh; padding: 40px; border-radius: 20px; 
+            border: 1px solid rgba(57, 255, 20, 0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
             position: relative; z-index: 10; transform: scale(0.9); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            overflow-y: auto; /* Permette lo scorrimento del testo lungo */
+            overflow-y: auto; 
         }
-        
-        /* Custom Scrollbar per la modale */
         .modal-content::-webkit-scrollbar { width: 8px; }
         .modal-content::-webkit-scrollbar-track { background: transparent; }
         .modal-content::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 20px; }
-
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
-        .close-btn {
-            position: absolute; top: 20px; right: 30px; font-size: 35px; color: var(--text-muted);
-            cursor: pointer; transition: all 0.3s; z-index: 20;
+        /* Stile Immagine Modale */
+        .modal-image {
+            width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 25px;
+            border: 2px solid rgba(57, 255, 20, 0.3); display: none; /* Nascosta di default */
         }
-        .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); }
-        .modal-title { color: var(--toxic-green); font-size: 32px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 30px;}
+
+        .close-btn {
+            position: absolute; top: 15px; right: 25px; font-size: 35px; color: var(--text-main);
+            cursor: pointer; transition: all 0.3s; z-index: 20; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+        }
+        .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border: 1px solid var(--toxic-green);}
+        
+        .modal-title { color: var(--toxic-green); font-size: 30px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 40px;}
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
@@ -304,19 +251,19 @@
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
             header { flex-direction: column; padding: 15px; gap: 10px; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
             #home { flex-direction: column-reverse; text-align: center; padding-top: 180px; gap: 40px; }
-            .hero-title { font-size: 45px; } 
-            .hero-subtitle { font-size: 18px; margin: 20px auto 0; }
-            .hero-slogan { font-size: 16px; margin-top: 25px; }
-            .profile-pic { width: 250px; height: 250px; } 
-            .hero-image-container::before { width: 280px; height: 280px; }
+            .hero-title { font-size: 40px; } 
+            .hero-subtitle { font-size: 16px; margin: 20px auto 0; }
+            .hero-slogan { font-size: 14px; margin-top: 20px; }
+            .profile-pic { width: 220px; height: 220px; } 
+            .hero-image-container::before { width: 250px; height: 250px; }
             section { padding: 80px 20px 20px; } 
-            h2.section-title { font-size: 30px; }
+            h2.section-title { font-size: 28px; }
             .card { min-width: 280px; padding: 30px 20px; } 
             .modal-content { padding: 30px 20px; width: 95%; max-height: 90vh;}
-            .modal-title { font-size: 24px; }
-            .planet-1 { width: 150px; height: 150px; } .planet-2 { width: 80px; height: 80px; }
+            .modal-title { font-size: 22px; }
+            .planet-1 { width: 120px; height: 120px; } .planet-2 { width: 60px; height: 60px; }
         }
     </style>
 </head>
@@ -354,21 +301,19 @@
         <h2 class="section-title reveal">Istruzione</h2>
         <div class="slider-container reveal">
             
-            <div class="card" onclick="openModal('Laurea Magistrale in Computer Science Security Engineering', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science con focus su Security Engineering. <br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell\'analisi del rischio e nell\'applicazione dell\'Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>).<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF')">
+            <div class="card" onclick="openModal('Computer Science (Security Eng.)', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science con focus su Security Engineering. <br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>).<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF', '')">
                 <h3>Computer Science (Security Eng.)</h3>
                 <p>Laurea Magistrale • Università di Bari<br>09/2025 - Attuale</p>
-                <p style="margin-top: 10px;">Focus su Cybersecurity, AI for Security e architetture resilienti.</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
-            <div class="card" onclick="openModal('Laurea Triennale in Informatica', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2022 - 07/2025)<br><br>Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software (dall\'analisi dei requisiti al testing), nella progettazione di Database e nella gestione delle reti.<br><br>Abituato ad affrontare sfide logiche complesse e a collaborare allo sviluppo di progetti software.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello:</strong> 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web.')">
+            <div class="card" onclick="openModal('Laurea Triennale in Informatica', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2022 - 07/2025)<br><br>Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software, progettazione Database e gestione reti.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello:</strong> 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web.', '')">
                 <h3>Informatica</h3>
                 <p>Laurea Triennale • Università di Bari<br>09/2022 - 07/2025</p>
-                <p style="margin-top: 10px;">Voto: 97/100. Tesi su interfacce conversazionali accessibili.</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
-            <div class="card" onclick="openModal('Diploma di Maturità Scientifica', '<strong>Liceo Scientifico Gaetano Salvemini</strong>, Bari (09/2017 - 07/2022)<br><br>Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi e una forte attitudine all\'apprendimento continuo, bilanciando competenze tecnico-scientifiche e cultura generale.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello:</strong> 4 EQF')">
+            <div class="card" onclick="openModal('Diploma di Maturità Scientifica', '<strong>Liceo Scientifico Gaetano Salvemini</strong>, Bari (09/2017 - 07/2022)<br><br>Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello:</strong> 4 EQF', '')">
                 <h3>Liceo Scientifico</h3>
                 <p>Diploma di Maturità • Bari<br>09/2017 - 07/2022</p>
                 <button class="card-btn">Esplora Dettagli</button>
@@ -378,27 +323,72 @@
     </section>
 
     <section id="esperienza">
-        <h2 class="section-title reveal">Esperienza</h2>
+        <h2 class="section-title reveal">Esperienza Lavorativa</h2>
         <div class="slider-container reveal">
             
-            <div class="card" onclick="openModal('Formatore e Docente Innovativo (IA & Cybersecurity)', 'Ho condotto diversi progetti formativi per docenti e scuole:<br><br><ul><li><strong>Transizione Digitale (D.M. 66/2023):</strong> Laboratorio formativo di 12 ore per docenti sull\'applicazione pratica dell\'Intelligenza Artificiale nella Didattica (ITT Nervi Galilei).</li><li><strong>Progetto P.R.I.A.M.O:</strong> Ho progettato e condotto un minicorso sull\'educazione alla sicurezza informatica per docenti, traducendo concetti tecnici complessi in un linguaggio accessibile per contrastare il divario tecnologico.</li></ul>')">
-                <h3>Docente Formatore IA & Cyber</h3>
-                <p>Progetti Scolastici & PNRR • 2025</p>
-                <p style="margin-top: 10px;">Formazione docenti su applicazioni di Intelligenza Artificiale e Cybersecurity.</p>
+            <div class="card" onclick="openModal('Docente Formatore IA & Cyber', '<strong>ITT Nervi Galilei, Altamura</strong> (15/09/2025 - 18/09/2025)<br><br>Formazione del personale scolastico per la transizione digitale (D.M. 66/2023).<br>Nell&apos;ambito dei fondi PNRR, ho tenuto il laboratorio formativo &quot;Applicazioni dell&apos;Intelligenza Artificiale nella Didattica&quot;. Il corso, di 12 ore, si è focalizzato sui fondamenti dell&apos;IA e sulle sue potenzialità educative per docenti di scuola superiore.', '')">
+                <h3>Docente Formatore IA</h3>
+                <p>ITT Nervi Galilei • PNRR 2025</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
-            <div class="card" onclick="openModal('Responsabile Tecnologie Immersive (VR)', 'Ho guidato la sperimentazione di tecnologie VR in ambito educativo in due contesti principali:<br><br><ul><li><strong>The Neural Maze:</strong> (Liceo G. Bianchi Dottula, 02/2026) Integrazione di tecnologie immersive in ambito educativo.</li><li><strong>Sense of Blindness:</strong> (I.C. Don Lorenzo Milani, 06/2025) Ho fatto sperimentare in VR le sfide affrontate dalle persone non vedenti, valutando l\'efficacia dei serious games come strumenti di apprendimento ed empatia.</li></ul>')">
+            <div class="card" onclick="openModal('Responsabile VR in Edu', '<strong>Liceo G. Bianchi Dottula, Bari</strong> (12/02/2026 - 13/02/2026)<br><br>Responsabile della sperimentazione <strong>The Neural Maze</strong>: tecnologie immersive per la salute.<br>Laboratorio di due giorni focalizzato sull&apos;integrazione delle tecnologie immersive in ambito educativo. Ho guidato l&apos;esplorazione della Realtà Virtuale (VR) e sessioni di test pratici per valutare l&apos;efficacia dei serious game.', '')">
                 <h3>Responsabile VR in Edu</h3>
-                <p>Sperimentazioni Scolastiche • 2025/2026</p>
-                <p style="margin-top: 10px;">Integrazione e test pratici di Realtà Virtuale e Serious Games a scuola.</p>
+                <p>Liceo G. Bianchi Dottula • 2026</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
-            <div class="card" onclick="openModal('Responsabile Trasformazione e Marketing Digitale', 'Ho guidato la strategia digitale per diverse realtà:<br><br><ul><li><strong>Crira Viaggi:</strong> Setup iniziale asset aziendali (Google Business), ottimizzazione e piani editoriali social.</li><li><strong>Ermanno Dammacco Arredamenti:</strong> Ottimizzazione del sito web aziendale e profili su marketplace, upload prodotti e posizionamento commerciale.</li><li><strong>Dinamo Molfetta:</strong> Gestione strategica account social sportivi, grafica promozionale e copertura visiva eventi.</li></ul>')">
-                <h3>Digital Transformation Mgr</h3>
-                <p>Varie Aziende • 2024 - 2026</p>
-                <p style="margin-top: 10px;">Strategia web, e-commerce, posizionamento e piani editoriali.</p>
+            <div class="card" onclick="openModal('Docente Formazione Professionale', '<strong>Progetto P.R.I.A.M.O, Bari</strong> (04/12/2025)<br><br>Ho progettato e condotto un minicorso sull&apos;educazione alla sicurezza informatica per docenti della scuola primaria e secondaria. Ho tradotto concetti tecnici complessi legati alla cybersecurity in un linguaggio accessibile, fornendo strumenti per contrastare il divario tecnologico.', '')">
+                <h3>Formazione P.R.I.A.M.O</h3>
+                <p>Docente Sicurezza Informatica • 2025</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Responsabile Sperimentazione VR', '<strong>I.C. Don Lorenzo Milani, Bari</strong> (06/2025)<br><br>Responsabile della sperimentazione <strong>Sense of Blindness</strong>. Laboratorio sull&apos;integrazione delle tecnologie immersive. Ho guidato i partecipanti nella VR per valutare i serious game come strumenti di apprendimento e sviluppo dell&apos;empatia.', '')">
+                <h3>Sperimentazione Sense of Blindness</h3>
+                <p>I.C. Don Milani • 2025</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+            
+            <div class="card" onclick="openModal('Tutor Scolastico STEM', '<strong>Scuola Media Ungaretti, Bari</strong> (01/09/2017 - 03/06/2019)<br><br>Attività di tutoraggio per supportare e guidare i ragazzi nella progettazione, costruzione e programmazione di robot autonomi in vista della competizione RoboCup Jr. Trasmissione di conoscenze tecnico-pratiche in ambito STEM.', '')">
+                <h3>Tutor Scolastico STEM</h3>
+                <p>Scuola Media Ungaretti • 2017-2019</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Responsabile Trasformazione Digitale', '<strong>Crira Viaggi, Bari</strong> (08/01/2026 - 05/03/2026)<br><br>Responsabile della strategia digitale. Setup iniziale asset aziendali (account Google, Google Maps tramite Business Profile). Ideazione e produzione contenuti per i canali social e definizione piani editoriali.', '')">
+                <h3>Digital Mgr - Crira Viaggi</h3>
+                <p>Strategia e Social Media • 2026</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Responsabile Trasformazione Digitale', '<strong>Ermanno Dammacco Arredamenti, Bari</strong> (02/09/2024 - 09/03/2026)<br><br>Gestione e ottimizzazione del sito web aziendale e dei profili su marketplace di settore (mobilidesignoccasioni.com). Upload prodotti e posizionamento commerciale. Piani editoriali social.', '')">
+                <h3>Digital Mgr - Dammacco Arredamenti</h3>
+                <p>Web e Marketplace • 2024-2026</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Responsabile Marketing Digitale', '<strong>Dinamo Molfetta</strong> (02/09/2024 - 01/08/2025)<br><br>Gestione strategica degli account social ufficiali. Creazione e pubblicazione contenuti, progettazione grafiche promozionali e copertura visiva di eventi sportivi, accrescendo l&apos;engagement.', '')">
+                <h3>Social Media Mgr - Dinamo</h3>
+                <p>Sport Marketing • 2024-2025</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Accompagnatore per Disabili', '<strong>Cooperativa Portabagagli Pluriservizi, Bari</strong> (01/07/2024 - 30/09/2024)<br><br>Supporto operativo in stazione per passeggeri con disabilità o mobilità ridotta (PRM). Assistenza sicura in tutte le fasi del viaggio, affrontando imprevisti logistici con problem-solving ed empatia.', '')">
+                <h3>Accompagnatore PRM</h3>
+                <p>Portabagagli Pluriservizi • 2024</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Assistente Eventi Gaming', '<strong>Machete Gaming, Bari</strong> (03/01/2022 - 29/12/2023)<br><br>Creazione contenuti su Twitch e social. Partecipazione attiva al Comicon e Milan Games Week come membro del team operativo, gestendo stand e coordinamento con brand come Yamaha, Nintendo, PlayStation, Monster.', '')">
+                <h3>Event Assistant</h3>
+                <p>Machete Gaming • 2022-2023</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
+            <div class="card" onclick="openModal('Accompagnatore per Disabili', '<strong>Aliantepolisport, Bari</strong> (01/06/2022 - 16/09/2022)<br><br>Supporto nelle attività motorie, ricreative e quotidiane rivolte a persone con disabilità.', '')">
+                <h3>Supporto PRM</h3>
+                <p>Aliantepolisport • 2022</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
@@ -406,35 +396,85 @@
     </section>
 
     <section id="progetti">
-        <h2 class="section-title reveal">Progetti Principali</h2>
+        <h2 class="section-title reveal">Progetti</h2>
         <div class="slider-container reveal">
 
-            <div class="card" onclick="openModal('GreenCare Services (GCS)', '<strong>Web App Full-Stack & Oracle ORDBMS</strong><br><br>Sviluppato da zero, il sistema digitalizza il ciclo di vita operativo di un\'azienda di cura del verde: inventario, prenotazioni, preventivi e fatturazione.<br><br><strong>Stack:</strong> Oracle DB (PL/SQL), Java, JDBC, Apache Tomcat, HTML/CSS/JSP.<br><strong>Highlight Tecnico:</strong> Tuning prestazionale estremo. Analisi degli Execution Plans e creazione di indici B-Tree mirati che hanno abbattuto i costi di esecuzione delle query fino al 78%. Utilizzo avanzato di ereditarietà Object-Relational e Trigger complessi per la coerenza dei dati.')">
+            <div class="card" onclick="openModal('Regression Analysis & Numerical Stability', '<strong>Data Science & Numerical Methods</strong> (02/02/2026 - 08/02/2026)<br><br>Modello di regressione lineare su larga scala (53.500 campioni, 384 feature) per prevedere la posizione assiale di sezioni TAC.<br><br><ul><li>Confronto tra Equazioni Normali, Fattorizzazione QR e SVD.</li><li>Applicazione di Principal Component Regression (PCR) per gestire la multicollinearità.</li><li>Compressione del modello a 73 componenti (20% delle feature) preservando il potere predittivo tramite Energia Cumulativa e Regola di Kaiser.</li></ul>', '')">
+                <h3>Predictive Modeling (SVD)</h3>
+                <p>Python, SciPy, LAPACK</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('Information Retrieval System', '<strong>Text Mining & Latent Semantic Indexing (LSI)</strong> (02/02/2026 - 08/02/2026)<br><br>Sviluppo di un motore di ricerca documentale basato sul Vector Space Model.<br><br><ul><li>Implementazione pipeline NLP (lowercasing, stop-word, stemming) per costruire una Matrice Termini-Documenti.</li><li>Ottimizzazione tramite SVD Troncata e Rank-Revealing QR Factorization.</li><li>Risoluzione del Problema dei Minimi Quadrati.</li></ul>', '')">
+                <h3>Information Retrieval</h3>
+                <p>NLP, Text Mining, SVD</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('Process Mining on The Tenth', '<strong>Analisi UX Data-Driven</strong> (26/01/2026 - 31/01/2026)<br><br>Applicazione di Process Mining per l&apos;analisi della User Experience dell&apos;app "The Tenth".<br><br><ul><li>Estrazione dell&apos;Happy Path e mappatura delle deviazioni dai log degli eventi.</li><li>Identificazione dei colli di bottiglia e rilevamento errori.</li><li>Predictive Monitoring: Previsione dell&apos;abbandono (churn rate) tramite Machine Learning.</li></ul>', '')">
+                <h3>Process Mining (UX)</h3>
+                <p>Data Analytics, Machine Learning</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('GreenCare Services (GCS)', '<strong>Web App & Database Management System</strong> (15/01/2026 - 22/01/2026)<br><br>Applicazione full-stack con Oracle ORDBMS per la digitalizzazione di un&apos;azienda del verde.<br><br><ul><li><strong>Backend:</strong> Java, JDBC, Apache Tomcat, Oracle DB (PL/SQL).</li><li><strong>Database:</strong> Design Object-Relational, nested tables, e Triggers complessi per la consistenza.</li><li><strong>Tuning:</strong> Analisi Execution Plans e creazione di indici B-Tree che hanno abbattuto i costi query del 78%.</li></ul>', '')">
                 <h3>GreenCare Web App</h3>
-                <p>Java, Oracle DB, PL/SQL</p>
-                <p style="margin-top: 10px;">Gestionale aziendale full-stack con tuning prestazionale del Database.</p>
-                <button class="card-btn">Avvia Progetto</button>
+                <p>Java, Oracle DB, PL/SQL, Tomcat</p>
+                <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Regression Analysis & Large-Scale Predictive Modeling', '<strong>Data Science & Numerical Methods</strong><br><br>Sviluppo di un modello di regressione lineare su larga scala per prevedere la posizione assiale di sezioni TAC (53.500 campioni, 384 feature).<br><br>Il focus è stato sulla stabilità numerica. Ho confrontato Equazioni Normali, Fattorizzazione QR e SVD. Ho applicato la Principal Component Regression (PCR) per gestire la multicollinearità, riducendo le dimensioni a 73 componenti (20%) tramite criteri rigorosi (Energia Cumulativa, Regola di Kaiser, Entropia di Shannon) senza perdere potere predittivo.')">
-                <h3>Predictive Modeling</h3>
-                <p>Python (SciPy/LAPACK), SVD, PCR</p>
-                <p style="margin-top: 10px;">Risoluzione di sistemi sovradeterminati e analisi della stabilità numerica.</p>
-                <button class="card-btn">Avvia Progetto</button>
+            <div class="card" onclick="openModal('Form Conversazionali', '<strong>Tesi di Laurea Triennale</strong> (01/03/2025 - 01/07/2025)<br><br>Progettazione di form conversazionali per la compilazione assistita di form web istituzionali del Comune di Bari (mobilità sostenibile, cambio residenza, rifiuti).<br><br>L&apos;obiettivo è abbattere le barriere digitali per utenti fragili o con disabilità visive usando il Natural Conversation Framework (NCF).', '')">
+                <h3>Form Conversazionali (Tesi)</h3>
+                <p>HCI, Accessibilità (WCAG)</p>
+                <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Information Retrieval & Process Mining', '<strong>Due progetti accademici distinti:</strong><br><br><strong>1. Motore di Ricerca Text Mining:</strong> Costruzione di una Matrice Termini-Documenti con pipeline NLP. Ottimizzazione tramite Latent Semantic Indexing (LSI) applicando la SVD Troncata e Fattorizzazione QR Rank-Revealing.<br><br><strong>2. Process Mining (The Tenth):</strong> Analisi UX data-driven su log di eventi. Ricostruzione oggettiva dell\'interazione utente per individuare colli di bottiglia e prevedere l\'abbandono dell\'app tramite modelli di Machine Learning.')">
-                <h3>Info Retrieval & Process Mining</h3>
-                <p>NLP, SVD, Data Analytics</p>
-                <p style="margin-top: 10px;">Motori di ricerca basati su VSM e analisi comportamentale data-driven.</p>
-                <button class="card-btn">Avvia Progetto</button>
-            </div>
-
-             <div class="card" onclick="openModal('Sense Of Blindness - VR Experience', '<strong>Ricerca VR in Unity</strong><br><br>Progetto di ricerca e sviluppo in Realtà Virtuale (VR) nato per abbattere le barriere empatiche verso le persone non vedenti.<br><br>Oltre allo sviluppo tecnico dell\'ambiente immersivo, ho condotto sperimentazioni dirette. L\'impatto innovativo ha generato due paper scientifici internazionali (IEEE e Entertainment Computing).')">
+            <div class="card" onclick="openModal('Sense Of Blindness', '<strong>Blind Experience in VR</strong> (01/03/2025 - 30/06/2025)<br><br>Progetto di ricerca VR (Unity) per far vivere in prima persona le difficoltà delle persone non vedenti, usando unicamente audio spaziale e feedback aptico.<br><br>Il progetto ha generato due pubblicazioni scientifiche (IEEE e Entertainment Computing) sull&apos;efficacia empatica di questo serious game.', '')">
                 <h3>Sense Of Blindness (VR)</h3>
                 <p>Unity 3D, Serious Games</p>
-                <p style="margin-top: 10px;">Simulazione immersiva per empatia visiva. Sviluppo e test clinico.</p>
-                <button class="card-btn">Avvia Progetto</button>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('E-Learning & Instructional Design', '<strong>Minicorso sui Serious Game</strong> (01/03/2025 - 01/06/2025)<br><br>Progettazione didattica (Tassonomia di Bloom) e sviluppo tecnico in HTML5/SCORM di un Learning Object sui "Serious Game". Integrazione perfetta in piattaforme LMS con tracciamento progressi e sistemi di autovalutazione integrata.', '')">
+                <h3>E-Learning Serious Games</h3>
+                <p>SCORM, HTML5, Instructional Design</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('The Tenth', '<strong>Social Network Sportivo</strong> (01/09/2024 - 31/01/2025)<br><br>Ideazione e progettazione in team di un&apos;app social per organizzare partite di calcio amatoriali. Approccio UCD Sprint in Figma, realizzazione di wireframe, layout e prototipi interattivi.', '')">
+                <h3>The Tenth (App Design)</h3>
+                <p>Figma, UI/UX Design</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('ATAX', '<strong>Sviluppo videogioco in Java</strong> (01/03/2024 - 30/06/2024)<br><br>Realizzazione del gioco da tavolo ATAX seguendo i principi dell&apos;Ingegneria del Software, con attenzione alla programmazione ad oggetti, alla modularità e al pattern di gestione degli stati.', '')">
+                <h3>ATAX Game</h3>
+                <p>Java, OOP, Software Engineering</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('H-CLUS', '<strong>Clustering con Telegram</strong> (01/03/2024 - 30/06/2024)<br><br>Applicazione Java per hierarchical clustering su dataset numerici. Gestione avanzata eccezioni e integrazione server con un Bot Telegram per l&apos;invio comandi e ricezione risultati.', '')">
+                <h3>H-CLUS & Telegram Bot</h3>
+                <p>Java, Clustering, API Telegram</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('YOWE', '<strong>Ideazione Social Network</strong> (01/06/2023 - 30/09/2023)<br><br>Creazione concept startup innovativa "YOWE" per il concorso SPINTeams. Ruolo di capogruppo, definizione modello di interazione e mockup. Selezionato per la partecipazione al concorso.', '')">
+                <h3>YOWE (Startup Concept)</h3>
+                <p>Product Design, SPINTeams</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('Il Gioco dell&apos;Oca', '<strong>Sviluppo Software C</strong> (01/03/2023 - 30/06/2023)<br><br>Versione digitale del classico gioco sviluppata in C. Gestione flussi, logica caselle speciali ed eventi casuali (lancio dadi) con UI testuale.', '')">
+                <h3>Il Gioco dell'Oca</h3>
+                <p>Linguaggio C</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <div class="card" onclick="openModal('RoboCup Junior', '<strong>Robot Rescue</strong> (01/09/2015 - 01/06/2016)<br><br>Progettazione e programmazione di robot autonomi con LEGO Mindstorms EV3. Il robot simulava operazioni di soccorso in ambienti ostili.<br><br><strong>Risultati:</strong> 1º classificato regionale, 2º classificato nazionale.', '')">
+                <h3>RoboCup Jr (Robot Rescue)</h3>
+                <p>Robotica, LEGO Mindstorms</p>
+                <button class="card-btn">Vedi Progetto</button>
             </div>
 
         </div>
@@ -444,18 +484,16 @@
         <h2 class="section-title reveal">Paper & Ricerca</h2>
         <div class="slider-container reveal">
 
-            <div class="card" onclick="openModal('Simulating Non-Visual VR Urban Navigation', '<strong>Titolo completo:</strong> Simulating Non-Visual VR Urban Navigation to Increase Awareness of Urban Accessibility Barriers<br><strong>Autori:</strong> Alessandro Pagano, Francesca Travisani, Pietro De Giglio, Veronica Rossano<br><strong>Status:</strong> Submitted (2026) a Entertainment Computing<br><br><strong>Abstract:</strong> Il paper presenta Sense of Blindness, un\'esperienza VR completamente non visiva che simula la navigazione urbana utilizzando solo audio spaziale e feedback aptico. Valutiamo il suo impatto su empatia, immersione, consapevolezza delle barriere architettoniche e valore educativo in uno studio utente su 48 partecipanti.')">
-                <h3>VR per l\'Accessibilità Urbana</h3>
-                <p>Paper Sottomesso • 2026</p>
-                <p style="margin-top: 10px;">Impatto della VR non visiva sulla consapevolezza delle barriere architettoniche.</p>
-                <button class="card-btn">Leggi Paper</button>
+            <div class="card" onclick="openModal('Simulating Non-Visual VR Urban Navigation', '<strong>Sottomesso a:</strong> Entertainment Computing (2026)<br><strong>Autori:</strong> A. Pagano, F. Travisani, P. De Giglio, V. Rossano<br><br><strong>Abstract:</strong> Presentiamo Sense of Blindness, una VR experience completamente non-visiva che usa audio spaziale e feedback aptico. Uno studio su 48 partecipanti (basato sul framework GAMEX) ha dimostrato un forte aumento di empatia e valore educativo, rivelando che l&apos;immersione supporta meccanismi di riflessione e apprendimento.', '')">
+                <h3>VR & Accessibilità Urbana</h3>
+                <p>Entertainment Computing • Submitted</p>
+                <button class="card-btn">Leggi Abstract</button>
             </div>
 
-            <div class="card" onclick="openModal('Sense of Blindness: A Fully Non-Visual VR Experience', '<strong>Titolo completo:</strong> Sense of Blindness: A Fully Non-Visual VR Experience to Foster Empathy Toward Urban Blindness<br><strong>Conferenza:</strong> 2025 International Conference on Innovation and Intelligence for Informatics Computing Technologies (IEEE Bahrain Section)<br><strong>Autori:</strong> Lorenzo Appice, Pietro De Giglio, Alessandro Pagano, Veronica Rossano, Francesca Travisani<br><br><strong>Abstract:</strong> Presentazione del serious game VR Sense of Blindness. Un test su 24 partecipanti vedenti tramite questionario Gamex indica un aumento significativo dell\'empatia e della consapevolezza, dimostrando il potenziale dei modelli di interazione sensory-only per promuovere l\'inclusione.')">
+            <div class="card" onclick="openModal('Sense of Blindness: A Fully Non-Visual VR Experience', '<strong>Conferenza:</strong> IEEE Bahrain Section (2025 International Conference on Innovation and Intelligence)<br><strong>Autori:</strong> L. Appice, P. De Giglio, A. Pagano, V. Rossano, F. Travisani<br><br><strong>Abstract:</strong> Presentazione del serious game VR Sense of Blindness. Un test su 24 partecipanti ha evidenziato un aumento significativo di empatia e consapevolezza. Lo studio contribuisce alla Human-Computer Interaction esplorando modelli di interazione sensory-only per favorire l&apos;inclusione.', '')">
                 <h3>Sense of Blindness (IEEE)</h3>
-                <p>Conferenza Internazionale IEEE • 2025</p>
-                <p style="margin-top: 10px;">HCI e design di esperienze VR focalizzate sull\'empatia e l\'inclusione.</p>
-                <button class="card-btn">Leggi Paper</button>
+                <p>Conferenza IEEE • 2025</p>
+                <button class="card-btn">Leggi Abstract</button>
             </div>
 
         </div>
@@ -483,15 +521,28 @@
         </div>
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Immagine di Dettaglio" class="modal-image">
+            
             <h2 class="modal-title" id="modalTitle">Titolo</h2>
             <div class="modal-body" id="modalBody">Testo descrittivo qui...</div>
         </div>
     </div>
 
     <script>
-        function openModal(title, description) {
+        // Funzione Modale aggiornata per supportare l'IMMAGINE
+        function openModal(title, description, imageUrl = '') {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = description;
+            
+            const modalImg = document.getElementById('modalImage');
+            if(imageUrl !== '') {
+                modalImg.src = imageUrl;
+                modalImg.style.display = 'block';
+            } else {
+                modalImg.style.display = 'none';
+                modalImg.src = '';
+            }
+
             let modal = document.getElementById('myModal');
             modal.style.display = 'flex';
             void modal.offsetWidth; 
@@ -502,7 +553,11 @@
         function closeModal() {
             let modal = document.getElementById('myModal');
             modal.classList.remove('active');
-            setTimeout(() => { modal.style.display = 'none'; }, 500);
+            setTimeout(() => { 
+                modal.style.display = 'none'; 
+                // Resetta l'immagine quando chiudi
+                document.getElementById('modalImage').src = '';
+            }, 500);
             document.body.style.overflow = 'auto'; 
         }
 
