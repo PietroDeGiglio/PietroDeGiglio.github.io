@@ -124,7 +124,7 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* MODIFICHE DRAG E SCORRIMENTO */
+        /* SCORRIMENTO */
         .slider-container {
             display: flex; gap: 35px; overflow-x: auto; padding-bottom: 20px; padding-top: 20px; padding-left: 10px;
             scroll-snap-type: x mandatory; 
@@ -134,9 +134,7 @@
         }
         .slider-container::-webkit-scrollbar { display: none; }
         .slider-container.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-        .slider-container.is-dragging .card { pointer-events: none; } 
 
-        /* I NUOVI TRATTINI CLICCABILI */
         .slider-pagination {
             display: flex; justify-content: center; gap: 12px; margin-top: 15px; margin-bottom: 40px; width: 100%; flex-wrap: wrap; padding: 0 20px;
         }
@@ -158,13 +156,19 @@
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
         .card:hover::before { transform: scaleX(1); }
-        .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
+        
+        /* Modifica H3 per supportare titoli lunghi del CV */
+        .card h3 { 
+            font-size: 19px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.3; 
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        
         .card:hover h3 { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
         .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; pointer-events: none;}
         .card-btn {
             margin-top: 25px; background: rgba(57, 255, 20, 0.05); color: var(--toxic-green);
             border: 1px solid rgba(57, 255, 20, 0.3); padding: 10px 20px; border-radius: 8px; 
-            cursor: pointer; transition: all 0.3s; font-size: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; align-self: flex-start; pointer-events: none;
+            transition: all 0.3s; font-size: 12px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; align-self: flex-start; pointer-events: none;
         }
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
@@ -244,7 +248,7 @@
         }
         .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border: 1px solid var(--toxic-green);}
         
-        .modal-title { color: var(--toxic-green); font-size: 30px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 40px;}
+        .modal-title { color: var(--toxic-green); font-size: 26px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; padding-right: 40px;}
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
@@ -333,28 +337,28 @@
             
             <div class="card" 
                  data-title="Laurea Magistrale In Computer Science Security Engineering" 
-                 data-desc="Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science (curriculum: Security Engineering) presso l&apos;Università Degli Studi Aldo Moro Di Bari. Sto approfondendo le moderne sfide della Cybersecurity e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (AI for Security). Sono molto motivato a mettere in pratica le conoscenze apprese.<br><br><strong>Media attuale:</strong> 27.7<br><strong>Livello EQF:</strong> Livello 7 EQF" 
+                 data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science (curriculum: Security Engineering) presso l&apos;Università Degli Studi Aldo Moro Di Bari.<br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>). Sono molto motivato a mettere in pratica le conoscenze apprese.<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF" 
                  data-img="" data-link="">
-                <h3>Computer Science (Security Eng.)</h3>
-                <p>Università Degli Studi Aldo Moro Di Bari<br>01/09/2025 - Attuale</p>
+                <h3>Laurea Magistrale In Computer Science Security Engineering</h3>
+                <p>Università Degli Studi Aldo Moro Di Bari</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
             <div class="card" 
                  data-title="Laurea Triennale in Informatica" 
-                 data-desc="Laurea Triennale in Informatica. Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software (dall&apos;analisi dei requisiti al testing), nella progettazione di Database e nella gestione delle reti. Abituato ad affrontare sfide logiche complesse e a collaborare allo sviluppo di progetti software.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello EQF:</strong> Livello 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web" 
+                 data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2022 - 17/07/2025)<br><br>Laurea Triennale in Informatica. Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software (dall&apos;analisi dei requisiti al testing), nella progettazione di Database e nella gestione delle reti. Abituato ad affrontare sfide logiche complesse e a collaborare allo sviluppo di progetti software.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello:</strong> 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web" 
                  data-img="" data-link="">
-                <h3>Informatica</h3>
-                <p>Università Degli Studi Aldo Moro Di Bari<br>01/09/2022 - 17/07/2025</p>
+                <h3>Laurea Triennale in Informatica</h3>
+                <p>Università Degli Studi Aldo Moro Di Bari</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
             <div class="card" 
                  data-title="Diploma di Maturità" 
-                 data-desc="Diploma di Maturità Scientifica. Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi e una forte attitudine all&apos;apprendimento continuo, bilanciando competenze tecnico-scientifiche e cultura generale.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello EQF:</strong> Livello 4 EQF" 
+                 data-desc="<strong>Liceo Scientifico Gaetano Salvemini</strong> (09/2017 - 08/07/2022)<br><br>Diploma di Maturità Scientifica. Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi e una forte attitudine all&apos;apprendimento continuo, bilanciando competenze tecnico-scientifiche e cultura generale.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello:</strong> 4 EQF" 
                  data-img="" data-link="">
-                <h3>Liceo Scientifico</h3>
-                <p>Liceo Scientifico Gaetano Salvemini<br>01/09/2017 - 08/07/2022</p>
+                <h3>Diploma di Maturità</h3>
+                <p>Liceo Scientifico Gaetano Salvemini</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
@@ -367,100 +371,100 @@
             
             <div class="card" 
                  data-title="Formazione del personale scolastico per la transizione digitale (D.M. 66/2023)" 
-                 data-desc="Nell&apos;ambito dei fondi PNRR (Missione 4: Istruzione e Ricerca - D.M. 66/2023) per la formazione e la transizione digitale del personale scolastico, ho tenuto il laboratorio formativo &quot;Applicazioni dell&apos;Intelligenza Artificiale nella Didattica&quot;. Il corso, della durata di 12 ore e rivolto a docenti di scuola superiore, si è focalizzato sui fondamenti dell&apos;IA e sulle sue potenzialità educative. Ho guidato i partecipanti nell&apos;uso pratico di strumenti intelligenti per la matematica e il tutoraggio personalizzato, strutturando attività e project work finalizzati a un&apos;applicazione immediata e concreta delle tecnologie IA direttamente in classe." 
+                 data-desc="<strong>ITT Nervi Galilei, Altamura</strong> (15/09/2025 - 18/09/2025)<br><br>Nell&apos;ambito dei fondi PNRR (Missione 4: Istruzione e Ricerca - D.M. 66/2023) per la formazione e la transizione digitale del personale scolastico, ho tenuto il laboratorio formativo &quot;Applicazioni dell&apos;Intelligenza Artificiale nella Didattica&quot;. Il corso, della durata di 12 ore e rivolto a docenti di scuola superiore, si è focalizzato sui fondamenti dell&apos;IA e sulle sue potenzialità educative. Ho guidato i partecipanti nell&apos;uso pratico di strumenti intelligenti per la matematica e il tutoraggio personalizzato, strutturando attività e project work finalizzati a un&apos;applicazione immediata e concreta delle tecnologie IA direttamente in classe." 
                  data-img="" data-link="">
-                <h3>Docente Formatore IA & Cyber</h3>
-                <p>ITT Nervi Galilei<br>15/09/2025 - 18/09/2025</p>
+                <h3>Formazione del personale scolastico per la transizione digitale (D.M. 66/2023)</h3>
+                <p>ITT Nervi Galilei</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Responsabile della sperimentazione &quot;The Neural Maze&quot; tecnologie immersive per la salute" 
-                 data-desc="Laboratorio di due giorni tenuto presso il Liceo G. Bianchi Dottula di Bari, focalizzato sull&apos;integrazione delle tecnologie immersive in ambito educativo. Ho guidato i partecipanti nell&apos;esplorazione della Realtà Virtuale (VR) e ho condotto sessioni di test pratici per valutare l&apos;efficacia dei serious game come strumenti di apprendimento, affiancando la teoria ad attività di sperimentazione diretta delle nuove metodologie didattiche." 
+                 data-desc="<strong>Liceo &quot;G. Bianchi Dottula&quot;, Bari</strong> (12/02/2026 - 13/02/2026)<br><br>Laboratorio di due giorni tenuto presso il Liceo G. Bianchi Dottula di Bari, focalizzato sull&apos;integrazione delle tecnologie immersive in ambito educativo. Ho guidato i partecipanti nell&apos;esplorazione della Realtà Virtuale (VR) e ho condotto sessioni di test pratici per valutare l&apos;efficacia dei serious game come strumenti di apprendimento, affiancando la teoria ad attività di sperimentazione diretta delle nuove metodologie didattiche." 
                  data-img="" data-link="">
-                <h3>Responsabile VR in Edu</h3>
-                <p>Liceo "G. Bianchi Dottula"<br>12/02/2026 - 13/02/2026</p>
+                <h3>Responsabile della sperimentazione "The Neural Maze" tecnologie immersive per la salute</h3>
+                <p>Liceo "G. Bianchi Dottula"</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Docente nella formazione professionale" 
-                 data-desc="Nell&apos;ambito del Progetto PRIAMO (Patti di comunità intelligenti per favorire un programma Interdisciplinare di digital Mentoring per giovani NEET del Sud Italia), finanziato da CIMEA, ho progettato e condotto un minicorso sull&apos;educazione alla sicurezza informatica. Il percorso formativo, rivolto a docenti della scuola primaria e secondaria di I grado, mi ha visto responsabile in prima persona dell&apos;ideazione e dello sviluppo del materiale didattico. Ho tradotto concetti tecnici complessi legati alla cybersecurity in un linguaggio accessibile e fruibile per un pubblico non esperto. Durante le sessioni, ho fornito ai partecipanti strumenti e metodologie pratiche da riproporre direttamente in classe, con l&apos;obiettivo di renderli promotori attivi della cultura della sicurezza digitale e di contrastare il divario tecnologico tra i più giovani." 
+                 data-desc="<strong>Progetto P.R.I.A.M.O, Bari</strong> (04/12/2025 - 04/12/2025)<br><br>Nell&apos;ambito del Progetto PRIAMO, ho progettato e condotto un minicorso sull&apos;educazione alla sicurezza informatica. Il percorso formativo, rivolto a docenti della scuola primaria e secondaria di I grado, mi ha visto responsabile in prima persona dell&apos;ideazione e dello sviluppo del materiale didattico. Ho tradotto concetti tecnici complessi legati alla cybersecurity in un linguaggio accessibile e fruibile per un pubblico non esperto. Durante le sessioni, ho fornito ai partecipanti strumenti e metodologie pratiche da riproporre direttamente in classe, con l&apos;obiettivo di renderli promotori attivi della cultura della sicurezza digitale." 
                  data-img="" data-link="">
-                <h3>Formazione P.R.I.A.M.O</h3>
-                <p>Progetto P.R.I.A.M.O<br>04/12/2025</p>
+                <h3>Docente nella formazione professionale</h3>
+                <p>Progetto P.R.I.A.M.O</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Responsabile della sperimentazione &quot;Sense of Blindness&quot;" 
-                 data-desc="Laboratorio di una giornata tenuto presso l&apos;Istituto Comprensivo Don Lorenzo Milani, focalizzato sull&apos;integrazione delle tecnologie immersive in ambito educativo. Durante la sessione, ho guidato i partecipanti nell&apos;esplorazione della Realtà Virtuale (VR) e ho condotto sessioni di test pratici per valutare l&apos;efficacia dei serious game come strumenti di apprendimento. L&apos;approccio adottato ha permesso di affiancare la teoria ad attività di sperimentazione diretta, fornendo gli strumenti necessari per applicare queste nuove metodologie didattiche. In ambito di ricerca e sviluppo, ho ideato e realizzato Sense of Blindness, un progetto VR nato con l&apos;obiettivo di abbattere le barriere empatiche, facendo vivere in prima persona le sfide quotidiane affrontate dalle persone non vedenti. Il rigore e l&apos;innovazione di questo progetto hanno prodotto due pubblicazioni scientifiche." 
+                 data-desc="<strong>Istituto Comprensivo Don Lorenzo Milani, Bari</strong> (06/2025 - 06/2025)<br><br>Laboratorio di una giornata focalizzato sull&apos;integrazione delle tecnologie immersive in ambito educativo. Durante la sessione, ho guidato i partecipanti nell&apos;esplorazione della Realtà Virtuale (VR) e ho condotto sessioni di test pratici per valutare l&apos;efficacia dei serious game come strumenti di apprendimento. In ambito di ricerca e sviluppo, ho ideato e realizzato Sense of Blindness, un progetto VR nato con l&apos;obiettivo di abbattere le barriere empatiche. Il rigore e l&apos;innovazione di questo progetto hanno prodotto due pubblicazioni scientifiche." 
                  data-img="" data-link="">
-                <h3>Sperimentazione Sense of Blindness</h3>
-                <p>I.C. Don Lorenzo Milani<br>06/2025</p>
+                <h3>Responsabile della sperimentazione "Sense of Blindness"</h3>
+                <p>Istituto Comprensivo Don Lorenzo Milani</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
             
             <div class="card" 
                  data-title="Tutor scolastico" 
-                 data-desc="Attività di tutoraggio rivolta a studenti della scuola media, con il compito di supportare e guidare i ragazzi nella progettazione, costruzione e programmazione di robot autonomi in vista della partecipazione alla competizione RoboCup Jr. Il ruolo richiedeva capacità di comunicazione, problem solving e trasmissione di conoscenze tecnico-pratiche in ambito STEM." 
+                 data-desc="<strong>Scuola Media Ungaretti, Bari</strong> (01/09/2017 - 03/06/2019)<br><br>Attività di tutoraggio rivolta a studenti della scuola media, con il compito di supportare e guidare i ragazzi nella progettazione, costruzione e programmazione di robot autonomi in vista della partecipazione alla competizione RoboCup Jr. Il ruolo richiedeva capacità di comunicazione, problem solving e trasmissione di conoscenze tecnico-pratiche in ambito STEM." 
                  data-img="" data-link="">
-                <h3>Tutor Scolastico STEM</h3>
-                <p>Scuola Media Ungaretti<br>01/09/2017 - 03/06/2019</p>
+                <h3>Tutor scolastico</h3>
+                <p>Scuola Media Ungaretti</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Responsabile della trasformazione digitale" 
-                 data-desc="Responsabile della strategia digitale e della presenza online dell&apos;azienda. Per stabilire le fondamenta digitali del brand, mi sono occupato del setup iniziale creando e ottimizzando gli asset aziendali (tra cui account Google e posizionamento su Google Maps tramite Google Business Profile). Parallelamente, ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita della brand awareness e all&apos;espansione del mercato digitale." 
+                 data-desc="<strong>Crira Viaggi, Bari</strong> (08/01/2026 - 05/03/2026)<br><br>Responsabile della strategia digitale e della presenza online dell&apos;azienda. Per stabilire le fondamenta digitali del brand, mi sono occupato del setup iniziale creando e ottimizzando gli asset aziendali (tra cui account Google e posizionamento su Google Maps tramite Google Business Profile). Parallelamente, ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita della brand awareness e all&apos;espansione del mercato digitale." 
                  data-img="" data-link="">
-                <h3>Digital Mgr - Crira Viaggi</h3>
-                <p>Crira Viaggi<br>08/01/2026 - 05/03/2026</p>
+                <h3>Responsabile della trasformazione digitale</h3>
+                <p>Crira Viaggi</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Responsabile della trasformazione digitale" 
-                 data-desc="Responsabile della strategia digitale e della presenza online dell&apos;azienda. Mi sono occupato della gestione e ottimizzazione del sito web aziendale e dei profili su marketplace di settore (es. mobilidesignoccasioni.com), curando l&apos;upload dei prodotti e il posizionamento commerciale. Ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita del brand e all&apos;espansione del mercato digitale." 
+                 data-desc="<strong>Ermanno Dammacco Arredamenti, Bari</strong> (02/09/2024 - 09/03/2026)<br><br>Responsabile della strategia digitale e della presenza online dell&apos;azienda. Mi sono occupato della gestione e ottimizzazione del sito web aziendale e dei profili su marketplace di settore (es. mobilidesignoccasioni.com), curando l&apos;upload dei prodotti e il posizionamento commerciale. Ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita del brand e all&apos;espansione del mercato digitale." 
                  data-img="" data-link="">
-                <h3>Digital Mgr - Dammacco Arredamenti</h3>
-                <p>Ermanno Dammacco Arredamenti<br>02/09/2024 - 09/03/2026</p>
+                <h3>Responsabile della trasformazione digitale</h3>
+                <p>Ermanno Dammacco Arredamenti</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Responsabile del marketing digitale" 
-                 data-desc="Gestione strategica degli account social ufficiali con focus sul settore maschile della società. Mi sono occupato della creazione e pubblicazione dei contenuti, progettazione delle grafiche promozionali e copertura visiva di eventi sportivi, contribuendo al rafforzamento dell&apos;identità digitale e alla crescita dell&apos;engagement online." 
+                 data-desc="<strong>Dinamo Molfetta, Molfetta</strong> (02/09/2024 - 01/08/2025)<br><br>Gestione strategica degli account social ufficiali con focus sul settore maschile della società. Mi sono occupato della creazione e pubblicazione dei contenuti, progettazione delle grafiche promozionali e copertura visiva di eventi sportivi, contribuendo al rafforzamento dell&apos;identità digitale e alla crescita dell&apos;engagement online." 
                  data-img="" data-link="">
-                <h3>Social Media Mgr - Dinamo</h3>
-                <p>Dinamo Molfetta<br>02/09/2024 - 01/08/2025</p>
+                <h3>Responsabile del marketing digitale</h3>
+                <p>Dinamo Molfetta</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Accompagnatore per disabili" 
-                 data-desc="Ho gestito il supporto operativo in stazione per i passeggeri con disabilità o mobilità ridotta (PRM). Il mio ruolo consisteva nel garantire un&apos;assistenza sicura e altamente personalizzata in tutte le fasi del viaggio (arrivo, partenza e transito), gestendo le tempistiche con precisione e affrontando eventuali imprevisti logistici con problem-solving ed empatia." 
+                 data-desc="<strong>Cooperativa Portabagagli Pluriservizi, Bari</strong> (01/07/2024 - 30/09/2024)<br><br>Ho gestito il supporto operativo in stazione per i passeggeri con disabilità o mobilità ridotta (PRM). Il mio ruolo consisteva nel garantire un&apos;assistenza sicura e altamente personalizzata in tutte le fasi del viaggio (arrivo, partenza e transito), gestendo le tempistiche con precisione e affrontando eventuali imprevisti logistici con problem-solving ed empatia." 
                  data-img="" data-link="">
-                <h3>Accompagnatore PRM</h3>
-                <p>Cooperativa Portabagagli Pluriservizi<br>01/07/2024 - 30/09/2024</p>
+                <h3>Accompagnatore per disabili</h3>
+                <p>Cooperativa Portabagagli Pluriservizi</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Assistente comunicazione organizzazione eventi" 
-                 data-desc="Collaborazione continuativa per la creazione di contenuti su Twitch e social media, partecipazione a eventi nazionali e internazionali del settore gaming. Ho preso parte attivamente al Comicon e alla Milan Games Week come membro del team operativo, occupandomi della gestione dello stand, dell&apos;organizzazione delle attività per i fan e del coordinamento in loco in partnership con brand come Yamaha, Nintendo, PlayStation, Monster, Nerf e Samsung." 
+                 data-desc="<strong>Machete Gaming, Bari</strong> (03/01/2022 - 29/12/2023)<br><br>Collaborazione continuativa per la creazione di contenuti su Twitch e social media, partecipazione a eventi nazionali e internazionali del settore gaming. Ho preso parte attivamente al Comicon e alla Milan Games Week come membro del team operativo, occupandomi della gestione dello stand, dell&apos;organizzazione delle attività per i fan e del coordinamento in loco in partnership con brand come Yamaha, Nintendo, PlayStation, Monster, Nerf e Samsung." 
                  data-img="" data-link="">
-                <h3>Event Assistant</h3>
-                <p>Machete Gaming<br>03/01/2022 - 29/12/2023</p>
+                <h3>Assistente comunicazione organizzazione eventi</h3>
+                <p>Machete Gaming</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
             <div class="card" 
                  data-title="Accompagnatore per disabili" 
-                 data-desc="Supporto nelle attività motorie, ricreative e quotidiane rivolte a persone con disabilità." 
+                 data-desc="<strong>Aliantepolisport, Bari</strong> (01/06/2022 - 16/09/2022)<br><br>Supporto nelle attività motorie, ricreative e quotidiane rivolte a persone con disabilità." 
                  data-img="" data-link="">
-                <h3>Supporto PRM</h3>
-                <p>Aliantepolisport<br>01/06/2022 - 16/09/2022</p>
+                <h3>Accompagnatore per disabili</h3>
+                <p>Aliantepolisport</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
@@ -472,131 +476,131 @@
         <div class="slider-container reveal">
 
             <div class="card" 
-                 data-title="Regression Analysis & Numerical Stability: Large-Scale Predictive Modeling" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Numerical Methods. Sviluppo di un modello di regressione lineare su larga scala per prevedere la posizione assiale di sezioni TAC nel corpo umano, partendo da un dataset ad alta dimensionalità (53.500 campioni e 384 feature). Il progetto si è focalizzato sulla risoluzione di sistemi lineari fortemente sovradeterminati, affrontando e risolvendo problematiche critiche legate al malcondizionamento delle matrici e alla stabilità numerica.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Analisi dei Risolutori Numerici: Confronto teorico e applicato tra Equazioni Normali (con analisi della matrice di Gram), Fattorizzazione QR e SVD. Ho dimostrato operativamente i rischi di perdita di precisione (cancellation) insiti nei metodi non ortogonali quando applicati a matrici malcondizionate.</li><li>Dimensionality Reduction & PCR: Applicazione della Singular Value Decomposition (SVD) e della Principal Component Regression (PCR) per filtrare il rumore numerico e gestire la multicollinearità dei dati grezzi. Selezione Avanzata del Rango Effettivo: Ottimizzazione della dimensionalità superando le soglie arbitrarie, implementando criteri matematici rigorosi: Energia Cumulativa, Regola di Kaiser ed Entropia di Shannon. Questo approccio ha permesso di comprimere il modello a sole 73 componenti (circa il 20% delle feature originali) massimizzando l&apos;efficienza senza perdere potere predittivo.</li><li>Valutazione e Stress Testing: Misurazione delle performance tramite analisi dei residui (RSS) e coefficiente di determinazione (R-quadro) calcolati sulle previsioni ricostruite. Conduzione di test di robustezza variando le partizioni di training/test per certificare la stabilità strutturale e predittiva del modello al variare del campione.</li></ul><br><strong>Competenze Chiave:</strong> Regressione Lineare, SVD, Fattorizzazione QR (Rank-Revealing), Principal Component Regression (PCR), Data Preprocessing, Analisi Spettrale, Algebra Lineare Numerica, Python (SciPy/LAPACK)." 
+                 data-title="Regression Analysis &amp; Numerical Stability: Large-Scale Predictive Modeling" 
+                 data-desc="<strong>Data Science & Numerical Methods</strong> (02/02/2026 - 08/02/2026)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Numerical Methods. Sviluppo di un modello di regressione lineare su larga scala per prevedere la posizione assiale di sezioni TAC nel corpo umano, partendo da un dataset ad alta dimensionalità (53.500 campioni e 384 feature). Il progetto si è focalizzato sulla risoluzione di sistemi lineari fortemente sovradeterminati, affrontando e risolvendo problematiche critiche legate al malcondizionamento delle matrici e alla stabilità numerica.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Analisi dei Risolutori Numerici: Confronto teorico e applicato tra Equazioni Normali, Fattorizzazione QR e SVD.</li><li>Dimensionality Reduction & PCR: Applicazione della Singular Value Decomposition (SVD) e della Principal Component Regression (PCR) per filtrare il rumore numerico e gestire la multicollinearità dei dati grezzi. Selezione Avanzata del Rango Effettivo tramite Energia Cumulativa, Regola di Kaiser ed Entropia di Shannon. Compressione del modello a sole 73 componenti (circa il 20% delle feature originali).</li><li>Valutazione e Stress Testing: Misurazione delle performance tramite analisi dei residui (RSS) e coefficiente di determinazione (R-quadro).</li></ul><br><strong>Competenze Chiave:</strong> Regressione Lineare, SVD, Fattorizzazione QR (Rank-Revealing), Principal Component Regression (PCR), Data Preprocessing, Analisi Spettrale, Algebra Lineare Numerica, Python (SciPy/LAPACK)." 
                  data-img="" 
-                 data-link="">
-                <h3>Predictive Modeling (SVD)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Regression Analysis & Numerical Stability: Large-Scale Predictive Modeling</h3>
                 <p>02/02/2026 - 08/02/2026</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
-                 data-title="Information Retrieval System: Text Mining & Latent Semantic Indexing (LSI)" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Numerical Methods. Progettazione e sviluppo di un motore di ricerca documentale basato sul Vector Space Model. Il progetto esplora l&apos;applicazione di tecniche avanzate di algebra lineare computazionale per analizzare e recuperare documenti rilevanti rispetto a query specifiche (es. algoritmi di ranking), confrontando metodi di recupero esatto con modelli di approssimazione numerica.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Text Mining e Preprocessing: Costruzione di una Matrice Termini-Documenti sparsa partendo da un corpus testuale grezzo. Ho implementato una pipeline NLP standard (lowercasing, rimozione delle stop-word e stemming) per la pulizia e la normalizzazione dei dati.</li><li>Full Vector Space Model: Sviluppo del sistema di ranking esatto (Ground Truth) calcolando la Cosine Similarity tra i vettori delle query e i documenti nello spazio dimensionale completo.</li><li>Dimensionality Reduction (LSI): Ottimizzazione del motore di ricerca tramite Latent Semantic Indexing applicando la SVD Troncata (Singular Value Decomposition). Il rango ottimale è stato calcolato dinamicamente tramite un criterio di errore relativo per catturare i concetti semantici latenti, scartando il &quot;rumore&quot; di fondo.</li><li>Rank-Revealing QR Factorization: Implementazione di un&apos;approssimazione a basso rango tramite fattorizzazione QR con pivoting delle colonne, selezionando la base del sottospazio tramite rigorosi threshold numerici.</li><li>Analisi Geometrica e Spettrale: Calcolo delle proiezioni ortogonali per la risoluzione del Problema dei Minimi Quadrati. Analisi di definitezza positiva della Matrice di Covarianza per dimostrare numericamente le relazioni teoriche tra autovalori e valori singolari.</li></ul><br><strong>Competenze Chiave:</strong> Information Retrieval, NLP, Text Mining, SVD, QR Factorization, Analisi delle Componenti Latenti, Algebra Lineare Numerica." 
+                 data-title="Information Retrieval System: Text Mining &amp; Latent Semantic Indexing (LSI)" 
+                 data-desc="<strong>Text Mining & Latent Semantic Indexing (LSI)</strong> (02/02/2026 - 08/02/2026)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Numerical Methods. Progettazione e sviluppo di un motore di ricerca documentale basato sul Vector Space Model. Il progetto esplora l&apos;applicazione di tecniche avanzate di algebra lineare computazionale per analizzare e recuperare documenti rilevanti rispetto a query specifiche, confrontando metodi di recupero esatto con modelli di approssimazione numerica.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Text Mining e Preprocessing: Costruzione di una Matrice Termini-Documenti sparsa. Implementazione pipeline NLP (lowercasing, rimozione delle stop-word e stemming).</li><li>Full Vector Space Model: Sviluppo del sistema di ranking esatto (Ground Truth) calcolando la Cosine Similarity.</li><li>Dimensionality Reduction (LSI): Ottimizzazione del motore di ricerca tramite Latent Semantic Indexing applicando la SVD Troncata (Singular Value Decomposition).</li><li>Rank-Revealing QR Factorization: Implementazione di un&apos;approssimazione a basso rango tramite fattorizzazione QR con pivoting delle colonne.</li><li>Analisi Geometrica e Spettrale: Calcolo delle proiezioni ortogonali per la risoluzione del Problema dei Minimi Quadrati. Analisi di definitezza positiva della Matrice di Covarianza.</li></ul><br><strong>Competenze Chiave:</strong> Information Retrieval, NLP, Text Mining, SVD, QR Factorization, Analisi delle Componenti Latenti, Algebra Lineare Numerica." 
                  data-img="" 
-                 data-link="">
-                <h3>Information Retrieval</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Information Retrieval System: Text Mining & Latent Semantic Indexing (LSI)</h3>
                 <p>02/02/2026 - 08/02/2026</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="Process Mining on the Usability Test of The Tenth" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Formal Methods. Il Process Mining è una disciplina basata sui dati (data-driven) che mira ad analizzare e ottimizzare i processi reali sfruttando i log degli eventi registrati dai sistemi informativi. Sebbene sia tradizionalmente applicata ai flussi di lavoro aziendali (business workflow), questo progetto applica le tecniche di Process Mining al dominio dell&apos;analisi della User Experience (UX).<br><br>L&apos;obiettivo principale è analizzare il comportamento d&apos;uso dell&apos;applicazione &quot;The Tenth&quot;. A differenza dei tradizionali test di usabilità basati sull&apos;osservazione qualitativa, questo approccio ricostruisce in modo oggettivo come gli utenti interagiscono effettivamente con l&apos;app basandosi su dati reali e fattuali.<br><br><strong>Fasi dell&apos;analisi:</strong><br><ul><li>Preparazione del Dataset: Pulizia, formattazione e strutturazione dei log di usabilità.</li><li>Process Discovery: Estrazione dell&apos;&quot;Happy Path&quot; (il percorso utente ideale) e mappatura delle deviazioni o percorsi alternativi.</li><li>Valutazione del Modello: Confronto delle performance di diversi algoritmi di discovery (Alpha, Heuristic e Inductive Miner).</li><li>Analisi Avanzata: Identificazione dei colli di bottiglia (es. problemi di latenza) e rilevamento degli errori tecnici durante la navigazione.</li><li>Predictive Monitoring: Previsione dell&apos;abbandono dell&apos;app da parte dell&apos;utente (churn rate) utilizzando modelli di Machine Learning.</li></ul>" 
+                 data-desc="<strong>Analisi UX Data-Driven</strong> (26/01/2026 - 31/01/2026)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Formal Methods. Questo progetto applica le tecniche di Process Mining al dominio dell&apos;analisi della User Experience (UX). L&apos;obiettivo principale è analizzare il comportamento d&apos;uso dell&apos;applicazione &quot;The Tenth&quot;. A differenza dei tradizionali test di usabilità basati sull&apos;osservazione qualitativa, questo approccio ricostruisce in modo oggettivo come gli utenti interagiscono effettivamente con l&apos;app basandosi su dati reali e fattuali.<br><br><strong>Fasi dell&apos;analisi:</strong><br><ul><li>Preparazione del Dataset: Pulizia, formattazione e strutturazione dei log di usabilità.</li><li>Process Discovery: Estrazione dell&apos;&quot;Happy Path&quot; e mappatura delle deviazioni o percorsi alternativi.</li><li>Valutazione del Modello: Confronto delle performance di diversi algoritmi di discovery (Alpha, Heuristic e Inductive Miner).</li><li>Analisi Avanzata: Identificazione dei colli di bottiglia e rilevamento degli errori tecnici.</li><li>Predictive Monitoring: Previsione dell&apos;abbandono dell&apos;app da parte dell&apos;utente (churn rate) utilizzando modelli di Machine Learning.</li></ul>" 
                  data-img="" 
-                 data-link="">
-                <h3>Process Mining (UX)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Process Mining on the Usability Test of The Tenth</h3>
                 <p>26/01/2026 - 31/01/2026</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
-                 data-title="GreenCare Services (GCS) - Web App & Database Management System" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di DataBase Systems. GreenCare Services è un&apos;applicazione web full-stack supportata da un robusto database relazionale a oggetti (ORDBMS) in ambiente Oracle. Sviluppato interamente da zero per un esame universitario, il sistema digitalizza il ciclo di vita operativo di un&apos;azienda specializzata nella cura del verde: dalla gestione dell&apos;inventario e dei fornitori, alla prenotazione dei servizi da parte dei clienti, fino all&apos;elaborazione dei preventivi e alla fatturazione.<br><br><strong>Stack Tecnologico:</strong><br><ul><li>Database: Oracle Database (PL/SQL), modellazione Object-Relational.</li><li>Backend & Server: Java, JDBC, Apache Tomcat.</li><li>Frontend: HTML, CSS, JSP.</li></ul><br><strong>Architettura del Database e Logica di Business:</strong><br>Il core del progetto è una solida progettazione concettuale, logica e fisica del database, con un forte accento sull&apos;integrità e sulla coerenza dei dati:<br><ul><li>Design Object-Relational: Utilizzo avanzato di ereditarietà (super-tipi e sub-tipi), puntatori a oggetti (REF) e tabelle annidate (Nested Tables) per gestire relazioni complesse e minimizzare la ridondanza.</li><li>Automazione PL/SQL: Sviluppo di Stored Procedures per automatizzare i processi chiave (registrazione moduli di intervento, calcolo preventivi, reportistica clienti e fornitori).</li><li>Triggers e Data Consistency: Implementazione di trigger per garantire il rispetto rigoroso delle Business Rules. Ad esempio, controlli sulla coerenza cronologica e sull&apos;allineamento finanziario esatto tra preventivi e fatture finali.</li></ul><br><strong>Ottimizzazione delle Performance (Physical Design):</strong><br>Uno degli aspetti più tecnici e distintivi del progetto è il tuning prestazionale:<br><ul><li>Analisi approfondita dei piani di esecuzione (Execution Plans) per identificare i colli di bottiglia causati da Full Table Scans.</li><li>Creazione mirata di indici B-Tree manuali su colonne ad alta cardinalità. Questo ha permesso di abbattere i costi di esecuzione delle query fino al 78%, trasformando ricerche lineari in accessi indicizzati e garantendo la scalabilità del sistema.</li></ul><br><strong>Sviluppo Web e User Experience:</strong><br>L&apos;interfaccia web si collega al database offrendo due dashboard distinte con accesso basato sui ruoli:<br><ul><li>Area Cliente: Login protetto, interfaccia per la compilazione dei moduli di richiesta intervento e monitoraggio in tempo reale.</li><li>Area Dipendente: Backend gestionale per la presa in carico dei moduli in arrivo, allocazione degli strumenti di lavoro, stima dei giorni necessari, generazione ufficiale dei preventivi ed emissione delle fatture.</li></ul>" 
+                 data-title="GreenCare Services (GCS) - Web App &amp; Database Management System" 
+                 data-desc="<strong>Web App & Database Management System</strong> (15/01/2026 - 22/01/2026)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di DataBase Systems. GreenCare Services è un&apos;applicazione web full-stack supportata da un robusto database relazionale a oggetti (ORDBMS) in ambiente Oracle. Il sistema digitalizza il ciclo di vita operativo di un&apos;azienda specializzata nella cura del verde.<br><br><strong>Stack Tecnologico:</strong><br><ul><li>Database: Oracle Database (PL/SQL), modellazione Object-Relational.</li><li>Backend & Server: Java, JDBC, Apache Tomcat.</li><li>Frontend: HTML, CSS, JSP.</li></ul><br><strong>Architettura del Database e Logica di Business:</strong><br><ul><li>Design Object-Relational: Utilizzo avanzato di ereditarietà (super-tipi e sub-tipi per categorizzare l&apos;inventario in Small Tools ed Electric Machines), puntatori a oggetti (REF) e tabelle annidate (Nested Tables).</li><li>Automazione PL/SQL: Sviluppo di Stored Procedures per automatizzare i processi chiave.</li><li>Triggers e Data Consistency: Implementazione di trigger per garantire il rispetto rigoroso delle Business Rules.</li></ul><br><strong>Ottimizzazione delle Performance (Physical Design):</strong><br><ul><li>Analisi approfondita dei piani di esecuzione (Execution Plans).</li><li>Creazione mirata di indici B-Tree manuali. Questo ha permesso di abbattere i costi di esecuzione delle query fino al 78%.</li></ul><br><strong>Sviluppo Web e User Experience:</strong><br>L&apos;interfaccia web si collega al database offrendo due dashboard distinte (Area Cliente e Area Dipendente) con accesso basato sui ruoli." 
                  data-img="" 
-                 data-link="">
-                <h3>GreenCare Web App</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>GreenCare Services (GCS) - Web App & Database Management System</h3>
                 <p>15/01/2026 - 22/01/2026</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="Progettazione di form conversazionali per la compilazione assistita di form web" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito della tesi di laurea.<br><br><strong>Contesto e Problema:</strong> Nel processo di digitalizzazione della Pubblica Amministrazione, l&apos;accessibilità dei servizi online è un requisito essenziale per garantire partecipazione democratica ed equità. Tuttavia, gli attuali form presenti sui portali istituzionali sono spesso progettati con logiche rigide e tradizionali. Questo crea barriere digitali significative, penalizzando in particolare i cittadini con disabilità visive (che utilizzano screen reader o altre tecnologie assistive) e coloro che possiedono scarse competenze digitali.<br><br><strong>Obiettivo della Tesi:</strong> Il lavoro si propone di ripensare i form digitali del sito istituzionale del Comune di Bari, trasformandoli da moduli statici a interfacce conversazionali accessibili, naturali ed efficaci. La metodologia adottata si fonda sul Natural Conversation Framework (NCF), un approccio basato sulla Conversation Analysis che permette di progettare interfacce in grado di replicare le dinamiche del dialogo umano, gestendo il flusso comunicativo e risolvendo eventuali ambiguità. L&apos;obiettivo è dimostrare come il Conversational UX Design possa abbattere il divario digitale e facilitare la navigazione degli utenti fragili.<br><br><strong>Caso Studio e Metodologia:</strong> Il progetto, nato in collaborazione con l&apos;Università degli Studi di Bari, si concentra su tre form di pubblica utilità del Comune di Bari:<br><ul><li>Modulo per gli incentivi alla mobilità sostenibile.</li><li>Modulo per il cambio di residenza.</li><li>Modulo per il ritiro di rifiuti ingombranti.</li></ul>L&apos;analisi di partenza e la successiva riprogettazione sono state condotte seguendo un approccio euristico basato sulle direttive internazionali sull&apos;accessibilità (WCAG, tutorial WAI) e sulla normativa italiana (Legge Stanca).<br><br><strong>Conclusione:</strong> La tesi dimostra come l&apos;integrazione di un framework conversazionale nello sviluppo dei servizi pubblici digitali migliori nettamente l&apos;accessibilità, aprendo la strada a una progettazione software (HCI) realmente inclusiva e user-centered." 
+                 data-desc="<strong>Tesi di Laurea Triennale</strong> (01/03/2025 - 01/07/2025)<br><br>Progetto accademico sviluppato nell&apos;ambito della tesi di laurea.<br><br><strong>Contesto e Problema:</strong> Nel processo di digitalizzazione della Pubblica Amministrazione, l&apos;accessibilità dei servizi online è un requisito essenziale. Tuttavia, gli attuali form presenti sui portali istituzionali creano barriere digitali significative, penalizzando i cittadini con disabilità visive o scarse competenze digitali.<br><br><strong>Obiettivo della Tesi:</strong> Il lavoro si propone di ripensare i form digitali del sito istituzionale del Comune di Bari, trasformandoli da moduli statici a interfacce conversazionali accessibili, naturali ed efficaci. La metodologia adottata si fonda sul Natural Conversation Framework (NCF). L&apos;obiettivo è dimostrare come il Conversational UX Design possa abbattere il divario digitale.<br><br><strong>Caso Studio e Metodologia:</strong> Il progetto si concentra su tre form di pubblica utilità del Comune di Bari (mobilità sostenibile, cambio residenza, rifiuti ingombranti). L&apos;analisi di partenza e la successiva riprogettazione sono state condotte seguendo un approccio euristico basato sulle direttive internazionali sull&apos;accessibilità (WCAG, tutorial WAI) e sulla normativa italiana (Legge Stanca).<br><br><strong>Conclusione:</strong> La tesi dimostra come l&apos;integrazione di un framework conversazionale nello sviluppo dei servizi pubblici digitali migliori nettamente l&apos;accessibilità, aprendo la strada a una progettazione software (HCI) realmente inclusiva e user-centered." 
                  data-img="" 
-                 data-link="">
-                <h3>Form Conversazionali (Tesi)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Progettazione di form conversazionali per la compilazione assistita di form web</h3>
                 <p>01/03/2025 - 01/07/2025</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="Sense Of Blindness - Blind Experience in VR" 
-                 data-desc="Progetto accademico sviluppato in Unity nell&apos;ambito del corso di Progettazione e Produzione Multimediale.<br><br>Sense of Blindness è un progetto di ricerca e sviluppo in Realtà Virtuale (VR) nato con l&apos;obiettivo sociale di abbattere le barriere empatiche, facendo vivere in prima persona le difficoltà quotidiane affrontate dalle persone non vedenti. Oltre allo sviluppo tecnico dell&apos;ambiente immersivo, ho curato la validazione del software conducendo una serie di sperimentazioni. Durante le sessione, ho affiancato la teoria all&apos;esplorazione diretta, raccogliendo dati e testando l&apos;efficacia dei serious game come strumenti educativi.<br><br>L&apos;impatto innovativo del progetto e i risultati delle sperimentazioni sono stati validati dalla comunità scientifica tramite due pubblicazioni: un paper accettato alla 2025 International Conference on Innovation and Intelligence for Informatics, Computing and Technologies, e un articolo attualmente in fase di revisione (submitted) per la rivista Entertainment Computing." 
+                 data-desc="<strong>Progetto di Ricerca in VR</strong> (01/03/2025 - 30/06/2025)<br><br>Progetto accademico sviluppato in Unity nell&apos;ambito del corso di Progettazione e Produzione Multimediale.<br><br>Sense of Blindness è un progetto di ricerca e sviluppo in Realtà Virtuale (VR) nato con l&apos;obiettivo sociale di abbattere le barriere empatiche, facendo vivere in prima persona le difficoltà quotidiane affrontate dalle persone non vedenti. Oltre allo sviluppo tecnico dell&apos;ambiente immersivo, ho curato la validazione del software conducendo una serie di sperimentazioni. Durante le sessione, ho affiancato la teoria all&apos;esplorazione diretta, raccogliendo dati e testando l&apos;efficacia dei serious game come strumenti educativi.<br><br>L&apos;impatto innovativo del progetto e i risultati delle sperimentazioni sono stati validati dalla comunità scientifica tramite due pubblicazioni: un paper accettato alla 2025 International Conference on Innovation and Intelligence for Informatics, Computing and Technologies, e un articolo attualmente in fase di revisione (submitted) per la rivista Entertainment Computing." 
                  data-img="" 
-                 data-link="">
-                <h3>Sense Of Blindness (VR)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Sense Of Blindness - Blind Experience in VR</h3>
                 <p>01/03/2025 - 30/06/2025</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
-                 data-title="E-Learning & Instructional Design: &quot;Quando giocare diventa una cosa seria&quot; Minicorso di orientamento ai serious game" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Progettazione e Produzione di Informatica per la Didattica.<br><br>Progettazione didattica e sviluppo tecnico di un Learning Object asincrono dedicato all&apos;orientamento sui &quot;Serious Game&quot;. Il progetto è finalizzato a introdurre studenti delle scuole superiori e utenti neofiti all&apos;evoluzione del medium videoludico, analizzando le differenze tra l&apos;intrattenimento puro e le applicazioni con finalità educative e formative.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Instructional Design: Strutturazione del corso applicando la Tassonomia di Bloom per definire gli obiettivi cognitivi. Ho sviluppato un&apos;architettura didattica &quot;Content and Support&quot; che alterna fasi espositive (storytelling visivo) a fasi attivo-partecipative (scenari simulati e role-play) per massimizzare l&apos;engagement in un contesto di apprendimento autonomo.</li><li>Sviluppo SCORM e HTML5: Produzione e pacchettizzazione dei contenuti interattivi secondo lo standard SCORM, garantendo la totale interoperabilità, il tracciamento dei progressi e la perfetta integrazione su piattaforme LMS moderne (es. Moodle, iSpring Learn). Ottimizzazione nativa in HTML5 per una fruizione fluida in ottica multi-device (PC, Tablet, LIM).</li><li>UX/UI Design per l&apos;Apprendimento: Progettazione di un&apos;interfaccia utente accessibile e intuitiva, con percorsi di navigazione flessibili (vincolati per la prima fruizione, liberi per il ripasso) e implementazione di indicatori di progresso visivi.</li><li>Assessment a Doppio Livello: Creazione di un sistema di valutazione integrato: test formativi in itinere con feedback immediato (per stimolare l&apos;autovalutazione) e un quiz sommativo finale per la certificazione delle competenze acquisite.</li></ul><br><strong>Competenze Chiave:</strong> Instructional Design, E-Learning, Integrazione LMS, SCORM, UX/UI Design, Serious Games, Gamification, Tassonomia di Bloom, HTML5." 
+                 data-title="E-Learning &amp; Instructional Design: &quot;Quando giocare diventa una cosa seria&quot; Minicorso di orientamento ai serious game" 
+                 data-desc="<strong>Progettazione E-Learning</strong> (01/03/2025 - 01/06/2025)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Progettazione e Produzione di Informatica per la Didattica.<br><br>Progettazione didattica e sviluppo tecnico di un Learning Object asincrono dedicato all&apos;orientamento sui &quot;Serious Game&quot;. Il progetto è finalizzato a introdurre studenti delle scuole superiori e utenti neofiti all&apos;evoluzione del medium videoludico.<br><br><strong>Attività Principali e Tecniche Applicate:</strong><br><ul><li>Instructional Design: Strutturazione del corso applicando la Tassonomia di Bloom. Ho sviluppato un&apos;architettura didattica &quot;Content and Support&quot; che alterna fasi espositive a fasi attivo-partecipative.</li><li>Sviluppo SCORM e HTML5: Produzione e pacchettizzazione dei contenuti interattivi secondo lo standard SCORM, garantendo la totale interoperabilità, il tracciamento dei progressi e la perfetta integrazione su piattaforme LMS moderne.</li><li>UX/UI Design per l&apos;Apprendimento: Progettazione di un&apos;interfaccia utente accessibile e intuitiva.</li><li>Assessment a Doppio Livello: Creazione di un sistema di valutazione integrato: test formativi in itinere con feedback immediato e un quiz sommativo finale.</li></ul><br><strong>Competenze Chiave:</strong> Instructional Design, E-Learning, Integrazione LMS, SCORM, UX/UI Design, Serious Games, Gamification, Tassonomia di Bloom, HTML5." 
                  data-img="" 
-                 data-link="">
-                <h3>E-Learning Serious Games</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>E-Learning & Instructional Design: "Quando giocare diventa una cosa seria"</h3>
                 <p>01/03/2025 - 01/06/2025</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="The Tenth - Progetto di social network sportivo" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Interazione Uomo-Macchina. Ideazione e progettazione, all&apos;interno di un team, di un&apos;app social dedicata all&apos;organizzazione di partite di calcio amatoriali. Il progetto è stato realizzato in Figma seguendo un approccio UCD Sprint (User-Centered Design), con focus sulla risoluzione di un problema reale legato alla difficoltà di trovare compagni di squadra.<br><br>Mi sono occupato della progettazione dell&apos;interfaccia utente, contribuendo a:<br><ul><li>Analisi del problema e definizione dei requisiti</li><li>Ideazione delle funzionalità principali</li><li>Creazione di wireframe, layout e prototipi interattivi</li></ul>" 
+                 data-desc="<strong>UI/UX Design</strong> (01/09/2024 - 31/01/2025)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Interazione Uomo-Macchina. Ideazione e progettazione, all&apos;interno di un team, di un&apos;app social dedicata all&apos;organizzazione di partite di calcio amatoriali.<br><br>Il progetto è stato realizzato in Figma seguendo un approccio UCD Sprint (User-Centered Design), con focus sulla risoluzione di un problema reale legato alla difficoltà di trovare compagni di squadra.<br><br>Mi sono occupato della progettazione dell&apos;interfaccia utente, contribuendo a:<br><ul><li>Analisi del problema e definizione dei requisiti</li><li>Ideazione delle funzionalità principali</li><li>Creazione di wireframe, layout e prototipi interattivi</li></ul>" 
                  data-img="" 
-                 data-link="">
-                <h3>The Tenth (App Design)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>The Tenth - Progetto di social network sportivo</h3>
                 <p>01/09/2024 - 31/01/2025</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="ATAX - Sviluppo videogioco in Java" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Ingegneria del Software. Realizzazione del gioco da tavolo ATAX in Java. Il progetto ha previsto l&apos;analisi dei requisiti, la progettazione secondo i principi della programmazione ad oggetti e l&apos;implementazione delle meccaniche di gioco, con attenzione alla modularità del codice e alla gestione degli stati del gioco." 
+                 data-desc="<strong>Ingegneria del Software</strong> (01/03/2024 - 30/06/2024)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Ingegneria del Software. Realizzazione del gioco da tavolo ATAX in Java.<br><br>Il progetto ha previsto l&apos;analisi dei requisiti, la progettazione secondo i principi della programmazione ad oggetti e l&apos;implementazione delle meccaniche di gioco, con attenzione alla modularità del codice e alla gestione degli stati del gioco." 
                  data-img="" 
-                 data-link="">
-                <h3>ATAX Game</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>ATAX - Sviluppo videogioco in Java</h3>
                 <p>01/03/2024 - 30/06/2024</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="H-CLUS - Applicazione di clustering con integrazione Telegram" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Metodi Avanzati di Programmazione. Sviluppo di un&apos;applicazione in Java per l&apos;esecuzione di clustering gerarchico (hierarchical clustering) su dataset numerici. Il progetto includeva la gestione avanzata degli input utente e delle eccezioni, oltre all&apos;integrazione con un bot Telegram per l&apos;invio dei comandi al server e la ricezione dei risultati direttamente in chat." 
+                 data-desc="<strong>Sviluppo Java e API</strong> (01/03/2024 - 30/06/2024)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Metodi Avanzati di Programmazione. Sviluppo di un&apos;applicazione in Java per l&apos;esecuzione di clustering gerarchico (hierarchical clustering) su dataset numerici.<br><br>Il progetto includeva la gestione avanzata degli input utente e delle eccezioni, oltre all&apos;integrazione con un bot Telegram per l&apos;invio dei comandi al server e la ricezione dei risultati direttamente in chat." 
                  data-img="" 
-                 data-link="">
-                <h3>H-CLUS & Telegram Bot</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>H-CLUS - Applicazione di clustering con integrazione Telegram</h3>
                 <p>01/03/2024 - 30/06/2024</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="YOWE - Ideazione e progettazione di un social network" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del concorso universitario SPINTeams, focalizzato sulla creazione di startup innovative. YOWE (un &quot;social&quot; due volte social) nasce con l&apos;obiettivo di incentivare la socializzazione reale tra utenti, contrastando l&apos;isolamento digitale.<br><br>Mi sono occupato dell&apos;intera fase creativa e progettuale: ideazione del concept, definizione del nome e del modello di interazione, realizzazione dei mockup e del logo. Ho ricoperto inoltre il ruolo di capogruppo e referente del team per tutta la durata del concorso. Progetto selezionato per partecipazione al concorso SPINTeams." 
+                 data-desc="<strong>Startup Concept & Design</strong> (01/06/2023 - 30/09/2023)<br><br>Progetto accademico sviluppato nell&apos;ambito del concorso universitario SPINTeams, focalizzato sulla creazione di startup innovative. YOWE (un &quot;social&quot; due volte social) nasce con l&apos;obiettivo di incentivare la socializzazione reale tra utenti, contrastando l&apos;isolamento digitale.<br><br>Mi sono occupato dell&apos;intera fase creativa e progettuale: ideazione del concept, definizione del nome e del modello di interazione, realizzazione dei mockup e del logo. Ho ricoperto inoltre il ruolo di capogruppo e referente del team per tutta la durata del concorso. Progetto selezionato per partecipazione al concorso SPINTeams." 
                  data-img="" 
-                 data-link="">
-                <h3>YOWE (Startup Concept)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>YOWE - Ideazione e progettazione di un social network</h3>
                 <p>01/06/2023 - 30/09/2023</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="Il Gioco dell'Oca - Sviluppo software" 
-                 data-desc="Progetto accademico sviluppato nell&apos;ambito del corso di Programmazione. Sviluppo di una versione digitale del classico Gioco dell&apos;Oca nell&apos;ambito del corso di Laboratorio di Programmazione. Il progetto includeva la gestione del flusso di gioco, il controllo degli eventi casuali (lancio dei dadi), la logica delle caselle speciali e l&apos;interfaccia utente testuale. Realizzato con linguaggio C." 
+                 data-desc="<strong>Programmazione C</strong> (01/03/2023 - 30/06/2023)<br><br>Progetto accademico sviluppato nell&apos;ambito del corso di Programmazione. Sviluppo di una versione digitale del classico Gioco dell&apos;Oca nell&apos;ambito del corso di Laboratorio di Programmazione.<br><br>Il progetto includeva la gestione del flusso di gioco, il controllo degli eventi casuali (lancio dei dadi), la logica delle caselle speciali e l&apos;interfaccia utente testuale. Realizzato con linguaggio C." 
                  data-img="" 
-                 data-link="">
-                <h3>Il Gioco dell'Oca</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>Il Gioco dell'Oca - Sviluppo software</h3>
                 <p>01/03/2023 - 30/06/2023</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
             <div class="card" 
                  data-title="RoboCup Junior - Robot Rescue" 
-                 data-desc="Progettazione, costruzione e programmazione di robot autonomi utilizzando LEGO Mindstorms EV3 e programmazione a blocchi. Il progetto prevedeva la realizzazione di un robot in grado di identificare e &quot;salvare&quot; simulazioni di persone in ambienti complessi, superando ostacoli e seguendo percorsi autonomi. 1º classificato a livello regionale - 2º classificato a livello nazionale." 
+                 data-desc="<strong>Robotica</strong> (01/09/2015 - 01/06/2016)<br><br>Progettazione, costruzione e programmazione di robot autonomi utilizzando LEGO Mindstorms EV3 e programmazione a blocchi. Il progetto prevedeva la realizzazione di un robot in grado di identificare e &quot;salvare&quot; simulazioni di persone in ambienti complessi, superando ostacoli e seguendo percorsi autonomi.<br><br><strong>Risultati:</strong> 1º classificato a livello regionale - 2º classificato a livello nazionale." 
                  data-img="" 
-                 data-link="">
-                <h3>RoboCup Jr (Robot Rescue)</h3>
+                 data-link="https://github.com/PietroDeGiglio/LaTuaRepo">
+                <h3>RoboCup Junior - Robot Rescue</h3>
                 <p>01/09/2015 - 01/06/2016</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
@@ -605,15 +609,15 @@
     </section>
 
     <section id="pubblicazioni">
-        <h2 class="section-title reveal">Paper & Ricerca</h2>
+        <h2 class="section-title reveal">Pubblicazioni</h2>
         <div class="slider-container reveal">
 
             <div class="card" 
                  data-title="Simulating Non-Visual VR Urban Navigation to Increase Awareness of Urban Accessibility Barriers" 
-                 data-desc="<strong>Sottomesso a:</strong> Entertainment Computing (2026)<br><strong>Autori:</strong> Alessandro Pagano, Francesca Travisani, Pietro De Giglio, Veronica Rossano<br><br><strong>Abstract:</strong> Digital games and immersive technologies increasingly support social inclusion and accessibility awareness, yet many sighted people overlook the everyday barriers faced by people with visual impairments. Traditional campaigns rarely convey what it feels like to navigate a city without vision. We present Sense of Blindness, a fully non-visual virtual reality experience that simulates urban navigation using spatial audio and haptic cues only, and we evaluate its impact on empathy, perceived immersion/presence, reflective awareness of accessibility barriers, and perceived educational value. In a user study with 48 sighted participants, we collected post-experience responses with a questionnaire grounded in an adapted Gameful Experience Scale (GAMEX) framework and analysed outcomes at the construct level. Results show strong endorsement of empathy and high perceived educational value, while reflective awareness varies across age groups, suggesting the need for age-sensitive scaffolding and debriefing in educational deployments. Perceived immersion/presence is positively associated with both reflective awareness and educational value, indicating immersion as a supportive mechanism for reflection and learning in non-visual navigation. Stress/tension emerges as a separable experiential dimension rather than a necessary driver of educational impact. We discuss implications for designing sensory-first, socially impactful VR experiences that promote accessibility awareness and more inclusive urban cultures." 
+                 data-desc="<strong>Submitted to:</strong> Entertainment Computing (2026)<br><strong>Autori:</strong> Alessandro Pagano, Francesca Travisani, Pietro De Giglio, Veronica Rossano<br><br><strong>Abstract:</strong> Digital games and immersive technologies increasingly support social inclusion and accessibility awareness, yet many sighted people overlook the everyday barriers faced by people with visual impairments. Traditional campaigns rarely convey what it feels like to navigate a city without vision. We present Sense of Blindness, a fully non-visual virtual reality experience that simulates urban navigation using spatial audio and haptic cues only, and we evaluate its impact on empathy, perceived immersion/presence, reflective awareness of accessibility barriers, and perceived educational value. In a user study with 48 sighted participants, we collected post-experience responses with a questionnaire grounded in an adapted Gameful Experience Scale (GAMEX) framework and analysed outcomes at the construct level. Results show strong endorsement of empathy and high perceived educational value, while reflective awareness varies across age groups, suggesting the need for age-sensitive scaffolding and debriefing in educational deployments. Perceived immersion/presence is positively associated with both reflective awareness and educational value, indicating immersion as a supportive mechanism for reflection and learning in non-visual navigation. Stress/tension emerges as a separable experiential dimension rather than a necessary driver of educational impact. We discuss implications for designing sensory-first, socially impactful VR experiences that promote accessibility awareness and more inclusive urban cultures." 
                  data-img="" data-link="">
-                <h3>VR & Accessibilità Urbana</h3>
-                <p>Entertainment Computing • 2026 (Submitted)</p>
+                <h3>Simulating Non-Visual VR Urban Navigation to Increase Awareness of Urban Accessibility Barriers</h3>
+                <p>Entertainment Computing • 2026</p>
                 <button class="card-btn">Leggi Abstract</button>
             </div>
 
@@ -621,7 +625,7 @@
                  data-title="Sense of Blindness: A Fully Non-Visual VR Experience to Foster Empathy Toward Urban Blindness" 
                  data-desc="<strong>Conferenza:</strong> 2025 International Conference on Innovation and Intelligence for Informatics Computing Technologies (IEEE Bahrain Section)<br><strong>Autori:</strong> Lorenzo Appice, Pietro De Giglio, Alessandro Pagano, Veronica Rossano, Francesca Travisani<br><br><strong>Abstract:</strong> In recent years, Virtual Reality (VR) has emerged as a powerful medium for simulating complex human experiences and promoting empathy through immersive learning. This paper presents Sense of Blindness, a VR-based serious game designed to raise awareness about the everyday challenges faced by blind individuals in urban environments. Unlike traditional empathy-oriented experiences, our system deliberately removes all visual input during gameplay, relying exclusively on spatial audio and haptic feedback to simulate non-visual navigation. The user interacts with the environment through a virtual white cane, receiving directional and obstacle-related cues via audio and controller vibrations. The game unfolds within a realistic urban setting inspired by an Italian pedestrian street and includes a structured sequence of obstacles, crosswalks, and auditory landmarks. The design prioritizes accessibility and user experience, providing both visual and auditory menu systems and a progressive audio-based tutorial. A preliminary evaluation involving 24 sighted participants was conducted using the Game Experience Questionnaire (Gamex). Results indicate a significant increase in user-reported empathy, awareness of visual impairment, and engagement. Participants particularly appreciated the immersive quality of spatial audio, which was rated as the most impactful sensory component. The study contributes to the field of Human-Computer Interaction (HCI) by exploring the design space of fully non-visual VR experiences and by demonstrating the potential of sensory-only interaction models to foster inclusion and reflection. Future developments include expanding the scenario catalog, longitudinal impact analysis, and application in educational and public contexts." 
                  data-img="" data-link="">
-                <h3>Sense of Blindness (IEEE)</h3>
+                <h3>Sense of Blindness: A Fully Non-Visual VR Experience to Foster Empathy Toward Urban Blindness</h3>
                 <p>Conferenza IEEE • 2025</p>
                 <button class="card-btn">Leggi Abstract</button>
             </div>
@@ -650,7 +654,7 @@
             <div class="planet planet-4"></div> 
         </div>
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span class="close-btn" id="closeModalBtn">&times;</span>
             <img id="modalImage" src="" alt="Immagine di Dettaglio" class="modal-image">
             
             <h2 class="modal-title" id="modalTitle">Titolo</h2>
@@ -661,18 +665,30 @@
     </div>
 
     <script>
-        let isDraggingCards = false;
-
+        // Logica click sicura per le card
         document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (isDraggingCards) return; 
+            let startX, startY;
+            
+            // Quando si preme il mouse, salviamo la posizione
+            card.addEventListener('mousedown', function(e) {
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+            
+            // Quando si rilascia il mouse, calcoliamo la differenza
+            card.addEventListener('mouseup', function(e) {
+                let diffX = Math.abs(e.clientX - startX);
+                let diffY = Math.abs(e.clientY - startY);
                 
-                const title = this.getAttribute('data-title');
-                const desc = this.getAttribute('data-desc');
-                const img = this.getAttribute('data-img');
-                const link = this.getAttribute('data-link');
-                
-                openModal(title, desc, img, link);
+                // Se il mouse si è mosso meno di 5 pixel, è un CLICK VERO, non uno scorrimento!
+                if (diffX < 5 && diffY < 5) {
+                    const title = this.getAttribute('data-title');
+                    const desc = this.getAttribute('data-desc');
+                    const img = this.getAttribute('data-img');
+                    const link = this.getAttribute('data-link');
+                    
+                    openModal(title, desc, img, link);
+                }
             });
         });
 
@@ -716,13 +732,17 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        window.onclick = function(event) {
-            let modal = document.getElementById('myModal');
-            if (event.target == modal || event.target.classList.contains('cosmic-background') || event.target.classList.contains('stars')) { 
+        // Chiusura Modale tramite bottone X
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
+        // Chiusura Modale cliccando sullo sfondo cosmico
+        document.getElementById('myModal').addEventListener('mousedown', function(e) {
+            if (e.target === this || e.target.classList.contains('cosmic-background') || e.target.classList.contains('stars')) { 
                 closeModal(); 
             }
-        }
+        });
 
+        // Effetto Reveal
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -789,6 +809,9 @@
         }
         animateBackgroundOrbs();
 
+        // ----------------------------------------------------
+        // DRAG AND DROP SCROLL PER LE CARD + TRATTINI PAGINAZIONE
+        // ----------------------------------------------------
         const sliders = document.querySelectorAll('.slider-container');
 
         sliders.forEach(slider => {
@@ -836,14 +859,11 @@
             let isDown = false;
             let startX;
             let scrollLeft;
-            let startPageX = 0;
 
             slider.addEventListener('mousedown', (e) => {
                 isDown = true;
-                isDraggingCards = false; 
                 slider.classList.add('is-dragging');
                 startX = e.pageX - slider.offsetLeft;
-                startPageX = e.pageX;
                 scrollLeft = slider.scrollLeft;
             });
 
@@ -852,17 +872,14 @@
                 slider.classList.remove('is-dragging');
             });
 
-            slider.addEventListener('mouseup', () => {
+            // Usare window invece del solo slider evita che il trascinamento si incastri se si esce dallo schermo
+            window.addEventListener('mouseup', () => {
                 isDown = false;
                 slider.classList.remove('is-dragging');
-                setTimeout(() => { isDraggingCards = false; }, 50);
             });
 
             slider.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
-                if (Math.abs(e.pageX - startPageX) > 5) {
-                    isDraggingCards = true; 
-                }
                 e.preventDefault();
                 const x = e.pageX - slider.offsetLeft;
                 const walk = (x - startX) * 2; 
