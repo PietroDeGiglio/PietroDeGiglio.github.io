@@ -16,7 +16,7 @@
             --text-main: #ffffff;
             --text-muted: #888888;
             --scroll-pos: 0; 
-            --mouse-x: 50%; /* Variabili per la luce del mouse */
+            --mouse-x: 50%; 
             --mouse-y: 50%;
         }
 
@@ -24,14 +24,12 @@
 
         body {
             background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden;
-            /* Sfondo nero profondo di base */
         }
 
         /* =========================================
-           1. SFONDO: LA GRIGLIA VIVA (Illuminazione Mirata)
+           1. SFONDO: LA GRIGLIA VIVA (Illuminazione Mirata Piccola)
            ========================================= */
 
-        /* Griglia di base, molto tenue, che scorre col parallasse */
         .cyber-grid-base {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
@@ -42,7 +40,6 @@
             z-index: -3; pointer-events: none;
         }
 
-        /* Griglia illuminata che si "accende" solo vicino al mouse */
         .cyber-grid-highlight {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
@@ -51,10 +48,10 @@
             background-size: 50px 50px;
             background-position-y: calc(var(--scroll-pos) * -0.5px);
             z-index: -2; pointer-events: none;
-            /* Maschera che rivela la griglia luminosa solo in un cerchio attorno al mouse */
-            mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
-            transition: mask-image 0.1s ease-out, -webkit-mask-image 0.1s ease-out; /* Movimento fluido della luce */
+            /* RAGGIO RIDOTTO DA 200px a 80px per un effetto più concentrato */
+            mask-image: radial-gradient(circle 80px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 80px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            transition: mask-image 0.1s ease-out, -webkit-mask-image 0.1s ease-out; 
         }
 
         html { scroll-behavior: smooth; }
@@ -156,7 +153,7 @@
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO 2.0 (Dettagliato)
+           2. UNIVERSO TOSSICO 2.0 CON PIU PIANETI
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -178,39 +175,34 @@
 
         @keyframes breatheNebula { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(15deg); } }
 
-        /* Campo Stellare Multistrato (Bianche, Azzurrine, Rosse, Verdi) */
+        /* Campo Stellare Multistrato */
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                /* Stelle bianche standard */
                 radial-gradient(1px 1px at 10% 20%, #fff, transparent), 
                 radial-gradient(2px 2px at 80% 80%, #fff, transparent),
-                /* Stelle Verdi Tossiche */
                 radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.9), transparent),
                 radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.6), transparent),
-                /* Nane Rosse (piccole e rossastre) */
                 radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent),
                 radial-gradient(1.5px 1.5px at 25% 75%, rgba(200, 50, 50, 0.7), transparent),
-                /* Nane Bianche/Azzurrine (luminose e fredde) */
                 radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent),
                 radial-gradient(1px 1px at 45% 85%, rgba(150, 200, 255, 0.8), transparent);
             background-repeat: repeat; 
-            /* Layer dimensions */
             background-size: 250px 250px, 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 200px 200px, 380px 380px;
             animation: rotateStars 240s linear infinite;
         }
 
         @keyframes rotateStars { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Il Sole Centrale (Supernova/Pulsar Verde) */
+        /* Il Sole Centrale */
         .central-sun {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 50px; height: 50px; border-radius: 50%;
             background: #fff;
             box-shadow: 
-                0 0 100px 50px rgba(57, 255, 20, 0.6), /* Corona verde */
-                0 0 200px 100px rgba(20, 100, 20, 0.4), /* Alone esterno */
-                0 0 20px 5px #fff; /* Nucleo bianco */
+                0 0 100px 50px rgba(57, 255, 20, 0.6), 
+                0 0 200px 100px rgba(20, 100, 20, 0.4), 
+                0 0 20px 5px #fff; 
             animation: pulseSun 4s infinite alternate;
             z-index: 1;
         }
@@ -222,24 +214,44 @@
 
         .planet { position: absolute; border-radius: 50%; z-index: 2; }
         
-        /* Gigante Gassoso (Illuminato dal sole) */
+        /* Gigante Gassoso Verde */
         .planet-1 {
             width: 250px; height: 250px; top: 15%; left: 20%;
-            background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); /* Luce viene da in basso a destra (centro) */
+            background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); 
             box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9);
             animation: orbitPlanet1 120s linear infinite;
         }
 
-        /* Pianeta Roccioso (Illuminato dal sole) */
+        /* Pianeta Roccioso Grigio */
         .planet-2 {
             width: 90px; height: 90px; bottom: 20%; right: 25%;
-            background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); /* Luce viene da in alto a sinistra (centro) */
+            background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); 
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15);
             animation: orbitPlanet2 90s linear infinite;
         }
 
+        /* NUOVO: Pianeta Rossastro (Tipo Marte) */
+        .planet-3 {
+            width: 140px; height: 140px; top: 60%; left: 10%;
+            background: radial-gradient(circle at 80% 20%, #b23a27, #4a150e 70%, #000); 
+            box-shadow: inset -15px 15px 25px rgba(0,0,0,0.9), 0 0 20px rgba(178, 58, 39, 0.2);
+            animation: orbitPlanet3 150s linear infinite;
+        }
+
+        /* NUOVO: Piccolo Pianeta Azzurro Ghiacciato */
+        .planet-4 {
+            width: 50px; height: 50px; top: 10%; right: 15%;
+            background: radial-gradient(circle at 20% 80%, #5cb8ff, #1a4f80 60%, #000); 
+            box-shadow: inset 5px -5px 10px rgba(0,0,0,0.8), 0 0 10px rgba(92, 184, 255, 0.3);
+            animation: orbitPlanet4 60s linear infinite;
+        }
+
+        /* Orbite */
         @keyframes orbitPlanet1 { from { transform: rotate(0deg) translateX(150px) rotate(0deg); } to { transform: rotate(360deg) translateX(150px) rotate(-360deg); } }
         @keyframes orbitPlanet2 { from { transform: rotate(360deg) translateX(-200px) rotate(0deg); } to { transform: rotate(0deg) translateX(-200px) rotate(-360deg); } }
+        @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
+        @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
+
 
         /* Contenuto Modale */
         .modal-content {
@@ -405,7 +417,7 @@
             <div class="central-sun"></div>
             <div class="planet planet-1"></div>
             <div class="planet planet-2"></div>
-        </div>
+            <div class="planet planet-3"></div> <div class="planet planet-4"></div> </div>
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 class="modal-title" id="modalTitle">Titolo</h2>
