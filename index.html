@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pietro De Giglio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* === VARIABILI COLORI === */
@@ -45,7 +46,7 @@
                 linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             z-index: -1;
-            pointer-events: none; /* Evita che la griglia blocchi i click */
+            pointer-events: none;
         }
 
         html { scroll-behavior: smooth; }
@@ -89,7 +90,6 @@
 
         /* === SEZIONI === */
         section {
-            /* Spazi ridotti tra le sezioni */
             padding: 80px 50px 40px; 
             display: flex;
             flex-direction: column;
@@ -104,11 +104,11 @@
             text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
         }
 
-        /* === HERO SECTION (Home con Foto) === */
+        /* === HERO SECTION === */
         #home { 
-            min-height: 100vh; /* Solo la home occupa tutto lo schermo iniziale */
+            min-height: 100vh;
             display: flex;
-            flex-direction: row; /* Affianca testo e foto */
+            flex-direction: row; 
             align-items: center;
             justify-content: space-between;
             gap: 40px;
@@ -120,7 +120,6 @@
         .hero-title span { color: var(--toxic-green); text-shadow: 0 0 15px rgba(57, 255, 20, 0.4); }
         .hero-subtitle { font-size: 20px; color: var(--text-muted); margin-top: 20px; max-width: 600px; }
 
-        /* Contenitore e stile per la tua foto */
         .hero-image-container {
             flex: 1;
             display: flex;
@@ -130,14 +129,14 @@
         .profile-pic {
             width: 350px;
             height: 350px;
-            border-radius: 50%; /* Rende l'immagine tonda */
+            border-radius: 50%;
             object-fit: cover;
             border: 4px solid var(--toxic-green);
             box-shadow: 0 0 40px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.2);
             transition: transform 0.5s ease;
         }
         .profile-pic:hover {
-            transform: scale(1.05); /* Effetto zoom quando passi il mouse */
+            transform: scale(1.05);
             box-shadow: 0 0 60px rgba(57, 255, 20, 0.5);
         }
 
@@ -211,46 +210,55 @@
         .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 15px; }
         .modal-body { color: var(--text-main); line-height: 1.7; font-size: 15px; }
 
-        /* === FOOTER === */
+        /* === FOOTER E ICONE === */
         footer {
             background: var(--card-bg); padding: 60px 20px; text-align: center;
             border-top: 1px solid rgba(57, 255, 20, 0.2); margin-top: 40px;
         }
         footer h2 { color: var(--toxic-green); margin-bottom: 15px; }
-        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .social-links a {
-            color: var(--bg-color); background: var(--toxic-green); padding: 10px 20px;
-            border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; font-size: 14px;
+        
+        .social-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 20px; 
+            flex-wrap: wrap; 
         }
-        .social-links a:hover { box-shadow: 0 0 20px var(--toxic-green); transform: scale(1.05); }
+        
+        .social-links a {
+            color: var(--bg-color); 
+            background: var(--toxic-green); 
+            padding: 10px 20px;
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            font-size: 14px;
+            display: flex; /* Mantiene icona e testo allineati orizzontalmente */
+            align-items: center;
+            gap: 8px; /* Spazio tra icona e testo */
+        }
+        
+        .social-links a i {
+            font-size: 18px; /* Ingrandisce leggermente le icone */
+        }
 
-        /* =========================================
-           REGOLE PER SMARTPHONE (RESPONSIVE DESIGN) 
-           ========================================= */
+        .social-links a:hover { 
+            box-shadow: 0 0 20px var(--toxic-green); 
+            transform: scale(1.05); 
+        }
+
+        /* === REGOLE PER SMARTPHONE === */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column; /* Impila logo e menu */
-                padding: 15px;
-                gap: 15px;
-            }
-            nav ul {
-                flex-wrap: wrap; /* Manda a capo i link se non c'è spazio */
-                justify-content: center;
-                gap: 15px;
-            }
-            #home {
-                flex-direction: column-reverse; /* Su mobile metto prima la foto, poi il testo sotto */
-                text-align: center;
-                padding-top: 160px; /* Più spazio per il menu impilato */
-                gap: 30px;
-            }
-            .hero-title { font-size: 40px; } /* Titolo più piccolo su mobile */
+            header { flex-direction: column; padding: 15px; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
+            #home { flex-direction: column-reverse; text-align: center; padding-top: 160px; gap: 30px; }
+            .hero-title { font-size: 40px; } 
             .hero-subtitle { font-size: 16px; margin: 20px auto 0; }
-            .profile-pic { width: 220px; height: 220px; } /* Foto più piccola */
-            
-            section { padding: 60px 20px 20px; } /* Riduco i margini laterali */
+            .profile-pic { width: 220px; height: 220px; } 
+            section { padding: 60px 20px 20px; } 
             h2.section-title { font-size: 28px; }
-            .card { min-width: 280px; padding: 20px; } /* Card adattate allo schermo del telefono */
+            .card { min-width: 280px; padding: 20px; } 
             .modal-content { padding: 30px; }
         }
     </style>
@@ -258,7 +266,7 @@
 <body>
 
     <header>
-        <div class="logo">TUONOME.</div>
+        <div class="logo">PIETRO.</div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -272,7 +280,7 @@
 
     <section id="home">
         <div class="hero-text reveal">
-            <h1 class="hero-title">Ciao, sono [Nome]<br><span>Sviluppatore.</span></h1>
+            <h1 class="hero-title">Ciao, sono Pietro<br><span>Sviluppatore.</span></h1>
             <p class="hero-subtitle">Aiuto le aziende a costruire esperienze digitali uniche. Design moderno, codice pulito e tanta passione per l'innovazione.</p>
         </div>
         <div class="hero-image-container reveal">
@@ -332,9 +340,10 @@
         <h2>Lavoriamo insieme!</h2>
         <p style="color: var(--text-muted); margin-bottom: 20px;">Attualmente disponibile per nuovi progetti o collaborazioni.</p>
         <div class="social-links">
-            <a href="mailto:tua@email.com">Email Me</a>
-            <a href="https://linkedin.com/in/tuoprofilo" target="_blank">LinkedIn</a>
-            <a href="https://github.com/tuonomeutente" target="_blank">GitHub</a>
+            <a href="mailto:degigliopietro2003@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
+            <a href="https://www.linkedin.com/in/pietro-de-giglio-74633a27a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            <a href="https://github.com/PietroDeGiglio" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="https://www.instagram.com/2204piter?igsh=MWthd3hteDFoNjVndg==" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
         </div>
     </footer>
 
