@@ -10,57 +10,52 @@
     <style>
         /* === VARIABILI GLOBALI === */
         :root {
-            --bg-color: #030303; /* Nero ancora più profondo per far risaltare le luci */
+            --bg-color: #030303; 
             --card-bg: #111111; 
             --toxic-green: #39ff14; 
             --text-main: #ffffff;
             --text-muted: #888888;
             --scroll-pos: 0; 
+            --mouse-x: 50%; /* Variabili per la luce del mouse */
+            --mouse-y: 50%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
             background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% calc(30% - (var(--scroll-pos) * 0.2px)), rgba(57, 255, 20, 0.08), transparent 40%),
-                radial-gradient(circle at 85% calc(70% - (var(--scroll-pos) * 0.4px)), rgba(57, 255, 20, 0.06), transparent 40%);
-            background-attachment: fixed;
+            /* Sfondo nero profondo di base */
         }
 
         /* =========================================
-           1. SFONDO: LA GRIGLIA VIVA (Pulsante e Parallasse)
+           1. SFONDO: LA GRIGLIA VIVA (Illuminazione Mirata)
            ========================================= */
 
-        /* Rete base che scorre col parallasse */
-        .cyber-grid {
+        /* Griglia di base, molto tenue, che scorre col parallasse */
+        .cyber-grid-base {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
-                linear-gradient(rgba(57, 255, 20, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(57, 255, 20, 0.15) 1px, transparent 1px);
+                linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
-            background-position-y: calc(var(--scroll-pos) * -0.6px);
+            background-position-y: calc(var(--scroll-pos) * -0.5px);
+            z-index: -3; pointer-events: none;
+        }
+
+        /* Griglia illuminata che si "accende" solo vicino al mouse */
+        .cyber-grid-highlight {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.8) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position-y: calc(var(--scroll-pos) * -0.5px);
             z-index: -2; pointer-events: none;
-            /* La magia: una maschera complessa e animata che rivela la griglia in punti sempre diversi */
-            mask-image: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), black 0%, transparent 60%);
-            -webkit-mask-image: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), black 0%, transparent 60%);
-            animation: pulseGrid 8s infinite alternate ease-in-out;
+            /* Maschera che rivela la griglia luminosa solo in un cerchio attorno al mouse */
+            mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            transition: mask-image 0.1s ease-out, -webkit-mask-image 0.1s ease-out; /* Movimento fluido della luce */
         }
-
-        /* Fari animati che si muovono da soli sullo schermo per rivelare parti di griglia */
-        .light-orb {
-            position: fixed; border-radius: 50%;
-            background: radial-gradient(circle, rgba(57, 255, 20, 0.4) 0%, transparent 70%);
-            z-index: -3; pointer-events: none; filter: blur(30px);
-        }
-        
-        .orb-1 { width: 600px; height: 600px; animation: floatOrb1 15s infinite alternate ease-in-out; }
-        .orb-2 { width: 400px; height: 400px; animation: floatOrb2 20s infinite alternate-reverse ease-in-out; right: -100px; bottom: 10%; }
-        .orb-3 { width: 500px; height: 500px; animation: floatOrb3 18s infinite alternate ease-in-out; left: -50px; bottom: -50px; }
-
-        @keyframes floatOrb1 { 0% { top: -100px; left: 10%; transform: scale(1); } 100% { top: 30vh; left: 30%; transform: scale(1.5); } }
-        @keyframes floatOrb2 { 0% { bottom: 10%; right: -50px; transform: scale(1.2); } 100% { bottom: 50vh; right: 20%; transform: scale(0.8); } }
-        @keyframes floatOrb3 { 0% { bottom: -50px; left: -50px; transform: scale(0.9); } 100% { bottom: 20vh; left: 40%; transform: scale(1.3); } }
 
         html { scroll-behavior: smooth; }
 
@@ -114,7 +109,6 @@
 
         .hero-image-container { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
         
-        /* Cerchio decorativo dietro la foto */
         .hero-image-container::before {
             content: ''; position: absolute; width: 380px; height: 380px; border-radius: 50%;
             border: 1px dashed rgba(57, 255, 20, 0.5); animation: spinDash 20s linear infinite; z-index: -1;
@@ -134,7 +128,7 @@
 
         .slider-container {
             display: flex; gap: 35px; overflow-x: auto; padding-bottom: 40px; padding-top: 20px; padding-left: 10px;
-            scroll-snap-type: x mandatory; scrollbar-width: none; /* Nasconde scrollbar brutta */
+            scroll-snap-type: x mandatory; scrollbar-width: none; 
         }
         .slider-container::-webkit-scrollbar { display: none; }
 
@@ -145,7 +139,6 @@
             position: relative; overflow: hidden;
         }
         
-        /* Linea neon top card */
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
         
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
@@ -163,19 +156,17 @@
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO 2.0 (Galassia e Pianeti CSS)
+           2. UNIVERSO TOSSICO 2.0 (Dettagliato)
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #010401; /* Nero verdastro abissale */
+            background-color: #010401; 
             display: none; justify-content: center; align-items: center; z-index: 2000; overflow: hidden; 
         }
 
-        /* Contenitore Cosmo per le animazioni */
         .cosmic-background {
             position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 0;
-            /* Nebulose stratificate */
             background-image: 
                 radial-gradient(circle at 40% 40%, rgba(20, 100, 20, 0.3), transparent 30%),
                 radial-gradient(ellipse at 60% 70%, rgba(57, 255, 20, 0.15), transparent 45%),
@@ -187,43 +178,70 @@
 
         @keyframes breatheNebula { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(15deg); } }
 
-        /* Campo Stellare Complesso */
+        /* Campo Stellare Multistrato (Bianche, Azzurrine, Rosse, Verdi) */
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(1px 1px at 10% 20%, #fff, transparent), radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.8), transparent),
-                radial-gradient(2px 2px at 80% 80%, #fff, transparent), radial-gradient(1px 1px at 60% 10%, rgba(200, 255, 200, 0.6), transparent),
-                radial-gradient(2px 2px at 20% 90%, #fff, transparent), radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.5), transparent);
-            background-repeat: repeat; background-size: 250px 250px, 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px;
+                /* Stelle bianche standard */
+                radial-gradient(1px 1px at 10% 20%, #fff, transparent), 
+                radial-gradient(2px 2px at 80% 80%, #fff, transparent),
+                /* Stelle Verdi Tossiche */
+                radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.9), transparent),
+                radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.6), transparent),
+                /* Nane Rosse (piccole e rossastre) */
+                radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent),
+                radial-gradient(1.5px 1.5px at 25% 75%, rgba(200, 50, 50, 0.7), transparent),
+                /* Nane Bianche/Azzurrine (luminose e fredde) */
+                radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 45% 85%, rgba(150, 200, 255, 0.8), transparent);
+            background-repeat: repeat; 
+            /* Layer dimensions */
+            background-size: 250px 250px, 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 200px 200px, 380px 380px;
             animation: rotateStars 240s linear infinite;
         }
 
         @keyframes rotateStars { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Pianeti 3D in CSS */
-        .planet { position: absolute; border-radius: 50%; z-index: 1; }
+        /* Il Sole Centrale (Supernova/Pulsar Verde) */
+        .central-sun {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; border-radius: 50%;
+            background: #fff;
+            box-shadow: 
+                0 0 100px 50px rgba(57, 255, 20, 0.6), /* Corona verde */
+                0 0 200px 100px rgba(20, 100, 20, 0.4), /* Alone esterno */
+                0 0 20px 5px #fff; /* Nucleo bianco */
+            animation: pulseSun 4s infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes pulseSun { 
+            0% { transform: translate(-50%, -50%) scale(0.9); box-shadow: 0 0 80px 40px rgba(57, 255, 20, 0.5), 0 0 150px 80px rgba(20, 100, 20, 0.3), 0 0 20px 5px #fff; } 
+            100% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 120px 60px rgba(57, 255, 20, 0.8), 0 0 250px 120px rgba(20, 100, 20, 0.5), 0 0 30px 10px #fff; } 
+        }
+
+        .planet { position: absolute; border-radius: 50%; z-index: 2; }
         
-        /* Gigante Gassoso Tossico */
+        /* Gigante Gassoso (Illuminato dal sole) */
         .planet-1 {
-            width: 300px; height: 300px; top: 20%; left: 15%;
-            background: radial-gradient(circle at 30% 30%, #4aff24, #0a4005 70%, #000 100%);
-            box-shadow: 0 0 60px rgba(57, 255, 20, 0.3), inset -30px -30px 50px rgba(0,0,0,0.8);
-            animation: orbitPlanet1 100s linear infinite;
+            width: 250px; height: 250px; top: 15%; left: 20%;
+            background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); /* Luce viene da in basso a destra (centro) */
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9);
+            animation: orbitPlanet1 120s linear infinite;
         }
 
-        /* Pianeta Roccioso Scuro */
+        /* Pianeta Roccioso (Illuminato dal sole) */
         .planet-2 {
-            width: 120px; height: 120px; bottom: 25%; right: 20%;
-            background: radial-gradient(circle at 20% 20%, #555, #111 80%, #000);
-            box-shadow: inset -15px -15px 20px rgba(0,0,0,0.9), 0 0 20px rgba(57, 255, 20, 0.1);
-            animation: orbitPlanet2 80s linear infinite;
+            width: 90px; height: 90px; bottom: 20%; right: 25%;
+            background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); /* Luce viene da in alto a sinistra (centro) */
+            box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15);
+            animation: orbitPlanet2 90s linear infinite;
         }
 
-        /* Orbita finta attorno al centro */
-        @keyframes orbitPlanet1 { from { transform: rotate(0deg) translateX(100px) rotate(0deg); } to { transform: rotate(360deg) translateX(100px) rotate(-360deg); } }
-        @keyframes orbitPlanet2 { from { transform: rotate(360deg) translateX(-150px) rotate(0deg); } to { transform: rotate(0deg) translateX(-150px) rotate(-360deg); } }
+        @keyframes orbitPlanet1 { from { transform: rotate(0deg) translateX(150px) rotate(0deg); } to { transform: rotate(360deg) translateX(150px) rotate(-360deg); } }
+        @keyframes orbitPlanet2 { from { transform: rotate(360deg) translateX(-200px) rotate(0deg); } to { transform: rotate(0deg) translateX(-200px) rotate(-360deg); } }
 
-        /* Contenuto Modale in Primo Piano */
+        /* Contenuto Modale */
         .modal-content {
             background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 90%; max-width: 700px; padding: 50px; border-radius: 30px; 
@@ -278,10 +296,8 @@
 </head>
 <body>
 
-    <div class="light-orb orb-1"></div>
-    <div class="light-orb orb-2"></div>
-    <div class="light-orb orb-3"></div>
-    <div class="cyber-grid"></div>
+    <div class="cyber-grid-base"></div>
+    <div class="cyber-grid-highlight" id="lightGrid"></div>
 
     <header id="main-header">
         <div class="logo">PIETRO<span>.</span></div>
@@ -386,6 +402,7 @@
     <div class="modal-overlay" id="myModal">
         <div class="cosmic-background">
             <div class="stars"></div>
+            <div class="central-sun"></div>
             <div class="planet planet-1"></div>
             <div class="planet planet-2"></div>
         </div>
@@ -403,7 +420,6 @@
             document.getElementById('modalBody').innerHTML = description;
             let modal = document.getElementById('myModal');
             modal.style.display = 'flex';
-            // Forza il reflow per far scattare le transizioni CSS
             void modal.offsetWidth; 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; 
@@ -412,13 +428,12 @@
         function closeModal() {
             let modal = document.getElementById('myModal');
             modal.classList.remove('active');
-            setTimeout(() => { modal.style.display = 'none'; }, 500); // Aspetta la fine della transizione
+            setTimeout(() => { modal.style.display = 'none'; }, 500);
             document.body.style.overflow = 'auto'; 
         }
 
         window.onclick = function(event) {
             let modal = document.getElementById('myModal');
-            // Cliccando ovunque nello spazio (fuori dal contenitore testo) chiude
             if (event.target == modal || event.target.classList.contains('cosmic-background') || event.target.classList.contains('stars')) { 
                 closeModal(); 
             }
@@ -444,7 +459,6 @@
         window.addEventListener("scroll", function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            // Variabile per il parallasse
             document.documentElement.style.setProperty('--scroll-pos', scrollTop);
             
             revealElements();
@@ -458,16 +472,15 @@
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
         });
 
-        // Esecuzione Iniziale
         revealElements(); 
         document.documentElement.style.setProperty('--scroll-pos', window.pageYOffset || document.documentElement.scrollTop);
         
-        // Bonus Interattivo: La griglia si illumina leggermente dove passa il mouse
+        // Logica per illuminare la griglia vicino al puntatore del mouse
         document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 100;
-            const y = (e.clientY / window.innerHeight) * 100;
-            document.documentElement.style.setProperty('--glow-x', `${x}%`);
-            document.documentElement.style.setProperty('--glow-y', `${y}%`);
+            const x = e.clientX;
+            const y = e.clientY;
+            document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}px`);
         });
     </script>
 </body>
