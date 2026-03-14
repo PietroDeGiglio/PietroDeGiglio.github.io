@@ -29,65 +29,84 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             overflow-x: hidden;
-            /* Bagliori verdi sfumati sullo sfondo */
+            /* Bagliori verdi sfumati di fondo allineati con le zone luminose della griglia */
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(57, 255, 20, 0.06), transparent 30%),
-                radial-gradient(circle at 85% 10%, rgba(57, 255, 20, 0.05), transparent 30%);
+                radial-gradient(circle at 15% 30%, rgba(57, 255, 20, 0.08), transparent 35%),
+                radial-gradient(circle at 85% 70%, rgba(57, 255, 20, 0.06), transparent 35%);
             background-attachment: fixed;
         }
 
-        /* Trama a griglia Cyberpunk in overlay - RESA PIÙ EVIDENTE */
+        /* LIVELLO 1: Griglia base verde scuro su tutto lo schermo */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+                linear-gradient(rgba(57, 255, 20, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* LIVELLO 2: Griglia luminosa e intensa visibile SOLO in aree circolari (Effetto Faro) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.3) 1px, transparent 1px);
             background-size: 40px 40px;
             z-index: -1;
             pointer-events: none;
+            /* Questa maschera nasconde la griglia forte tranne che nei cerchi */
+            -webkit-mask-image: 
+                radial-gradient(circle at 15% 30%, black 0%, transparent 35%),
+                radial-gradient(circle at 85% 70%, black 0%, transparent 40%),
+                radial-gradient(circle at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 45%);
+            mask-image: 
+                radial-gradient(circle at 15% 30%, black 0%, transparent 35%),
+                radial-gradient(circle at 85% 70%, black 0%, transparent 40%),
+                radial-gradient(circle at 50% 100%, rgba(0,0,0,0.6) 0%, transparent 45%);
         }
 
         html { scroll-behavior: smooth; }
 
-        /* === HEADER A COLORI INVERTITI E A SCOMPARSA === */
+        /* === HEADER SCURO RIPRISTINATO (A SCOMPARSA) === */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 15px 50px;
-            /* Sfondo verde acido con opacità */
-            background: rgba(57, 255, 20, 0.9); 
-            backdrop-filter: blur(8px); 
+            padding: 20px 50px;
+            background: rgba(5, 5, 5, 0.85); /* Sfondo scuro originale */
+            backdrop-filter: blur(12px); 
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            /* Transizione per l'effetto a scomparsa */
+            border-bottom: 1px solid rgba(57, 255, 20, 0.15);
+            /* Transizione per nascondere l'header */
             transition: transform 0.3s ease-in-out; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Classe per nascondere l'header */
+        /* Classe aggiunta da JS per far scorrere l'header in alto */
         header.header-hidden {
             transform: translateY(-100%);
         }
 
-        /* Logo scuro su sfondo verde */
         .logo { 
             font-weight: 800; 
             font-size: 24px; 
-            color: var(--bg-color); 
-            text-shadow: none;
+            color: var(--toxic-green); /* Colore neon originale */
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); 
         }
 
         nav ul { list-style: none; display: flex; gap: 30px; }
         
-        /* Link scuri su sfondo verde */
         nav a {
             text-decoration: none;
-            color: var(--bg-color);
+            color: var(--text-main); /* Link bianchi originali */
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;
@@ -95,10 +114,9 @@
             transition: 0.3s;
         }
         
-        /* Effetto hover sui link */
         nav a:hover {
-            color: #ffffff; /* Testo bianco */
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            color: var(--toxic-green);
+            text-shadow: 0 0 12px rgba(57, 255, 20, 0.7);
         }
 
         /* === SEZIONI === */
@@ -117,7 +135,7 @@
             text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
         }
 
-        /* === HERO SECTION CON SLOGAN === */
+        /* === HERO SECTION === */
         #home { 
             min-height: 100vh;
             display: flex;
@@ -133,7 +151,6 @@
         .hero-title span { color: var(--toxic-green); text-shadow: 0 0 15px rgba(57, 255, 20, 0.4); }
         .hero-subtitle { font-size: 20px; color: var(--text-muted); margin-top: 20px; max-width: 600px; }
         
-        /* Stile per lo slogan "Dream Big Do Bigger" */
         .hero-slogan {
             font-size: 24px;
             font-weight: 600;
@@ -242,41 +259,23 @@
         footer h2 { color: var(--toxic-green); margin-bottom: 15px; }
         
         .social-links { 
-            display: flex; 
-            justify-content: center; 
-            gap: 15px; 
-            margin-top: 20px; 
-            flex-wrap: wrap; 
+            display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; 
         }
         
         .social-links a {
-            color: var(--bg-color); 
-            background: var(--toxic-green); 
-            padding: 10px 20px;
-            border-radius: 50px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            transition: 0.3s; 
-            font-size: 14px;
-            display: flex; /* Mantiene icona e testo allineati orizzontalmente */
-            align-items: center;
-            gap: 8px; /* Spazio tra icona e testo */
+            color: var(--bg-color); background: var(--toxic-green); padding: 10px 20px;
+            border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; 
+            font-size: 14px; display: flex; align-items: center; gap: 8px; 
         }
         
-        .social-links a i {
-            font-size: 18px; /* Ingrandisce leggermente le icone */
-        }
-
-        .social-links a:hover { 
-            box-shadow: 0 0 20px var(--toxic-green); 
-            transform: scale(1.05); 
-        }
+        .social-links a i { font-size: 18px; }
+        .social-links a:hover { box-shadow: 0 0 20px var(--toxic-green); transform: scale(1.05); }
 
         /* === REGOLE PER SMARTPHONE === */
         @media (max-width: 768px) {
-            header { flex-direction: column; padding: 10px; gap: 10px; }
+            header { flex-direction: column; padding: 15px; gap: 10px; }
             nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
-            #home { flex-direction: column-reverse; text-align: center; padding-top: 140px; gap: 30px; }
+            #home { flex-direction: column-reverse; text-align: center; padding-top: 150px; gap: 30px; }
             .hero-title { font-size: 36px; } 
             .hero-subtitle { font-size: 16px; margin: 20px auto 0; }
             .hero-slogan { font-size: 18px; margin-top: 20px; }
@@ -382,7 +381,6 @@
     </div>
 
     <script>
-        // Gestione Finestra Modale
         function openModal(title, description) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerHTML = description;
@@ -402,7 +400,6 @@
             }
         }
 
-        // Animazioni Scroll Reveal
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -415,34 +412,25 @@
             }
         }
 
-        // Gestione Header a Scomparsa
+        // --- Logica Header a Scomparsa ---
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
 
         window.addEventListener("scroll", function() {
-            // Esegui reveal elements
             revealElements();
 
-            // Logica per mostrare/nascondere l'header
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            if (scrollTop > lastScrollTop) {
-                // Scorrendo verso il basso - nascondi l'header
+            if (scrollTop > lastScrollTop && scrollTop > 80) {
+                // Se scorri giù e hai superato i primi 80px, nascondi l'header
                 header.classList.add('header-hidden');
             } else {
-                // Scorrendo verso l'alto - mostra l'header
+                // Se scorri su, mostra l'header
                 header.classList.remove('header-hidden');
             }
-            
-            // Per gestire i casi in cui scrollTop è negativo (es. su iOS)
-            if (scrollTop <= 0) {
-                header.classList.remove('header-hidden');
-            }
-            
-            lastScrollTop = scrollTop;
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
         });
 
-        // Esegui revealElements all'avvio per gli elementi già visibili
         revealElements(); 
     </script>
 </body>
