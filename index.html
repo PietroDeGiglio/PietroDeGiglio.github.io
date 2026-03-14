@@ -3,24 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il mio sito su GitHub</title>
+    <title>Il Mio Portfolio Professionale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* === VARIABILI COLORI E STILI === */
+        :root {
+            --bg-color: #050505; /* Nero profondo */
+            --card-bg: #111111; /* Grigio scurissimo per staccare */
+            --acid-green: #ccff00; /* Verde Acido WOW */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
+        /* === STILI BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Scorrimento fluido quando si clicca sul menu */
+        html { scroll-behavior: smooth; }
+
+        /* === HEADER E MENU NAVIGAZIONE === */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px); /* Effetto vetro sfocato */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(204, 255, 0, 0.1);
+        }
+
+        .logo { font-weight: 800; font-size: 24px; color: var(--acid-green); }
+
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: var(--acid-green);
+            text-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
+        }
+
+        /* === SEZIONI === */
+        section {
+            min-height: 100vh;
+            padding: 120px 50px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2.section-title {
+            font-size: 40px;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--acid-green);
+            padding-left: 15px;
+        }
+
+        /* === HERO SECTION (La primissima parte che si vede) === */
+        #home { text-align: left; }
+        .hero-title { font-size: 70px; font-weight: 800; line-height: 1.1; }
+        .hero-title span { color: var(--acid-green); }
+        .hero-subtitle { font-size: 20px; color: var(--text-muted); margin-top: 20px; max-width: 600px; }
+
+        /* === CARD E SLIDESHOW (Scorrimento Orizzontale) === */
+        .slider-container {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto; /* Permette lo scorrimento orizzontale */
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--acid-green) var(--card-bg);
+        }
+
+        .slider-container::-webkit-scrollbar { height: 8px; }
+        .slider-container::-webkit-scrollbar-thumb { background: var(--acid-green); border-radius: 10px; }
+
+        .card {
+            background-color: var(--card-bg);
+            min-width: 350px;
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            scroll-snap-align: start;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effetto hover sulla card */
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--acid-green);
+            box-shadow: 0 15px 30px rgba(204, 255, 0, 0.1);
+        }
+
+        .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--acid-green); }
+        .card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .card-btn {
+            margin-top: 20px;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--acid-green);
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .card:hover .card-btn { background: var(--acid-green); color: var(--bg-color); font-weight: bold; }
+
+        /* === FINESTRA MODALE (Dettagli) === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: none; /* Nascosta di default */
+            justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 90%; max-width: 700px;
+            padding: 50px;
+            border-radius: 20px;
+            border: 2px solid var(--acid-green);
+            box-shadow: 0 0 40px rgba(204, 255, 0, 0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 25px;
+            font-size: 30px; color: var(--text-muted);
+            cursor: pointer; transition: 0.3s;
+        }
+        .close-btn:hover { color: var(--acid-green); }
+
+        .modal-title { color: var(--acid-green); font-size: 30px; margin-bottom: 20px; }
+        .modal-body { color: var(--text-main); line-height: 1.8; }
+
+        /* === FOOTER (Contatti) === */
+        footer {
+            background: var(--card-bg);
+            padding: 60px 50px;
             text-align: center;
-            margin-top: 50px;
-            background-color: #f4f4f9;
+            border-top: 1px solid rgba(204, 255, 0, 0.2);
         }
-        h1 {
-            color: #333;
+        footer h2 { color: var(--acid-green); margin-bottom: 20px; }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+        .social-links a {
+            color: var(--bg-color); background: var(--acid-green);
+            padding: 10px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; transition: 0.3s;
         }
-        p {
-            color: #666;
-        }
+        .social-links a:hover { box-shadow: 0 0 20px var(--acid-green); transform: scale(1.05); }
+
     </style>
 </head>
 <body>
-    <h1>Ciao, mondo! 👋</h1>
-    <p>Questo è il mio primo sito web ospitato su GitHub Pages.</p>
+
+    <header>
+        <div class="logo">TUONOME.</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#esperienza">Esperienza</a></li>
+                <li><a href="#progetti">Progetti</a></li>
+                <li><a href="#contatti">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h1 class="hero-title">Ciao, sono [Tuo Nome]<br><span>Sviluppatore & Creativo.</span></h1>
+        <p class="hero-subtitle">Aiuto le aziende a costruire esperienze digitali uniche. Design moderno, codice pulito e tanta passione per l'innovazione.</p>
+    </section>
+
+    <section id="esperienza">
+        <h2 class="section-title">Esperienze Lavorative</h2>
+        <div class="slider-container">
+            
+            <div class="card" onclick="openModal('Esperienza 1', 'Qui puoi inserire una descrizione molto dettagliata del tuo primo lavoro. Le mansioni che hai svolto, i risultati ottenuti e le tecnologie utilizzate. Essendo un popup, non c\'è limite allo spazio!')">
+                <h3>Azienda Alpha</h3>
+                <p>Senior Designer • 2021 - Presente<br><br>Breve riassunto di quello che fai in questa azienda. Clicca per leggere tutto.</p>
+                <button class="card-btn">Scopri di più +</button>
+            </div>
+
+            <div class="card" onclick="openModal('Esperienza 2', 'Dettagli estesi della seconda esperienza lavorativa. Anche qui testo lungo e formattato come preferisci.')">
+                <h3>Studio Beta</h3>
+                <p>Junior Developer • 2018 - 2021<br><br>Sviluppo di interfacce web e gestione del lato client. Ottima esperienza formativa.</p>
+                <button class="card-btn">Scopri di più +</button>
+            </div>
+
+            </div>
+    </section>
+
+    <section id="progetti">
+        <h2 class="section-title">Progetti Recenti</h2>
+        <div class="slider-container">
+            
+            <div class="card" onclick="openModal('Progetto Cyber', 'Spiegazione dettagliata del progetto Cyber. Ho usato HTML, CSS e JS per creare un\'interfaccia futuristica...')">
+                <h3>App Cyber</h3>
+                <p>Applicazione web per la gestione dei dati in tempo reale con interfaccia dark.</p>
+                <button class="card-btn">Scopri di più +</button>
+            </div>
+
+            <div class="card" onclick="openModal('Sito E-commerce', 'Sviluppo completo di un negozio online con carrello, pagamenti e pannello di controllo admin.')">
+                <h3>Shop Online</h3>
+                <p>E-commerce completo sviluppato per un brand di abbigliamento.</p>
+                <button class="card-btn">Scopri di più +</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contatti">
+        <h2>Lavoriamo insieme!</h2>
+        <p style="color: var(--text-muted);">Attualmente disponibile per nuovi progetti o collaborazioni.</p>
+        <div class="social-links">
+            <a href="mailto:tua@email.com">Email Me</a>
+            <a href="https://linkedin.com/in/tuoprofilo" target="_blank">LinkedIn</a>
+            <a href="https://github.com/tuonomeutente" target="_blank">GitHub</a>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="myModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title" id="modalTitle">Titolo</h2>
+            <div class="modal-body" id="modalBody">
+                Testo descrittivo qui...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per aprire la modale e caricare i contenuti dinamici
+        function openModal(title, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerHTML = description;
+            document.getElementById('myModal').style.display = 'flex';
+            // Blocca lo scorrimento della pagina dietro
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Funzione per chiudere la modale
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+            // Riattiva lo scorrimento
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Chiudi la modale se l'utente clicca fuori dal riquadro
+        window.onclick = function(event) {
+            let modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
 </body>
 </html>
