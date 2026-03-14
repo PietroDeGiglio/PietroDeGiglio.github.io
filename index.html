@@ -93,12 +93,12 @@
         nav a:hover { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
 
         /* === SEZIONI E CARDS === */
-        section { padding: 100px 50px 60px; display: flex; flex-direction: column; justify-content: center; }
+        section { padding: 100px 50px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; }
         h2.section-title {
             font-size: 40px; margin-bottom: 40px; border-left: 6px solid var(--toxic-green);
             padding-left: 20px; text-shadow: 0 0 15px rgba(57, 255, 20, 0.4); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
         }
-        #home { min-height: 100vh; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; padding-top: 120px; }
+        #home { min-height: 100vh; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; padding-top: 120px; padding-bottom: 60px; }
         .hero-text { flex: 1; }
         .hero-title { font-size: 75px; font-weight: 800; line-height: 1.05; letter-spacing: -1px; }
         .hero-title span { color: var(--toxic-green); text-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
@@ -124,28 +124,34 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* MODIFICHE SCORRIMENTO */
+        /* MODIFICHE SCORRIMENTO (Tolto lo scrollbar bruttino) */
         .slider-container {
-            display: flex; gap: 35px; overflow-x: auto; padding-bottom: 40px; padding-top: 20px; padding-left: 10px;
+            display: flex; gap: 35px; overflow-x: auto; padding-bottom: 20px; padding-top: 20px; padding-left: 10px;
             scroll-snap-type: x mandatory; 
-            scrollbar-width: thin; /* Riattiva la barra per Firefox */
-            scrollbar-color: var(--toxic-green) rgba(255,255,255,0.05);
-            /* Impostazione per il drag&drop */
+            scrollbar-width: none; /* Nasconde scrollbar Firefox */
             cursor: grab;
         }
-        .slider-container:active { cursor: grabbing; }
-        
-        /* Barra di scorrimento custom Chrome/Edge/Safari */
-        .slider-container::-webkit-scrollbar { height: 8px; display: block; }
-        .slider-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .slider-container::-webkit-scrollbar-thumb { background: var(--toxic-green); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar { display: none; /* Nasconde scrollbar Chrome/Edge */ }
+        .slider-container.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+
+        /* I NUOVI TRATTINI (Pagination Dashes) */
+        .slider-pagination {
+            display: flex; justify-content: center; gap: 12px; margin-top: 15px; margin-bottom: 30px; width: 100%;
+        }
+        .slider-pagination .dash {
+            width: 25px; height: 5px; background: rgba(255,255,255,0.15);
+            border-radius: 5px; transition: all 0.4s ease;
+        }
+        .slider-pagination .dash.active {
+            background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); width: 45px;
+        }
 
         .card {
             background: linear-gradient(145deg, #161616, #0a0a0a); min-width: 360px; max-width: 400px;
-            border-radius: 25px; padding: 40px 30px; scroll-snap-align: center;
+            border-radius: 25px; padding: 40px 30px; cursor: pointer; scroll-snap-align: center;
             border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
-            user-select: none; /* Evita che il testo si selezioni durante il trascinamento */
+            user-select: none; 
         }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
@@ -236,11 +242,22 @@
         }
         .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border: 1px solid var(--toxic-green);}
         
-        .modal-title { color: var(--toxic-green); font-size: 30px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 40px;}
+        .modal-title { color: var(--toxic-green); font-size: 30px; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 40px;}
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
         .modal-body li { margin-bottom: 5px; }
+
+        /* TASTO GITHUB NELLA MODALE */
+        .modal-link-btn {
+            display: inline-block; margin-top: 25px; padding: 12px 25px;
+            background: var(--toxic-green); color: var(--bg-color);
+            text-decoration: none; font-weight: 800; border-radius: 8px;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+        }
+        .modal-link-btn i { margin-right: 8px; font-size: 18px; }
+        .modal-link-btn:hover { box-shadow: 0 0 25px var(--toxic-green); transform: translateY(-3px); }
 
         /* === FOOTER === */
         footer {
@@ -284,7 +301,7 @@
     <div class="cyber-grid-highlight" id="lightGrid"></div>
 
     <header id="main-header">
-        <div class="logo"><span>Pietro De Giglio.</span></div>
+        <div class="logo">PIETRO<span>.</span></div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -410,79 +427,79 @@
         <h2 class="section-title reveal">Progetti</h2>
         <div class="slider-container reveal">
 
-            <div class="card" onclick="openModal('Regression Analysis & Numerical Stability', '<strong>Data Science & Numerical Methods</strong> (02/02/2026 - 08/02/2026)<br><br>Modello di regressione lineare su larga scala (53.500 campioni, 384 feature) per prevedere la posizione assiale di sezioni TAC.<br><br><ul><li>Confronto tra Equazioni Normali, Fattorizzazione QR e SVD.</li><li>Applicazione di Principal Component Regression (PCR) per gestire la multicollinearità.</li><li>Compressione del modello a 73 componenti (20% delle feature) preservando il potere predittivo tramite Energia Cumulativa e Regola di Kaiser.</li></ul>')">
+            <div class="card" onclick="openModal('Regression Analysis & Numerical Stability', '<strong>Data Science & Numerical Methods</strong> (02/02/2026 - 08/02/2026)<br><br>Modello di regressione lineare su larga scala (53.500 campioni, 384 feature) per prevedere la posizione assiale di sezioni TAC.<br><br><ul><li>Confronto tra Equazioni Normali, Fattorizzazione QR e SVD.</li><li>Applicazione di Principal Component Regression (PCR) per gestire la multicollinearità.</li><li>Compressione del modello a 73 componenti (20% delle feature) preservando il potere predittivo tramite Energia Cumulativa e Regola di Kaiser.</li></ul>', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Predictive Modeling (SVD)</h3>
                 <p>Python, SciPy, LAPACK</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Information Retrieval System', '<strong>Text Mining & Latent Semantic Indexing (LSI)</strong> (02/02/2026 - 08/02/2026)<br><br>Sviluppo di un motore di ricerca documentale basato sul Vector Space Model.<br><br><ul><li>Implementazione pipeline NLP (lowercasing, stop-word, stemming) per costruire una Matrice Termini-Documenti.</li><li>Ottimizzazione tramite SVD Troncata e Rank-Revealing QR Factorization.</li><li>Risoluzione del Problema dei Minimi Quadrati.</li></ul>')">
+            <div class="card" onclick="openModal('Information Retrieval System', '<strong>Text Mining & Latent Semantic Indexing (LSI)</strong> (02/02/2026 - 08/02/2026)<br><br>Sviluppo di un motore di ricerca documentale basato sul Vector Space Model.<br><br><ul><li>Implementazione pipeline NLP (lowercasing, stop-word, stemming) per costruire una Matrice Termini-Documenti.</li><li>Ottimizzazione tramite SVD Troncata e Rank-Revealing QR Factorization.</li><li>Risoluzione del Problema dei Minimi Quadrati.</li></ul>', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Information Retrieval</h3>
                 <p>NLP, Text Mining, SVD</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Process Mining on The Tenth', '<strong>Analisi UX Data-Driven</strong> (26/01/2026 - 31/01/2026)<br><br>Applicazione di Process Mining per l&apos;analisi della User Experience dell&apos;app &quot;The Tenth&quot;.<br><br><ul><li>Estrazione dell&apos;Happy Path e mappatura delle deviazioni dai log degli eventi.</li><li>Identificazione dei colli di bottiglia e rilevamento errori.</li><li>Predictive Monitoring: Previsione dell&apos;abbandono (churn rate) tramite Machine Learning.</li></ul>')">
+            <div class="card" onclick="openModal('Process Mining on The Tenth', '<strong>Analisi UX Data-Driven</strong> (26/01/2026 - 31/01/2026)<br><br>Applicazione di Process Mining per l&apos;analisi della User Experience dell&apos;app &quot;The Tenth&quot;.<br><br><ul><li>Estrazione dell&apos;Happy Path e mappatura delle deviazioni dai log degli eventi.</li><li>Identificazione dei colli di bottiglia e rilevamento errori.</li><li>Predictive Monitoring: Previsione dell&apos;abbandono (churn rate) tramite Machine Learning.</li></ul>', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Process Mining (UX)</h3>
                 <p>Data Analytics, Machine Learning</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('GreenCare Services (GCS)', '<strong>Web App & Database Management System</strong> (15/01/2026 - 22/01/2026)<br><br>Applicazione full-stack con Oracle ORDBMS per la digitalizzazione di un&apos;azienda del verde.<br><br><ul><li><strong>Backend:</strong> Java, JDBC, Apache Tomcat, Oracle DB (PL/SQL).</li><li><strong>Database:</strong> Design Object-Relational, nested tables, e Triggers complessi per la consistenza.</li><li><strong>Tuning:</strong> Analisi Execution Plans e creazione di indici B-Tree che hanno abbattuto i costi query del 78%.</li></ul>')">
+            <div class="card" onclick="openModal('GreenCare Services (GCS)', '<strong>Web App & Database Management System</strong> (15/01/2026 - 22/01/2026)<br><br>Applicazione full-stack con Oracle ORDBMS per la digitalizzazione di un&apos;azienda del verde.<br><br><ul><li><strong>Backend:</strong> Java, JDBC, Apache Tomcat, Oracle DB (PL/SQL).</li><li><strong>Database:</strong> Design Object-Relational, nested tables, e Triggers complessi per la consistenza.</li><li><strong>Tuning:</strong> Analisi Execution Plans e creazione di indici B-Tree che hanno abbattuto i costi query del 78%.</li></ul>', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>GreenCare Web App</h3>
                 <p>Java, Oracle DB, PL/SQL, Tomcat</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Form Conversazionali', '<strong>Tesi di Laurea Triennale</strong> (01/03/2025 - 01/07/2025)<br><br>Progettazione di form conversazionali per la compilazione assistita di form web istituzionali del Comune di Bari (mobilità sostenibile, cambio residenza, rifiuti).<br><br>L&apos;obiettivo è abbattere le barriere digitali per utenti fragili o con disabilità visive usando il Natural Conversation Framework (NCF).')">
+            <div class="card" onclick="openModal('Form Conversazionali', '<strong>Tesi di Laurea Triennale</strong> (01/03/2025 - 01/07/2025)<br><br>Progettazione di form conversazionali per la compilazione assistita di form web istituzionali del Comune di Bari (mobilità sostenibile, cambio residenza, rifiuti).<br><br>L&apos;obiettivo è abbattere le barriere digitali per utenti fragili o con disabilità visive usando il Natural Conversation Framework (NCF).', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Form Conversazionali (Tesi)</h3>
                 <p>HCI, Accessibilità (WCAG)</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Sense Of Blindness', '<strong>Blind Experience in VR</strong> (01/03/2025 - 30/06/2025)<br><br>Progetto di ricerca VR (Unity) per far vivere in prima persona le difficoltà delle persone non vedenti, usando unicamente audio spaziale e feedback aptico.<br><br>Il progetto ha generato due pubblicazioni scientifiche (IEEE e Entertainment Computing) sull&apos;efficacia empatica di questo serious game.')">
+            <div class="card" onclick="openModal('Sense Of Blindness', '<strong>Blind Experience in VR</strong> (01/03/2025 - 30/06/2025)<br><br>Progetto di ricerca VR (Unity) per far vivere in prima persona le difficoltà delle persone non vedenti, usando unicamente audio spaziale e feedback aptico.<br><br>Il progetto ha generato due pubblicazioni scientifiche (IEEE e Entertainment Computing) sull&apos;efficacia empatica di questo serious game.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Sense Of Blindness (VR)</h3>
                 <p>Unity 3D, Serious Games</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('E-Learning & Instructional Design', '<strong>Minicorso sui Serious Game</strong> (01/03/2025 - 01/06/2025)<br><br>Progettazione didattica (Tassonomia di Bloom) e sviluppo tecnico in HTML5/SCORM di un Learning Object sui &quot;Serious Game&quot;. Integrazione perfetta in piattaforme LMS con tracciamento progressi e sistemi di autovalutazione integrata.')">
+            <div class="card" onclick="openModal('E-Learning & Instructional Design', '<strong>Minicorso sui Serious Game</strong> (01/03/2025 - 01/06/2025)<br><br>Progettazione didattica (Tassonomia di Bloom) e sviluppo tecnico in HTML5/SCORM di un Learning Object sui &quot;Serious Game&quot;. Integrazione perfetta in piattaforme LMS con tracciamento progressi e sistemi di autovalutazione integrata.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>E-Learning Serious Games</h3>
                 <p>SCORM, HTML5, Instructional Design</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('The Tenth', '<strong>Social Network Sportivo</strong> (01/09/2024 - 31/01/2025)<br><br>Ideazione e progettazione in team di un&apos;app social per organizzare partite di calcio amatoriali. Approccio UCD Sprint in Figma, realizzazione di wireframe, layout e prototipi interattivi.')">
+            <div class="card" onclick="openModal('The Tenth', '<strong>Social Network Sportivo</strong> (01/09/2024 - 31/01/2025)<br><br>Ideazione e progettazione in team di un&apos;app social per organizzare partite di calcio amatoriali. Approccio UCD Sprint in Figma, realizzazione di wireframe, layout e prototipi interattivi.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>The Tenth (App Design)</h3>
                 <p>Figma, UI/UX Design</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('ATAX', '<strong>Sviluppo videogioco in Java</strong> (01/03/2024 - 30/06/2024)<br><br>Realizzazione del gioco da tavolo ATAX seguendo i principi dell&apos;Ingegneria del Software, con attenzione alla programmazione ad oggetti, alla modularità e al pattern di gestione degli stati.')">
+            <div class="card" onclick="openModal('ATAX', '<strong>Sviluppo videogioco in Java</strong> (01/03/2024 - 30/06/2024)<br><br>Realizzazione del gioco da tavolo ATAX seguendo i principi dell&apos;Ingegneria del Software, con attenzione alla programmazione ad oggetti, alla modularità e al pattern di gestione degli stati.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>ATAX Game</h3>
                 <p>Java, OOP, Software Engineering</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('H-CLUS', '<strong>Clustering con Telegram</strong> (01/03/2024 - 30/06/2024)<br><br>Applicazione Java per hierarchical clustering su dataset numerici. Gestione avanzata eccezioni e integrazione server con un Bot Telegram per l&apos;invio comandi e ricezione risultati.')">
+            <div class="card" onclick="openModal('H-CLUS', '<strong>Clustering con Telegram</strong> (01/03/2024 - 30/06/2024)<br><br>Applicazione Java per hierarchical clustering su dataset numerici. Gestione avanzata eccezioni e integrazione server con un Bot Telegram per l&apos;invio comandi e ricezione risultati.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>H-CLUS & Telegram Bot</h3>
                 <p>Java, Clustering, API Telegram</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('YOWE', '<strong>Ideazione Social Network</strong> (01/06/2023 - 30/09/2023)<br><br>Creazione concept startup innovativa &quot;YOWE&quot; per il concorso SPINTeams. Ruolo di capogruppo, definizione modello di interazione e mockup. Selezionato per la partecipazione al concorso.')">
+            <div class="card" onclick="openModal('YOWE', '<strong>Ideazione Social Network</strong> (01/06/2023 - 30/09/2023)<br><br>Creazione concept startup innovativa &quot;YOWE&quot; per il concorso SPINTeams. Ruolo di capogruppo, definizione modello di interazione e mockup. Selezionato per la partecipazione al concorso.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>YOWE (Startup Concept)</h3>
                 <p>Product Design, SPINTeams</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('Il Gioco dell&apos;Oca', '<strong>Sviluppo Software C</strong> (01/03/2023 - 30/06/2023)<br><br>Versione digitale del classico gioco sviluppata in C. Gestione flussi, logica caselle speciali ed eventi casuali (lancio dadi) con UI testuale.')">
+            <div class="card" onclick="openModal('Il Gioco dell&apos;Oca', '<strong>Sviluppo Software C</strong> (01/03/2023 - 30/06/2023)<br><br>Versione digitale del classico gioco sviluppata in C. Gestione flussi, logica caselle speciali ed eventi casuali (lancio dadi) con UI testuale.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>Il Gioco dell'Oca</h3>
                 <p>Linguaggio C</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
-            <div class="card" onclick="openModal('RoboCup Junior', '<strong>Robot Rescue</strong> (01/09/2015 - 01/06/2016)<br><br>Progettazione e programmazione di robot autonomi con LEGO Mindstorms EV3. Il robot simulava operazioni di soccorso in ambienti ostili.<br><br><strong>Risultati:</strong> 1º classificato regionale, 2º classificato nazionale.')">
+            <div class="card" onclick="openModal('RoboCup Junior', '<strong>Robot Rescue</strong> (01/09/2015 - 01/06/2016)<br><br>Progettazione e programmazione di robot autonomi con LEGO Mindstorms EV3. Il robot simulava operazioni di soccorso in ambienti ostili.<br><br><strong>Risultati:</strong> 1º classificato regionale, 2º classificato nazionale.', '', 'https://github.com/PietroDeGiglio/il-tuo-repo')">
                 <h3>RoboCup Jr (Robot Rescue)</h3>
                 <p>Robotica, LEGO Mindstorms</p>
                 <button class="card-btn">Vedi Progetto</button>
@@ -536,15 +553,18 @@
             
             <h2 class="modal-title" id="modalTitle">Titolo</h2>
             <div class="modal-body" id="modalBody">Testo descrittivo qui...</div>
+            
+            <a id="modalLinkBtn" href="" target="_blank" class="modal-link-btn" style="display: none;"><i class="fa-brands fa-github"></i> Vedi su GitHub</a>
         </div>
     </div>
 
     <script>
-        // Funzione Modale (Il parametro immagine ora è facoltativo!)
-        function openModal(title, description, imageUrl) {
+        // Funzione Modale aggiornata per supportare IMMAGINE e LINK GITHUB
+        function openModal(title, description, imageUrl = '', linkUrl = '') {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = description;
             
+            // Gestione Immagine
             const modalImg = document.getElementById('modalImage');
             if(imageUrl && imageUrl.trim() !== '') {
                 modalImg.src = imageUrl;
@@ -552,6 +572,16 @@
             } else {
                 modalImg.style.display = 'none';
                 modalImg.src = '';
+            }
+
+            // Gestione Pulsante GitHub
+            const modalLink = document.getElementById('modalLinkBtn');
+            if(linkUrl && linkUrl.trim() !== '') {
+                modalLink.href = linkUrl;
+                modalLink.style.display = 'inline-block';
+            } else {
+                modalLink.style.display = 'none';
+                modalLink.href = '#';
             }
 
             let modal = document.getElementById('myModal');
@@ -567,6 +597,7 @@
             setTimeout(() => { 
                 modal.style.display = 'none'; 
                 document.getElementById('modalImage').src = '';
+                document.getElementById('modalLinkBtn').href = '#';
             }, 500);
             document.body.style.overflow = 'auto'; 
         }
@@ -578,7 +609,6 @@
             }
         }
 
-        // Scroll Reveal Elements
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -591,14 +621,15 @@
             }
         }
 
-        // Header a scomparsa
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
 
         window.addEventListener("scroll", function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
             document.documentElement.style.setProperty('--scroll-pos', scrollTop);
             revealElements();
+
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 header.classList.add('header-hidden');
             } else {
@@ -610,13 +641,11 @@
         revealElements(); 
         document.documentElement.style.setProperty('--scroll-pos', window.pageYOffset || document.documentElement.scrollTop);
         
-        // Torcia Mouse
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        // Orbs Automatici
         function animateBackgroundOrbs() {
             const time = Date.now() / 1000; 
             const speed = 0.15; 
@@ -647,33 +676,61 @@
         animateBackgroundOrbs();
 
         // ----------------------------------------------------
-        // DRAG AND DROP SCROLL PER LE CARD
+        // DRAG AND DROP SCROLL PER LE CARD + TRATTINI PAGINAZIONE
         // ----------------------------------------------------
         const sliders = document.querySelectorAll('.slider-container');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
+        
         sliders.forEach(slider => {
+            // --- Creazione Trattini Paginazione ---
+            const pagination = document.createElement('div');
+            pagination.classList.add('slider-pagination');
+            pagination.classList.add('reveal', 'active'); 
+            slider.parentNode.insertBefore(pagination, slider.nextSibling);
+
+            const cards = slider.querySelectorAll('.card');
+            cards.forEach((_, i) => {
+                let dash = document.createElement('div');
+                dash.classList.add('dash');
+                if(i === 0) dash.classList.add('active');
+                pagination.appendChild(dash);
+            });
+
+            // Aggiorna trattino attivo durante lo scroll
+            slider.addEventListener('scroll', () => {
+                // Calcola larghezza di una card inclusiva di gap
+                let gap = parseInt(window.getComputedStyle(slider).gap || 0);
+                let cardWidth = cards[0].offsetWidth + gap; 
+                let activeIndex = Math.round(slider.scrollLeft / cardWidth);
+                
+                let dashes = pagination.querySelectorAll('.dash');
+                dashes.forEach(d => d.classList.remove('active'));
+                if(dashes[activeIndex]) dashes[activeIndex].classList.add('active');
+            });
+
+            // --- Logica Drag & Drop ---
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
             slider.addEventListener('mousedown', (e) => {
                 isDown = true;
-                slider.classList.add('active');
+                slider.classList.add('is-dragging');
                 startX = e.pageX - slider.offsetLeft;
                 scrollLeft = slider.scrollLeft;
             });
             slider.addEventListener('mouseleave', () => {
                 isDown = false;
-                slider.classList.remove('active');
+                slider.classList.remove('is-dragging');
             });
             slider.addEventListener('mouseup', () => {
                 isDown = false;
-                slider.classList.remove('active');
+                slider.classList.remove('is-dragging');
             });
             slider.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; // Moltiplicatore velocità scroll
+                const walk = (x - startX) * 2; // Moltiplicatore velocità trascinamento
                 slider.scrollLeft = scrollLeft - walk;
             });
         });
