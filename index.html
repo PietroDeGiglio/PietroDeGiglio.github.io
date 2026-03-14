@@ -124,23 +124,35 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* MODIFICHE SCORRIMENTO */
         .slider-container {
             display: flex; gap: 35px; overflow-x: auto; padding-bottom: 40px; padding-top: 20px; padding-left: 10px;
-            scroll-snap-type: x mandatory; scrollbar-width: none; 
+            scroll-snap-type: x mandatory; 
+            scrollbar-width: thin; /* Riattiva la barra per Firefox */
+            scrollbar-color: var(--toxic-green) rgba(255,255,255,0.05);
+            /* Impostazione per il drag&drop */
+            cursor: grab;
         }
-        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-container:active { cursor: grabbing; }
+        
+        /* Barra di scorrimento custom Chrome/Edge/Safari */
+        .slider-container::-webkit-scrollbar { height: 8px; display: block; }
+        .slider-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb { background: var(--toxic-green); border-radius: 10px; }
+
         .card {
             background: linear-gradient(145deg, #161616, #0a0a0a); min-width: 360px; max-width: 400px;
-            border-radius: 25px; padding: 40px 30px; cursor: pointer; scroll-snap-align: center;
+            border-radius: 25px; padding: 40px 30px; scroll-snap-align: center;
             border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+            user-select: none; /* Evita che il testo si selezioni durante il trascinamento */
         }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
         .card:hover::before { transform: scaleX(1); }
         .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
         .card:hover h3 { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
-        .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; }
+        .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; pointer-events: none;}
         .card-btn {
             margin-top: 25px; background: rgba(57, 255, 20, 0.05); color: var(--toxic-green);
             border: 1px solid rgba(57, 255, 20, 0.3); padding: 10px 20px; border-radius: 8px; 
@@ -200,7 +212,7 @@
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
         @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
 
-        /* === MODAL CONTENT (Supporta Immagini ora) === */
+        /* === MODAL CONTENT === */
         .modal-content {
             background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 90%; max-width: 800px; max-height: 85vh; padding: 40px; border-radius: 20px; 
@@ -213,10 +225,9 @@
         .modal-content::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 20px; }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
-        /* Stile Immagine Modale */
         .modal-image {
             width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 25px;
-            border: 2px solid rgba(57, 255, 20, 0.3); display: none; /* Nascosta di default */
+            border: 2px solid rgba(57, 255, 20, 0.3); display: none; 
         }
 
         .close-btn {
@@ -529,13 +540,13 @@
     </div>
 
     <script>
-        // Funzione Modale aggiornata per supportare l'IMMAGINE
-        function openModal(title, description, imageUrl = '') {
+        // Funzione Modale (Il parametro immagine ora è facoltativo!)
+        function openModal(title, description, imageUrl) {
             document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = description;
             
             const modalImg = document.getElementById('modalImage');
-            if(imageUrl) {
+            if(imageUrl && imageUrl.trim() !== '') {
                 modalImg.src = imageUrl;
                 modalImg.style.display = 'block';
             } else {
@@ -555,7 +566,6 @@
             modal.classList.remove('active');
             setTimeout(() => { 
                 modal.style.display = 'none'; 
-                // Resetta l'immagine quando chiudi
                 document.getElementById('modalImage').src = '';
             }, 500);
             document.body.style.overflow = 'auto'; 
@@ -568,6 +578,7 @@
             }
         }
 
+        // Scroll Reveal Elements
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -580,15 +591,14 @@
             }
         }
 
+        // Header a scomparsa
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
 
         window.addEventListener("scroll", function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
             document.documentElement.style.setProperty('--scroll-pos', scrollTop);
             revealElements();
-
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 header.classList.add('header-hidden');
             } else {
@@ -600,11 +610,13 @@
         revealElements(); 
         document.documentElement.style.setProperty('--scroll-pos', window.pageYOffset || document.documentElement.scrollTop);
         
+        // Torcia Mouse
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
+        // Orbs Automatici
         function animateBackgroundOrbs() {
             const time = Date.now() / 1000; 
             const speed = 0.15; 
@@ -633,6 +645,38 @@
             requestAnimationFrame(animateBackgroundOrbs);
         }
         animateBackgroundOrbs();
+
+        // ----------------------------------------------------
+        // DRAG AND DROP SCROLL PER LE CARD
+        // ----------------------------------------------------
+        const sliders = document.querySelectorAll('.slider-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        sliders.forEach(slider => {
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; // Moltiplicatore velocità scroll
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
     </script>
 </body>
 </html>
