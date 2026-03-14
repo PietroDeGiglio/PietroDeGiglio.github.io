@@ -16,12 +16,14 @@
             --text-main: #ffffff;
             --text-muted: #888888;
             --scroll-pos: 0; 
-            /* Variabili per la luce del mouse (partono fuori schermo) */
+            /* Variabili per la luce del mouse */
             --mouse-x: -500px; 
             --mouse-y: -500px;
-            /* Variabili per i "fari" automatici */
+            /* Variabili per i "fari" automatici (ora sono 4) */
             --orb1-x: 20%; --orb1-y: 20%;
             --orb2-x: 80%; --orb2-y: 80%;
+            --orb3-x: 50%; --orb3-y: 20%;
+            --orb4-x: 20%; --orb4-y: 80%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -31,10 +33,9 @@
         }
 
         /* =========================================
-           1. SFONDO: GRIGLIA CON SCANNER AUTOMATICI E MOUSE
+           1. SFONDO: GRIGLIA CON 4 SCANNER AUTOMATICI + MOUSE
            ========================================= */
 
-        /* Griglia base (tenue e in background) */
         .cyber-grid-base {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
@@ -45,7 +46,6 @@
             z-index: -3; pointer-events: none;
         }
 
-        /* Griglia illuminata: reagisce a 3 sorgenti (Mouse + 2 Scanner automatici) */
         .cyber-grid-highlight {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
@@ -55,15 +55,19 @@
             background-position-y: calc(var(--scroll-pos) * -0.5px);
             z-index: -2; pointer-events: none;
             
-            /* LA MAGIA: Tre gradienti radiali fusi insieme per svelare la griglia */
+            /* 5 Gradienti Radiali fusi insieme per svelare la griglia (Mouse + 4 Orbs) */
             -webkit-mask-image: 
                 radial-gradient(circle 100px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%),
                 radial-gradient(circle 150px at var(--orb1-x) var(--orb1-y), black 0%, transparent 100%),
-                radial-gradient(circle 120px at var(--orb2-x) var(--orb2-y), black 0%, transparent 100%);
+                radial-gradient(circle 120px at var(--orb2-x) var(--orb2-y), black 0%, transparent 100%),
+                radial-gradient(circle 140px at var(--orb3-x) var(--orb3-y), black 0%, transparent 100%),
+                radial-gradient(circle 130px at var(--orb4-x) var(--orb4-y), black 0%, transparent 100%);
             mask-image: 
                 radial-gradient(circle 100px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%),
                 radial-gradient(circle 150px at var(--orb1-x) var(--orb1-y), black 0%, transparent 100%),
-                radial-gradient(circle 120px at var(--orb2-x) var(--orb2-y), black 0%, transparent 100%);
+                radial-gradient(circle 120px at var(--orb2-x) var(--orb2-y), black 0%, transparent 100%),
+                radial-gradient(circle 140px at var(--orb3-x) var(--orb3-y), black 0%, transparent 100%),
+                radial-gradient(circle 130px at var(--orb4-x) var(--orb4-y), black 0%, transparent 100%);
             
             transition: mask-image 0.1s ease-out, -webkit-mask-image 0.1s ease-out; 
         }
@@ -167,7 +171,7 @@
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO POTENZIATO
+           2. UNIVERSO TOSSICO
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -189,7 +193,6 @@
 
         @keyframes breatheNebula { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(15deg); } }
 
-        /* Campo Stellare Multistrato */
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -197,9 +200,9 @@
                 radial-gradient(2px 2px at 80% 80%, #fff, transparent),
                 radial-gradient(1.5px 1.5px at 30% 50%, rgba(57, 255, 20, 0.9), transparent),
                 radial-gradient(1px 1px at 90% 30%, rgba(57, 255, 20, 0.6), transparent),
-                radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent), /* Nana Rossa */
+                radial-gradient(1px 1px at 60% 10%, rgba(255, 100, 100, 0.8), transparent),
                 radial-gradient(1.5px 1.5px at 25% 75%, rgba(200, 50, 50, 0.7), transparent),
-                radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent), /* Nana Bianca */
+                radial-gradient(2px 2px at 70% 40%, rgba(200, 230, 255, 0.9), transparent),
                 radial-gradient(1px 1px at 45% 85%, rgba(150, 200, 255, 0.8), transparent);
             background-repeat: repeat; 
             background-size: 250px 250px, 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 200px 200px, 380px 380px;
@@ -208,12 +211,16 @@
 
         @keyframes rotateStars { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Sole Centrale */
         .central-sun {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; border-radius: 50%; background: #fff;
-            box-shadow: 0 0 100px 50px rgba(57, 255, 20, 0.6), 0 0 200px 100px rgba(20, 100, 20, 0.4), 0 0 20px 5px #fff; 
-            animation: pulseSun 4s infinite alternate; z-index: 1;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: #fff;
+            box-shadow: 
+                0 0 100px 50px rgba(57, 255, 20, 0.6), 
+                0 0 200px 100px rgba(20, 100, 20, 0.4), 
+                0 0 20px 5px #fff; 
+            animation: pulseSun 4s infinite alternate;
+            z-index: 1;
         }
 
         @keyframes pulseSun { 
@@ -223,28 +230,24 @@
 
         .planet { position: absolute; border-radius: 50%; z-index: 2; }
         
-        /* Pianeta 1: Gigante Gassoso Verde */
         .planet-1 {
             width: 250px; height: 250px; top: 15%; left: 20%;
             background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); 
             box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9);
             animation: orbitPlanet1 120s linear infinite;
         }
-        /* Pianeta 2: Roccioso */
         .planet-2 {
             width: 90px; height: 90px; bottom: 20%; right: 25%;
             background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); 
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15);
             animation: orbitPlanet2 90s linear infinite;
         }
-        /* Pianeta 3: Rossastro (Marte) */
         .planet-3 {
             width: 140px; height: 140px; top: 60%; left: 10%;
             background: radial-gradient(circle at 80% 20%, #b23a27, #4a150e 70%, #000); 
             box-shadow: inset -15px 15px 25px rgba(0,0,0,0.9), 0 0 20px rgba(178, 58, 39, 0.2);
             animation: orbitPlanet3 150s linear infinite;
         }
-        /* Pianeta 4: Azzurro Ghiacciato */
         .planet-4 {
             width: 50px; height: 50px; top: 10%; right: 15%;
             background: radial-gradient(circle at 20% 80%, #5cb8ff, #1a4f80 60%, #000); 
@@ -252,7 +255,6 @@
             animation: orbitPlanet4 60s linear infinite;
         }
 
-        /* Animazioni Orbite */
         @keyframes orbitPlanet1 { from { transform: rotate(0deg) translateX(150px) rotate(0deg); } to { transform: rotate(360deg) translateX(150px) rotate(-360deg); } }
         @keyframes orbitPlanet2 { from { transform: rotate(360deg) translateX(-200px) rotate(0deg); } to { transform: rotate(0deg) translateX(-200px) rotate(-360deg); } }
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
@@ -433,7 +435,6 @@
     </div>
 
     <script>
-        // Gestione Finestra Modale Universo
         function openModal(title, description) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalBody').innerHTML = description;
@@ -458,7 +459,6 @@
             }
         }
 
-        // Animazioni Comparsa Scroll Reveal
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -471,7 +471,6 @@
             }
         }
 
-        // Gestione Header Scomparsa e Effetto Parallasse Griglia Base
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
 
@@ -479,10 +478,8 @@
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
             document.documentElement.style.setProperty('--scroll-pos', scrollTop);
-            
             revealElements();
 
-            // Header logica
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 header.classList.add('header-hidden');
             } else {
@@ -501,33 +498,37 @@
         });
 
         // ==========================================
-        // MOTORE ANIMAZIONE SCANNER AUTOMATICI (ORBS)
+        // MOTORE ANIMAZIONE 4 SCANNER LENTI
         // ==========================================
         function animateBackgroundOrbs() {
-            const time = Date.now() / 1000; // Tempo in secondi
+            const time = Date.now() / 1000; 
+            const speed = 0.15; // Velocità globale molto lenta
             
-            // Calcolo coordinate fluide usando funzioni matematiche (Lissajous curves)
-            // Orb 1 si muove in modo ellittico e ampio
-            const orb1X = 50 + 40 * Math.sin(time * 0.4); 
-            const orb1Y = 50 + 40 * Math.cos(time * 0.3);
+            const orb1X = 50 + 40 * Math.sin(time * 0.4 * speed); 
+            const orb1Y = 50 + 40 * Math.cos(time * 0.3 * speed);
             
-            // Orb 2 si muove in modo diverso, incrociando l'altro
-            const orb2X = 50 + 45 * Math.sin(time * 0.5 + Math.PI);
-            const orb2Y = 50 + 45 * Math.cos(time * 0.6 + Math.PI/4);
+            const orb2X = 50 + 45 * Math.sin(time * 0.5 * speed + Math.PI);
+            const orb2Y = 50 + 45 * Math.cos(time * 0.6 * speed + Math.PI/4);
 
-            // Applica le coordinate CSS
+            const orb3X = 50 + 35 * Math.sin(time * 0.3 * speed + Math.PI/2);
+            const orb3Y = 50 + 35 * Math.cos(time * 0.7 * speed + Math.PI/3);
+
+            const orb4X = 50 + 42 * Math.sin(time * 0.6 * speed + Math.PI*1.5);
+            const orb4Y = 50 + 42 * Math.cos(time * 0.4 * speed + Math.PI*1.2);
+
             document.documentElement.style.setProperty('--orb1-x', `${orb1X}%`);
             document.documentElement.style.setProperty('--orb1-y', `${orb1Y}%`);
             document.documentElement.style.setProperty('--orb2-x', `${orb2X}%`);
             document.documentElement.style.setProperty('--orb2-y', `${orb2Y}%`);
+            document.documentElement.style.setProperty('--orb3-x', `${orb3X}%`);
+            document.documentElement.style.setProperty('--orb3-y', `${orb3Y}%`);
+            document.documentElement.style.setProperty('--orb4-x', `${orb4X}%`);
+            document.documentElement.style.setProperty('--orb4-y', `${orb4Y}%`);
 
-            // Richiama l'animazione al prossimo frame per renderla infinita
             requestAnimationFrame(animateBackgroundOrbs);
         }
 
-        // Fai partire le sfere invisibili
         animateBackgroundOrbs();
-
     </script>
 </body>
 </html>
