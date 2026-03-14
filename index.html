@@ -124,7 +124,7 @@
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* SCORRIMENTO */
+        /* MODIFICHE DRAG E SCORRIMENTO */
         .slider-container {
             display: flex; gap: 35px; overflow-x: auto; padding-bottom: 20px; padding-top: 20px; padding-left: 10px;
             scroll-snap-type: x mandatory; 
@@ -134,7 +134,9 @@
         }
         .slider-container::-webkit-scrollbar { display: none; }
         .slider-container.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+        .slider-container.is-dragging .card { pointer-events: none; } 
 
+        /* TRATTINI CLICCABILI */
         .slider-pagination {
             display: flex; justify-content: center; gap: 12px; margin-top: 15px; margin-bottom: 40px; width: 100%; flex-wrap: wrap; padding: 0 20px;
         }
@@ -156,13 +158,7 @@
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--toxic-green); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; box-shadow: 0 0 10px var(--toxic-green); }
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
         .card:hover::before { transform: scaleX(1); }
-        
-        /* Modifica H3 per supportare titoli lunghi del CV */
-        .card h3 { 
-            font-size: 19px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.3; 
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        
+        .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
         .card:hover h3 { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
         .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; pointer-events: none;}
         .card-btn {
@@ -173,7 +169,7 @@
         .card:hover .card-btn { background: var(--toxic-green); color: var(--bg-color); box-shadow: 0 0 15px var(--toxic-green); border-color: var(--toxic-green); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO
+           2. UNIVERSO TOSSICO & MODALE FIXATA
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -191,6 +187,7 @@
         }
         .modal-overlay.active .cosmic-background { opacity: 1; }
         @keyframes breatheNebula { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); filter: hue-rotate(15deg); } }
+        
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -203,6 +200,7 @@
             animation: rotateStars 240s linear infinite;
         }
         @keyframes rotateStars { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
         .central-sun {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 50px; height: 50px; border-radius: 50%; background: #fff;
@@ -213,6 +211,7 @@
             0% { transform: translate(-50%, -50%) scale(0.9); box-shadow: 0 0 80px 40px rgba(57, 255, 20, 0.5), 0 0 150px 80px rgba(20, 100, 20, 0.3), 0 0 20px 5px #fff; } 
             100% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 120px 60px rgba(57, 255, 20, 0.8), 0 0 250px 120px rgba(20, 100, 20, 0.5), 0 0 30px 10px #fff; } 
         }
+
         .planet { position: absolute; border-radius: 50%; z-index: 2; }
         .planet-1 { width: 250px; height: 250px; top: 15%; left: 20%; background: radial-gradient(circle at 70% 70%, #4aff24, #0a4005 60%, #000 90%); box-shadow: 0 0 40px rgba(57, 255, 20, 0.2), inset -20px -20px 40px rgba(0,0,0,0.9); animation: orbitPlanet1 120s linear infinite; }
         .planet-2 { width: 90px; height: 90px; bottom: 20%; right: 25%; background: radial-gradient(circle at 30% 30%, #666, #222 70%, #000); box-shadow: inset -10px -10px 15px rgba(0,0,0,0.9), 0 0 15px rgba(57, 255, 20, 0.15); animation: orbitPlanet2 90s linear infinite; }
@@ -224,18 +223,26 @@
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
         @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
 
-        /* === MODAL CONTENT === */
+        /* === MODIFICHE: STRUTTURA MODALE FISSA CON SCROLL INTERNO === */
         .modal-content {
             background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 90%; max-width: 800px; max-height: 85vh; padding: 40px; border-radius: 20px; 
+            width: 90%; max-width: 800px; max-height: 85vh; padding: 40px 20px 40px 40px; border-radius: 20px; 
             border: 1px solid rgba(57, 255, 20, 0.4); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
             position: relative; z-index: 10; transform: scale(0.9); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            overflow-y: auto; 
+            display: flex; flex-direction: column; overflow: hidden; /* Fissa i bordi arrotondati */
         }
-        .modal-content::-webkit-scrollbar { width: 8px; }
-        .modal-content::-webkit-scrollbar-track { background: transparent; }
-        .modal-content::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 20px; }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
+
+        .modal-inner-scroll {
+            overflow-y: auto;
+            flex: 1; /* Prende tutto lo spazio interno disponibile */
+            padding-right: 20px; /* Distanzia il testo dalla scrollbar */
+        }
+
+        /* Scrollbar solo sull'area interna, non "buca" più i bordi arrotondati! */
+        .modal-inner-scroll::-webkit-scrollbar { width: 6px; }
+        .modal-inner-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; margin-block: 5px; }
+        .modal-inner-scroll::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 10px; }
 
         .modal-image {
             width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 25px;
@@ -243,12 +250,12 @@
         }
 
         .close-btn {
-            position: absolute; top: 15px; right: 25px; font-size: 35px; color: var(--text-main);
-            cursor: pointer; transition: all 0.3s; z-index: 20; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            position: absolute; top: 15px; right: 20px; font-size: 35px; color: var(--text-main);
+            cursor: pointer; transition: all 0.3s; z-index: 20; background: rgba(0,0,0,0.6); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1);
         }
-        .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border: 1px solid var(--toxic-green);}
+        .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); border-color: var(--toxic-green);}
         
-        .modal-title { color: var(--toxic-green); font-size: 26px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; padding-right: 40px;}
+        .modal-title { color: var(--toxic-green); font-size: 28px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; padding-right: 40px;}
         .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
         .modal-body strong { color: var(--toxic-green); font-weight: 600;}
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
@@ -295,8 +302,10 @@
             section { padding: 80px 20px 20px; } 
             h2.section-title { font-size: 28px; }
             .card { min-width: 280px; padding: 30px 20px; } 
-            .modal-content { padding: 30px 20px; width: 95%; max-height: 90vh;}
-            .modal-title { font-size: 22px; }
+            .modal-content { padding: 30px 10px 30px 20px; width: 95%; max-height: 90vh;}
+            .modal-inner-scroll { padding-right: 10px; }
+            .modal-title { font-size: 22px; padding-right: 35px; }
+            .close-btn { top: 10px; right: 10px; width: 35px; height: 35px; font-size: 28px; }
             .planet-1 { width: 120px; height: 120px; } .planet-2 { width: 60px; height: 60px; }
         }
     </style>
@@ -340,7 +349,7 @@
                  data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science (curriculum: Security Engineering) presso l&apos;Università Degli Studi Aldo Moro Di Bari.<br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>). Sono molto motivato a mettere in pratica le conoscenze apprese.<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF" 
                  data-img="" data-link="">
                 <h3>Laurea Magistrale In Computer Science Security Engineering</h3>
-                <p>Università Degli Studi Aldo Moro Di Bari</p>
+                <p>Università Degli Studi Aldo Moro Di Bari<br>01/09/2025 - Attuale</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
@@ -349,7 +358,7 @@
                  data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2022 - 17/07/2025)<br><br>Laurea Triennale in Informatica. Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software (dall&apos;analisi dei requisiti al testing), nella progettazione di Database e nella gestione delle reti. Abituato ad affrontare sfide logiche complesse e a collaborare allo sviluppo di progetti software.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello:</strong> 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web" 
                  data-img="" data-link="">
                 <h3>Laurea Triennale in Informatica</h3>
-                <p>Università Degli Studi Aldo Moro Di Bari</p>
+                <p>Università Degli Studi Aldo Moro Di Bari<br>01/09/2022 - 17/07/2025</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
@@ -358,7 +367,7 @@
                  data-desc="<strong>Liceo Scientifico Gaetano Salvemini</strong> (09/2017 - 08/07/2022)<br><br>Diploma di Maturità Scientifica. Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi e una forte attitudine all&apos;apprendimento continuo, bilanciando competenze tecnico-scientifiche e cultura generale.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello:</strong> 4 EQF" 
                  data-img="" data-link="">
                 <h3>Diploma di Maturità</h3>
-                <p>Liceo Scientifico Gaetano Salvemini</p>
+                <p>Liceo Scientifico Gaetano Salvemini<br>01/09/2017 - 08/07/2022</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
 
@@ -655,32 +664,31 @@
         </div>
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
-            <img id="modalImage" src="" alt="Immagine di Dettaglio" class="modal-image">
             
-            <h2 class="modal-title" id="modalTitle">Titolo</h2>
-            <div class="modal-body" id="modalBody">Testo descrittivo qui...</div>
-
-            <a id="modalLinkBtn" href="" target="_blank" class="modal-link-btn" style="display: none;"><i class="fa-brands fa-github"></i> Vedi su GitHub</a>
+            <div class="modal-inner-scroll">
+                <img id="modalImage" src="" alt="Immagine di Dettaglio" class="modal-image">
+                <h2 class="modal-title" id="modalTitle">Titolo</h2>
+                <div class="modal-body" id="modalBody">Testo descrittivo qui...</div>
+                <a id="modalLinkBtn" href="" target="_blank" class="modal-link-btn" style="display: none;"><i class="fa-brands fa-github"></i> Vedi su GitHub</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Logica click sicura per le card
+        let isDraggingCards = false;
+
         document.querySelectorAll('.card').forEach(card => {
             let startX, startY;
             
-            // Quando si preme il mouse, salviamo la posizione
             card.addEventListener('mousedown', function(e) {
                 startX = e.clientX;
                 startY = e.clientY;
             });
             
-            // Quando si rilascia il mouse, calcoliamo la differenza
             card.addEventListener('mouseup', function(e) {
                 let diffX = Math.abs(e.clientX - startX);
                 let diffY = Math.abs(e.clientY - startY);
                 
-                // Se il mouse si è mosso meno di 5 pixel, è un CLICK VERO, non uno scorrimento!
                 if (diffX < 5 && diffY < 5) {
                     const title = this.getAttribute('data-title');
                     const desc = this.getAttribute('data-desc');
@@ -719,6 +727,9 @@
             void modal.offsetWidth; 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; 
+            
+            // Riposiziona lo scroll del contenuto in alto quando si apre
+            document.querySelector('.modal-inner-scroll').scrollTop = 0;
         }
 
         function closeModal() {
@@ -732,17 +743,14 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        // Chiusura Modale tramite bottone X
         document.getElementById('closeModalBtn').addEventListener('click', closeModal);
 
-        // Chiusura Modale cliccando sullo sfondo cosmico
         document.getElementById('myModal').addEventListener('mousedown', function(e) {
             if (e.target === this || e.target.classList.contains('cosmic-background') || e.target.classList.contains('stars')) { 
                 closeModal(); 
             }
         });
 
-        // Effetto Reveal
         function revealElements() {
             const reveals = document.querySelectorAll(".reveal");
             for (let i = 0; i < reveals.length; i++) {
@@ -809,9 +817,6 @@
         }
         animateBackgroundOrbs();
 
-        // ----------------------------------------------------
-        // DRAG AND DROP SCROLL PER LE CARD + TRATTINI PAGINAZIONE
-        // ----------------------------------------------------
         const sliders = document.querySelectorAll('.slider-container');
 
         sliders.forEach(slider => {
@@ -872,7 +877,6 @@
                 slider.classList.remove('is-dragging');
             });
 
-            // Usare window invece del solo slider evita che il trascinamento si incastri se si esce dallo schermo
             window.addEventListener('mouseup', () => {
                 isDown = false;
                 slider.classList.remove('is-dragging');
