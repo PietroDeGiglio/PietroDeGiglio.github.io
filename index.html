@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pietro De Giglio</title>
+    <title>Pietro De Giglio | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,10 +16,8 @@
             --text-main: #ffffff;
             --text-muted: #888888;
             --scroll-pos: 0; 
-            /* Variabili per la luce del mouse */
             --mouse-x: -500px; 
             --mouse-y: -500px;
-            /* Variabili per i "fari" automatici (ora sono 4) */
             --orb1-x: 20%; --orb1-y: 20%;
             --orb2-x: 80%; --orb2-y: 80%;
             --orb3-x: 50%; --orb3-y: 20%;
@@ -55,7 +53,6 @@
             background-position-y: calc(var(--scroll-pos) * -0.5px);
             z-index: -2; pointer-events: none;
             
-            /* 5 Gradienti Radiali fusi insieme per svelare la griglia (Mouse + 4 Orbs) */
             -webkit-mask-image: 
                 radial-gradient(circle 100px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%),
                 radial-gradient(circle 150px at var(--orb1-x) var(--orb1-y), black 0%, transparent 100%),
@@ -148,7 +145,7 @@
         .slider-container::-webkit-scrollbar { display: none; }
 
         .card {
-            background: linear-gradient(145deg, #161616, #0a0a0a); min-width: 340px; max-width: 380px;
+            background: linear-gradient(145deg, #161616, #0a0a0a); min-width: 360px; max-width: 400px;
             border-radius: 25px; padding: 40px 30px; cursor: pointer; scroll-snap-align: center;
             border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative; overflow: hidden;
@@ -159,9 +156,9 @@
         .card:hover { transform: translateY(-15px); border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(57, 255, 20, 0.1) inset; }
         .card:hover::before { transform: scaleX(1); }
         
-        .card h3 { font-size: 24px; margin-bottom: 15px; color: var(--text-main); font-weight: 800; transition: color 0.3s; }
+        .card h3 { font-size: 24px; margin-bottom: 10px; color: var(--text-main); font-weight: 800; transition: color 0.3s; line-height: 1.2; }
         .card:hover h3 { color: var(--toxic-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
-        .card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+        .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-top: 10px; }
         
         .card-btn {
             margin-top: 25px; background: rgba(57, 255, 20, 0.05); color: var(--toxic-green);
@@ -260,23 +257,32 @@
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
         @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
 
-        /* Contenuto Modale */
+        /* Contenuto Modale (Scrollable per testi lunghi) */
         .modal-content {
-            background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 90%; max-width: 700px; padding: 50px; border-radius: 30px; 
-            border: 1px solid rgba(57, 255, 20, 0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
+            background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            width: 90%; max-width: 800px; max-height: 85vh; padding: 50px; border-radius: 30px; 
+            border: 1px solid rgba(57, 255, 20, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(57, 255, 20, 0.1) inset;
             position: relative; z-index: 10; transform: scale(0.9); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto; /* Permette lo scorrimento del testo lungo */
         }
         
+        /* Custom Scrollbar per la modale */
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: transparent; }
+        .modal-content::-webkit-scrollbar-thumb { background-color: var(--toxic-green); border-radius: 20px; }
+
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         .close-btn {
             position: absolute; top: 20px; right: 30px; font-size: 35px; color: var(--text-muted);
-            cursor: pointer; transition: all 0.3s;
+            cursor: pointer; transition: all 0.3s; z-index: 20;
         }
         .close-btn:hover { color: var(--toxic-green); text-shadow: 0 0 15px var(--toxic-green); transform: rotate(90deg); }
-        .modal-title { color: var(--toxic-green); font-size: 35px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .modal-body { color: var(--text-main); line-height: 1.8; font-size: 16px; font-weight: 300; }
+        .modal-title { color: var(--toxic-green); font-size: 32px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; padding-right: 30px;}
+        .modal-body { color: var(--text-main); line-height: 1.8; font-size: 15px; font-weight: 300; }
+        .modal-body strong { color: var(--toxic-green); font-weight: 600;}
+        .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
+        .modal-body li { margin-bottom: 5px; }
 
         /* === FOOTER === */
         footer {
@@ -308,7 +314,8 @@
             section { padding: 80px 20px 20px; } 
             h2.section-title { font-size: 30px; }
             .card { min-width: 280px; padding: 30px 20px; } 
-            .modal-content { padding: 30px 20px; }
+            .modal-content { padding: 30px 20px; width: 95%; max-height: 90vh;}
+            .modal-title { font-size: 24px; }
             .planet-1 { width: 150px; height: 150px; } .planet-2 { width: 80px; height: 80px; }
         }
     </style>
@@ -335,75 +342,122 @@
     <section id="home">
         <div class="hero-text reveal">
             <h1 class="hero-title">Ciao, sono Pietro<br><span>Sviluppatore.</span></h1>
-            <p class="hero-subtitle">Aiuto le aziende a costruire esperienze digitali uniche. Design moderno, codice pulito e tanta passione per l'innovazione.</p>
+            <p class="hero-subtitle">Specializzato in Cybersecurity, Ingegneria del Software sicuro e Intelligenza Artificiale. Risolvo problemi complessi con codice pulito e architetture resilienti.</p>
             <p class="hero-slogan">Dream Big Do Bigger</p>
         </div>
         <div class="hero-image-container reveal">
-            <img src="MiaFoto.jpg" alt="Il mio ritratto" class="profile-pic">
+            <img src="MiaFoto.jpg" alt="Pietro De Giglio" class="profile-pic">
         </div>
     </section>
 
     <section id="istruzione">
         <h2 class="section-title reveal">Istruzione</h2>
         <div class="slider-container reveal">
-            <div class="card" onclick="openModal('Laurea Magistrale', 'Dettagli sulla laurea, tesi, materie principali e votazione. <br><br><strong>Voto:</strong> 110/110 con Lode')">
+            
+            <div class="card" onclick="openModal('Laurea Magistrale in Computer Science Security Engineering', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science con focus su Security Engineering. <br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell\'analisi del rischio e nell\'applicazione dell\'Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>).<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF')">
+                <h3>Computer Science (Security Eng.)</h3>
+                <p>Laurea Magistrale • Università di Bari<br>09/2025 - Attuale</p>
+                <p style="margin-top: 10px;">Focus su Cybersecurity, AI for Security e architetture resilienti.</p>
+                <button class="card-btn">Esplora Dettagli</button>
+            </div>
+
+            <div class="card" onclick="openModal('Laurea Triennale in Informatica', '<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2022 - 07/2025)<br><br>Ho sviluppato un forte pensiero computazionale e un approccio analitico alla risoluzione dei problemi. Il percorso mi ha fornito competenze trasversali nel ciclo di vita del software (dall\'analisi dei requisiti al testing), nella progettazione di Database e nella gestione delle reti.<br><br>Abituato ad affrontare sfide logiche complesse e a collaborare allo sviluppo di progetti software.<br><br><strong>Voto finale:</strong> 97/100<br><strong>Livello:</strong> 6 EQF<br><strong>Tesi:</strong> Progettazione di form conversazionali per la compilazione assistita di form web.')">
                 <h3>Informatica</h3>
-                <p>Università degli Studi • 2019 - 2021<br><br>Laurea magistrale con lode. Specializzazione in intelligenza artificiale.</p>
+                <p>Laurea Triennale • Università di Bari<br>09/2022 - 07/2025</p>
+                <p style="margin-top: 10px;">Voto: 97/100. Tesi su interfacce conversazionali accessibili.</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
-            <div class="card" onclick="openModal('Laurea Triennale', 'Dettagli sulla triennale e i primi passi nel mondo accademico.')">
-                <h3>Ingegneria</h3>
-                <p>Politecnico • 2016 - 2019<br><br>Basi solide in programmazione e architetture di sistema.</p>
+
+            <div class="card" onclick="openModal('Diploma di Maturità Scientifica', '<strong>Liceo Scientifico Gaetano Salvemini</strong>, Bari (09/2017 - 07/2022)<br><br>Questo percorso formativo mi ha permesso di sviluppare un forte pensiero critico e ottime capacità di problem-solving. Ho acquisito un approccio analitico nella risoluzione di problemi complessi e una forte attitudine all\'apprendimento continuo, bilanciando competenze tecnico-scientifiche e cultura generale.<br><br><strong>Voto finale:</strong> 81/100<br><strong>Livello:</strong> 4 EQF')">
+                <h3>Liceo Scientifico</h3>
+                <p>Diploma di Maturità • Bari<br>09/2017 - 07/2022</p>
                 <button class="card-btn">Esplora Dettagli</button>
             </div>
+
         </div>
     </section>
 
     <section id="esperienza">
         <h2 class="section-title reveal">Esperienza</h2>
         <div class="slider-container reveal">
-            <div class="card" onclick="openModal('Senior Developer | Azienda Alpha', 'Descrizione super dettagliata del ruolo. Ho guidato un team di 5 persone e abbiamo refattorizzato l\'intero core aziendale aumentando le performance del 40% in 6 mesi.')">
-                <h3>Azienda Alpha</h3>
-                <p>Senior Developer • 2021 - Presente<br><br>Sviluppo software core e gestione e mentoring del team tecnico.</p>
+            
+            <div class="card" onclick="openModal('Formatore e Docente Innovativo (IA & Cybersecurity)', 'Ho condotto diversi progetti formativi per docenti e scuole:<br><br><ul><li><strong>Transizione Digitale (D.M. 66/2023):</strong> Laboratorio formativo di 12 ore per docenti sull\'applicazione pratica dell\'Intelligenza Artificiale nella Didattica (ITT Nervi Galilei).</li><li><strong>Progetto P.R.I.A.M.O:</strong> Ho progettato e condotto un minicorso sull\'educazione alla sicurezza informatica per docenti, traducendo concetti tecnici complessi in un linguaggio accessibile per contrastare il divario tecnologico.</li></ul>')">
+                <h3>Docente Formatore IA & Cyber</h3>
+                <p>Progetti Scolastici & PNRR • 2025</p>
+                <p style="margin-top: 10px;">Formazione docenti su applicazioni di Intelligenza Artificiale e Cybersecurity.</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
-            <div class="card" onclick="openModal('Junior Developer | Studio Beta', 'Prima vera esperienza full-stack. Ho imparato a gestire database relazionali e a creare API REST sicure.')">
-                <h3>Studio Beta</h3>
-                <p>Junior Developer • 2018 - 2021<br><br>Sviluppo interfacce utente reattive e architetture di backend.</p>
+
+            <div class="card" onclick="openModal('Responsabile Tecnologie Immersive (VR)', 'Ho guidato la sperimentazione di tecnologie VR in ambito educativo in due contesti principali:<br><br><ul><li><strong>The Neural Maze:</strong> (Liceo G. Bianchi Dottula, 02/2026) Integrazione di tecnologie immersive in ambito educativo.</li><li><strong>Sense of Blindness:</strong> (I.C. Don Lorenzo Milani, 06/2025) Ho fatto sperimentare in VR le sfide affrontate dalle persone non vedenti, valutando l\'efficacia dei serious games come strumenti di apprendimento ed empatia.</li></ul>')">
+                <h3>Responsabile VR in Edu</h3>
+                <p>Sperimentazioni Scolastiche • 2025/2026</p>
+                <p style="margin-top: 10px;">Integrazione e test pratici di Realtà Virtuale e Serious Games a scuola.</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
+
+            <div class="card" onclick="openModal('Responsabile Trasformazione e Marketing Digitale', 'Ho guidato la strategia digitale per diverse realtà:<br><br><ul><li><strong>Crira Viaggi:</strong> Setup iniziale asset aziendali (Google Business), ottimizzazione e piani editoriali social.</li><li><strong>Ermanno Dammacco Arredamenti:</strong> Ottimizzazione del sito web aziendale e profili su marketplace, upload prodotti e posizionamento commerciale.</li><li><strong>Dinamo Molfetta:</strong> Gestione strategica account social sportivi, grafica promozionale e copertura visiva eventi.</li></ul>')">
+                <h3>Digital Transformation Mgr</h3>
+                <p>Varie Aziende • 2024 - 2026</p>
+                <p style="margin-top: 10px;">Strategia web, e-commerce, posizionamento e piani editoriali.</p>
+                <button class="card-btn">Analizza Ruolo</button>
+            </div>
+
         </div>
     </section>
 
     <section id="progetti">
         <h2 class="section-title reveal">Progetti Principali</h2>
         <div class="slider-container reveal">
-            <div class="card" onclick="openModal('Sistema Operativo Cyber', 'Progettazione e sviluppo di una dashboard che aggrega dati in real-time tramite WebSocket. Architettura a microservizi.')">
-                <h3>App Cyber</h3>
-                <p>Applicazione web complessa per la gestione massiva dei dati in tempo reale.</p>
+
+            <div class="card" onclick="openModal('GreenCare Services (GCS)', '<strong>Web App Full-Stack & Oracle ORDBMS</strong><br><br>Sviluppato da zero, il sistema digitalizza il ciclo di vita operativo di un\'azienda di cura del verde: inventario, prenotazioni, preventivi e fatturazione.<br><br><strong>Stack:</strong> Oracle DB (PL/SQL), Java, JDBC, Apache Tomcat, HTML/CSS/JSP.<br><strong>Highlight Tecnico:</strong> Tuning prestazionale estremo. Analisi degli Execution Plans e creazione di indici B-Tree mirati che hanno abbattuto i costi di esecuzione delle query fino al 78%. Utilizzo avanzato di ereditarietà Object-Relational e Trigger complessi per la coerenza dei dati.')">
+                <h3>GreenCare Web App</h3>
+                <p>Java, Oracle DB, PL/SQL</p>
+                <p style="margin-top: 10px;">Gestionale aziendale full-stack con tuning prestazionale del Database.</p>
                 <button class="card-btn">Avvia Progetto</button>
             </div>
-            <div class="card" onclick="openModal('Piattaforma E-commerce Custom', 'Un sistema di vendita online non basato su CMS, scritto da zero per garantire massima sicurezza e velocità nei checkout.')">
-                <h3>Shop Veloce</h3>
-                <p>E-commerce headless performante con integrazione Stripe e gestione carrello custom.</p>
+
+            <div class="card" onclick="openModal('Regression Analysis & Large-Scale Predictive Modeling', '<strong>Data Science & Numerical Methods</strong><br><br>Sviluppo di un modello di regressione lineare su larga scala per prevedere la posizione assiale di sezioni TAC (53.500 campioni, 384 feature).<br><br>Il focus è stato sulla stabilità numerica. Ho confrontato Equazioni Normali, Fattorizzazione QR e SVD. Ho applicato la Principal Component Regression (PCR) per gestire la multicollinearità, riducendo le dimensioni a 73 componenti (20%) tramite criteri rigorosi (Energia Cumulativa, Regola di Kaiser, Entropia di Shannon) senza perdere potere predittivo.')">
+                <h3>Predictive Modeling</h3>
+                <p>Python (SciPy/LAPACK), SVD, PCR</p>
+                <p style="margin-top: 10px;">Risoluzione di sistemi sovradeterminati e analisi della stabilità numerica.</p>
                 <button class="card-btn">Avvia Progetto</button>
             </div>
+
+            <div class="card" onclick="openModal('Information Retrieval & Process Mining', '<strong>Due progetti accademici distinti:</strong><br><br><strong>1. Motore di Ricerca Text Mining:</strong> Costruzione di una Matrice Termini-Documenti con pipeline NLP. Ottimizzazione tramite Latent Semantic Indexing (LSI) applicando la SVD Troncata e Fattorizzazione QR Rank-Revealing.<br><br><strong>2. Process Mining (The Tenth):</strong> Analisi UX data-driven su log di eventi. Ricostruzione oggettiva dell\'interazione utente per individuare colli di bottiglia e prevedere l\'abbandono dell\'app tramite modelli di Machine Learning.')">
+                <h3>Info Retrieval & Process Mining</h3>
+                <p>NLP, SVD, Data Analytics</p>
+                <p style="margin-top: 10px;">Motori di ricerca basati su VSM e analisi comportamentale data-driven.</p>
+                <button class="card-btn">Avvia Progetto</button>
+            </div>
+
+             <div class="card" onclick="openModal('Sense Of Blindness - VR Experience', '<strong>Ricerca VR in Unity</strong><br><br>Progetto di ricerca e sviluppo in Realtà Virtuale (VR) nato per abbattere le barriere empatiche verso le persone non vedenti.<br><br>Oltre allo sviluppo tecnico dell\'ambiente immersivo, ho condotto sperimentazioni dirette. L\'impatto innovativo ha generato due paper scientifici internazionali (IEEE e Entertainment Computing).')">
+                <h3>Sense Of Blindness (VR)</h3>
+                <p>Unity 3D, Serious Games</p>
+                <p style="margin-top: 10px;">Simulazione immersiva per empatia visiva. Sviluppo e test clinico.</p>
+                <button class="card-btn">Avvia Progetto</button>
+            </div>
+
         </div>
     </section>
 
     <section id="pubblicazioni">
         <h2 class="section-title reveal">Paper & Ricerca</h2>
         <div class="slider-container reveal">
-            <div class="card" onclick="openModal('L\'impatto dell\'IA nel Coding', 'Abstract: In questo paper analizziamo come i LLM (Large Language Models) stiano modificando il workflow dei programmatori senior... [Testo Completo]')">
-                <h3>Ricerca su IA Generativa</h3>
-                <p>Pubblicazione ufficiale sulla rivista TechJournal. Analisi dei modelli generativi, 2023.</p>
+
+            <div class="card" onclick="openModal('Simulating Non-Visual VR Urban Navigation', '<strong>Titolo completo:</strong> Simulating Non-Visual VR Urban Navigation to Increase Awareness of Urban Accessibility Barriers<br><strong>Autori:</strong> Alessandro Pagano, Francesca Travisani, Pietro De Giglio, Veronica Rossano<br><strong>Status:</strong> Submitted (2026) a Entertainment Computing<br><br><strong>Abstract:</strong> Il paper presenta Sense of Blindness, un\'esperienza VR completamente non visiva che simula la navigazione urbana utilizzando solo audio spaziale e feedback aptico. Valutiamo il suo impatto su empatia, immersione, consapevolezza delle barriere architettoniche e valore educativo in uno studio utente su 48 partecipanti.')">
+                <h3>VR per l\'Accessibilità Urbana</h3>
+                <p>Paper Sottomesso • 2026</p>
+                <p style="margin-top: 10px;">Impatto della VR non visiva sulla consapevolezza delle barriere architettoniche.</p>
                 <button class="card-btn">Leggi Paper</button>
             </div>
-            <div class="card" onclick="openModal('Ottimizzazione dei Dati', 'Risultati della nostra ricerca sull\'utilizzo di alberi binari modificati per la ricerca istantanea in database non relazionali.')">
-                <h3>IEEE Data Conference</h3>
-                <p>Presentazione su algoritmi di ottimizzazione complessi per database. IEEE, 2022.</p>
+
+            <div class="card" onclick="openModal('Sense of Blindness: A Fully Non-Visual VR Experience', '<strong>Titolo completo:</strong> Sense of Blindness: A Fully Non-Visual VR Experience to Foster Empathy Toward Urban Blindness<br><strong>Conferenza:</strong> 2025 International Conference on Innovation and Intelligence for Informatics Computing Technologies (IEEE Bahrain Section)<br><strong>Autori:</strong> Lorenzo Appice, Pietro De Giglio, Alessandro Pagano, Veronica Rossano, Francesca Travisani<br><br><strong>Abstract:</strong> Presentazione del serious game VR Sense of Blindness. Un test su 24 partecipanti vedenti tramite questionario Gamex indica un aumento significativo dell\'empatia e della consapevolezza, dimostrando il potenziale dei modelli di interazione sensory-only per promuovere l\'inclusione.')">
+                <h3>Sense of Blindness (IEEE)</h3>
+                <p>Conferenza Internazionale IEEE • 2025</p>
+                <p style="margin-top: 10px;">HCI e design di esperienze VR focalizzate sull\'empatia e l\'inclusione.</p>
                 <button class="card-btn">Leggi Paper</button>
             </div>
+
         </div>
     </section>
 
@@ -411,10 +465,10 @@
         <h2>Iniziamo un Progetto.</h2>
         <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 18px;">Disponibile per consulenze e collaborazioni tecniche.</p>
         <div class="social-links">
-            <a href="mailto:degigliopietro2003@gmail.com"><i class="fa-solid fa-envelope"></i> Contattami</a>
-            <a href="https://www.linkedin.com/in/pietro-de-giglio-74633a27a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            <a href="mailto:p.degiglio5@studenti.uniba.it"><i class="fa-solid fa-envelope"></i> Contattami</a>
+            <a href="https://www.linkedin.com/in/pietro-de-giglio-74633a27a" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
             <a href="https://github.com/PietroDeGiglio" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="https://www.instagram.com/2204piter?igsh=MWthd3hteDFoNjVndg==" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="https://www.instagram.com/2204piter" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
         </div>
     </footer>
 
@@ -436,7 +490,7 @@
 
     <script>
         function openModal(title, description) {
-            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTitle').innerHTML = title;
             document.getElementById('modalBody').innerHTML = description;
             let modal = document.getElementById('myModal');
             modal.style.display = 'flex';
@@ -491,18 +545,14 @@
         revealElements(); 
         document.documentElement.style.setProperty('--scroll-pos', window.pageYOffset || document.documentElement.scrollTop);
         
-        // Logica MOUSE
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        // ==========================================
-        // MOTORE ANIMAZIONE 4 SCANNER LENTI
-        // ==========================================
         function animateBackgroundOrbs() {
             const time = Date.now() / 1000; 
-            const speed = 0.15; // Velocità globale molto lenta
+            const speed = 0.15; 
             
             const orb1X = 50 + 40 * Math.sin(time * 0.4 * speed); 
             const orb1Y = 50 + 40 * Math.cos(time * 0.3 * speed);
@@ -527,7 +577,6 @@
 
             requestAnimationFrame(animateBackgroundOrbs);
         }
-
         animateBackgroundOrbs();
     </script>
 </body>
