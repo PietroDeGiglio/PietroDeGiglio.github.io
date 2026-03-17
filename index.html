@@ -335,7 +335,7 @@
         .social-links a:hover { background: var(--theme-color); color: var(--bg-color); border-color: var(--theme-color); box-shadow: 0 10px 20px rgba(var(--theme-rgb), 0.3); transform: translateY(-5px); }
         .social-links a:hover i { color: var(--bg-color); }
 
-        /* EASTER EGG TOGGLE UI (RIMOSSO REVEAL) */
+        /* EASTER EGG TOGGLE UI (RIMOSSO REVEAL) E AGGIUNTO COLORE DINAMICO */
         .easter-egg-toggle {
             display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 60px;
             padding-top: 30px; border-top: 1px dashed rgba(255,255,255,0.1);
@@ -347,10 +347,25 @@
         
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border: 1px solid rgba(255,255,255,0.2); border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: #fff; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: rgba(var(--theme-rgb), 0.2); border-color: var(--theme-color); }
-        input:checked + .slider:before { transform: translateX(24px); background-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-color); }
+        
+        /* IL FIX PER RENDERE LO SWITCH VERDE DI BASE E ROSSO IN DEVIL MODE */
+        .slider { 
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: rgba(var(--theme-rgb), 0.2); 
+            transition: all 0.4s; 
+            border: 1px solid var(--theme-color); 
+            border-radius: 34px; 
+        }
+        .slider:before { 
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; 
+            background-color: var(--theme-color); 
+            box-shadow: 0 0 10px var(--theme-color); 
+            transition: all 0.4s; 
+            border-radius: 50%; 
+        }
+        input:checked + .slider:before { 
+            transform: translateX(24px); 
+        }
 
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
