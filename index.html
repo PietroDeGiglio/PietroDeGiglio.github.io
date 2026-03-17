@@ -212,7 +212,7 @@
         .card:hover .card-btn { background: var(--theme-color); color: var(--bg-color); box-shadow: 0 0 15px var(--theme-color); border-color: var(--theme-color); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO E MODALE
+           2. UNIVERSO TOSSICO & MODALE FIXATA
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -267,7 +267,7 @@
         @keyframes orbitPlanet3 { from { transform: rotate(180deg) translateX(250px) rotate(-180deg); } to { transform: rotate(540deg) translateX(250px) rotate(-540deg); } }
         @keyframes orbitPlanet4 { from { transform: rotate(90deg) translateX(-300px) rotate(-90deg); } to { transform: rotate(450deg) translateX(-300px) rotate(-450deg); } }
 
-        /* === STRUTTURA MODALE === */
+        /* === STRUTTURA MODALE FISSA CON SCROLL INTERNO === */
         .modal-content {
             background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             width: 90%; max-width: 800px; max-height: 85vh; 
@@ -306,6 +306,7 @@
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
         .modal-body li { margin-bottom: 5px; }
 
+        /* TASTO GITHUB NELLA MODALE */
         .modal-link-btn {
             display: inline-block; margin-top: 25px; padding: 12px 25px;
             background: var(--theme-color); color: var(--bg-color);
@@ -334,7 +335,7 @@
         .social-links a:hover { background: var(--theme-color); color: var(--bg-color); border-color: var(--theme-color); box-shadow: 0 10px 20px rgba(var(--theme-rgb), 0.3); transform: translateY(-5px); }
         .social-links a:hover i { color: var(--bg-color); }
 
-        /* EASTER EGG TOGGLE UI */
+        /* EASTER EGG TOGGLE UI (RIMOSSO REVEAL) */
         .easter-egg-toggle {
             display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 60px;
             padding-top: 30px; border-top: 1px dashed rgba(255,255,255,0.1);
@@ -717,7 +718,7 @@
             <a href="https://www.instagram.com/2204piter" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
         </div>
         
-        <div class="easter-egg-toggle reveal">
+        <div class="easter-egg-toggle">
             <span class="mode-label peace active"><i class="fa-solid fa-leaf"></i> Peace Mode</span>
             <label class="switch">
                 <input type="checkbox" id="devilModeToggle">
