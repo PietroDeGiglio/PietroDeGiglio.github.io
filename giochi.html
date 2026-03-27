@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Giochi | Coming Soon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --toxic-green: #39ff14;
+            --bg-color: #030303;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--toxic-green);
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        /* Container del gioco */
+        .arcade-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* L'Alieno disegnato con i box-shadow (Pixel Art in CSS) */
+        .alien {
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            box-shadow: 
+                30px 0 0 var(--toxic-green), 80px 0 0 var(--toxic-green),
+                40px 10px 0 var(--toxic-green), 70px 10px 0 var(--toxic-green),
+                30px 20px 0 var(--toxic-green), 40px 20px 0 var(--toxic-green), 50px 20px 0 var(--toxic-green), 60px 20px 0 var(--toxic-green), 70px 20px 0 var(--toxic-green), 80px 20px 0 var(--toxic-green),
+                20px 30px 0 var(--toxic-green), 30px 30px 0 var(--toxic-green), 50px 30px 0 var(--toxic-green), 60px 30px 0 var(--toxic-green), 80px 30px 0 var(--toxic-green), 90px 30px 0 var(--toxic-green),
+                10px 40px 0 var(--toxic-green), 20px 40px 0 var(--toxic-green), 30px 40px 0 var(--toxic-green), 40px 40px 0 var(--toxic-green), 50px 40px 0 var(--toxic-green), 60px 40px 0 var(--toxic-green), 70px 40px 0 var(--toxic-green), 80px 40px 0 var(--toxic-green), 90px 40px 0 var(--toxic-green), 100px 40px 0 var(--toxic-green),
+                10px 50px 0 var(--toxic-green), 30px 50px 0 var(--toxic-green), 80px 50px 0 var(--toxic-green), 100px 50px 0 var(--toxic-green),
+                40px 60px 0 var(--toxic-green), 70px 60px 0 var(--toxic-green);
+            transform: translateX(-50px);
+            animation: moveAlien 4s infinite alternate steps(10);
+        }
+
+        @keyframes moveAlien {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(50px); }
+        }
+
+        /* Il Laser */
+        .laser {
+            position: absolute;
+            top: 70px;
+            width: 4px;
+            height: 20px;
+            background-color: var(--toxic-green);
+            box-shadow: 0 0 10px var(--toxic-green);
+            animation: shootLaser 1.5s infinite linear;
+        }
+
+        @keyframes shootLaser {
+            0% { top: 70px; opacity: 1; }
+            80% { top: 250px; opacity: 1; }
+            100% { top: 260px; opacity: 0; }
+        }
+
+        .message {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-top: 20px;
+            text-shadow: 0 0 15px var(--toxic-green);
+            animation: blink 1s infinite alternate;
+            padding: 0 20px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .back-btn {
+            margin-top: 50px;
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--bg-color);
+            background-color: var(--toxic-green);
+            border: 2px solid var(--toxic-green);
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .back-btn:hover {
+            background-color: var(--bg-color);
+            color: var(--toxic-green);
+            box-shadow: 0 0 30px var(--toxic-green);
+        }
+
+        @media (max-width: 768px) {
+            .message { font-size: 14px; }
+            .alien { transform: scale(0.6) translateX(-50px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="arcade-container">
+        <div class="alien"></div>
+        <div class="laser"></div>
+    </div>
+
+    <div class="message">
+        QUI STA PER SUCCEDERE<br><br>QUALCOSA DI FANTASTICO...
+    </div>
+
+    <a href="index.html" class="back-btn">TORNA ALLA BASE</a>
+
+</body>
+</html>
