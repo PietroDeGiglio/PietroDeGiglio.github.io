@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il mio Blog | Terminale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --toxic-green: #39ff14;
+            --bg-color: #030303;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--toxic-green);
+            font-family: 'Courier Prime', monospace;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        #terminal {
+            font-size: 16px;
+            line-height: 1.5;
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 50px;
+        }
+
+        .log-line {
+            margin: 2px 0;
+            opacity: 0;
+            animation: fadeIn 0.1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* IL POPUP STILE ALERT */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+        }
+
+        .custom-alert-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .custom-alert-box {
+            background: #111;
+            border: 2px solid var(--toxic-green);
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3), inset 0 0 20px rgba(57, 255, 20, 0.1);
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .custom-alert-overlay.active .custom-alert-box {
+            transform: scale(1);
+        }
+
+        .alert-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px var(--toxic-green); }
+            to { text-shadow: 0 0 30px var(--toxic-green); }
+        }
+
+        .alert-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .alert-text {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .alert-btn {
+            padding: 12px 25px;
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            color: #000;
+            background-color: var(--toxic-green);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .alert-btn:hover {
+            box-shadow: 0 0 20px var(--toxic-green);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="terminal"></div>
+
+    <div class="custom-alert-overlay" id="alertOverlay">
+        <div class="custom-alert-box">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-title">SISTEMA INTERROTTO</div>
+            <div class="alert-text">QUI STA PER SUCCEDERE QUALCOSA DI FANTASTICO...<br>I server stanno compilando i nuovi articoli. Torna presto.</div>
+            <a href="index.html" class="alert-btn">Chiudi Terminale</a>
+        </div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const overlay = document.getElementById('alertOverlay');
+        
+        // Finti log da hacker per il terminale
+        const logs = [
+            "Connessione al server stabilita...",
+            "Inizializzazione del kernel neurale [OK]",
+            "Caricamento moduli crittografici [OK]",
+            "Estrazione dati da /root/blog/drafts...",
+            "Avviso: Rilevata anomalia spazio-temporale nel cluster 4.",
+            "Bypass del firewall in corso...",
+            "Bypass completato. Accesso ai record di sistema...",
+            "Compilazione dei pensieri in corso...",
+            "Risoluzione delle dipendenze [=====>      ] 50%",
+            "Risoluzione delle dipendenze [==========> ] 80%",
+            "Risoluzione delle dipendenze [=========== ] 99%",
+            "ERRORE: Sovraccarico di creatività rilevato.",
+            "Sospensione di emergenza dei processi..."
+        ];
+
+        let i = 0;
+        
+        // Funzione per scrivere sul terminale
+        function writeLog() {
+            if (i < logs.length) {
+                const p = document.createElement('p');
+                p.className = 'log-line';
+                // Genera un finto timestamp
+                const date = new Date();
+                const timeStr = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}]`;
+                p.innerText = `${timeStr} root@pietro:~$ ${logs[i]}`;
+                terminal.appendChild(p);
+                
+                // Mantiene il terminale scrollato in basso
+                window.scrollTo(0, document.body.scrollHeight);
+                
+                i++;
+                // Velocità random tra le scritte (da 100 a 400 millisecondi)
+                setTimeout(writeLog, Math.random() * 300 + 100);
+            } else {
+                // Finiti i log, aspetta 1 secondo e lancia il popup
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 1000);
+            }
+        }
+
+        // Fai partire l'animazione dopo mezzo secondo
+        setTimeout(writeLog, 500);
+    </script>
+</body>
+</html>
