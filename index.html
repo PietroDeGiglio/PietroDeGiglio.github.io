@@ -164,7 +164,7 @@
         
         /* FOTO DEVIL MODE */
         body.devil-mode .profile-pic { 
-            background-image: url('MiaFotoDevil.png'); 
+            background-image: url('MiaFotoDevil.jpg'); /* FOTO DEVIL MODE (ATTENZIONE AL NOME FILE!) */
         }
         /* Effetto hover in Devil Mode (meno rotazione, manteniamo l'enfasi sulla nuova foto) */
         body.devil-mode .profile-pic:hover { transform: scale(1.08) rotate(-2deg); }
@@ -221,7 +221,7 @@
         .card:hover .card-btn { background: var(--theme-color); color: var(--bg-color); box-shadow: 0 0 15px var(--theme-color); border-color: var(--theme-color); }
 
         /* ==========================================================
-           2. UNIVERSO TOSSICO & MODALE FIXATA
+           2. UNIVERSO TOSSICO E MODALE
            ========================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -315,7 +315,6 @@
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
         .modal-body li { margin-bottom: 5px; }
 
-        /* TASTO GITHUB NELLA MODALE */
         .modal-link-btn {
             display: inline-block; margin-top: 25px; padding: 12px 25px;
             background: var(--theme-color); color: var(--bg-color);
@@ -326,7 +325,7 @@
         .modal-link-btn i { margin-right: 8px; font-size: 18px; }
         .modal-link-btn:hover { box-shadow: 0 0 25px var(--theme-color); transform: translateY(-3px); }
 
-        /* === FOOTER === */
+        /* === FOOTER E EASTER EGG === */
         footer {
             background: var(--card-bg); padding: 80px 20px 40px; text-align: center;
             border-top: 1px solid rgba(var(--theme-rgb), 0.1); margin-top: 80px; position: relative; overflow: hidden;
@@ -344,7 +343,6 @@
         .social-links a:hover { background: var(--theme-color); color: var(--bg-color); border-color: var(--theme-color); box-shadow: 0 10px 20px rgba(var(--theme-rgb), 0.3); transform: translateY(-5px); }
         .social-links a:hover i { color: var(--bg-color); }
 
-        /* EASTER EGG TOGGLE UI (RIMOSSO REVEAL) E AGGIUNTO COLORE DINAMICO */
         .easter-egg-toggle {
             display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 60px;
             padding-top: 30px; border-top: 1px dashed rgba(255,255,255,0.1);
@@ -356,25 +354,16 @@
         
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        
-        /* IL FIX PER RENDERE LO SWITCH VERDE DI BASE E ROSSO IN DEVIL MODE */
         .slider { 
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
             background-color: rgba(var(--theme-rgb), 0.2); 
-            transition: all 0.4s; 
-            border: 1px solid var(--theme-color); 
-            border-radius: 34px; 
+            transition: all 0.4s; border: 1px solid var(--theme-color); border-radius: 34px; 
         }
         .slider:before { 
             position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; 
-            background-color: var(--theme-color); 
-            box-shadow: 0 0 10px var(--theme-color); 
-            transition: all 0.4s; 
-            border-radius: 50%; 
+            background-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-color); transition: all 0.4s; border-radius: 50%; 
         }
-        input:checked + .slider:before { 
-            transform: translateX(24px); 
-        }
+        input:checked + .slider:before { transform: translateX(24px); }
 
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
@@ -382,9 +371,7 @@
             nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
             #home { flex-direction: column-reverse; text-align: center; padding-top: 180px; gap: 40px; }
             .hero-title { font-size: 40px; } 
-            
             .hero-title span { font-size: 26px; }
-
             .hero-subtitle { font-size: 16px; margin: 20px auto 0; }
             .hero-slogan { font-size: 14px; margin-top: 20px; }
             .profile-pic { width: 220px; height: 220px; } 
@@ -414,6 +401,7 @@
                 <li><a href="#esperienza">Esperienza</a></li>
                 <li><a href="#progetti">Progetti</a></li>
                 <li><a href="#pubblicazioni">Pubblicazioni</a></li>
+                <li><a href="#extra">Blog & Giochi</a></li>
                 <li><a href="#contatti">Contatti</a></li>
             </ul>
         </nav>
@@ -707,6 +695,25 @@
         </div>
     </section>
 
+    <section id="extra">
+        <h2 class="section-title reveal">Blog & Giochi</h2>
+        <div class="slider-container reveal" style="display: flex; gap: 35px; flex-wrap: wrap; justify-content: center;">
+            
+            <div class="card" data-external="INSERISCI_QUI_IL_LINK_AL_TUO_BLOG">
+                <h3><i class="fa-solid fa-pen-nib" style="color: var(--theme-color); margin-right: 10px;"></i> Il mio Blog</h3>
+                <p>Articoli, riflessioni, tutorial e pensieri sul mondo della programmazione, Cybersecurity e Intelligenza Artificiale.</p>
+                <button class="card-btn">Leggi gli Articoli</button>
+            </div>
+
+            <div class="card" data-external="INSERISCI_QUI_IL_LINK_AI_TUOI_GIOCHI">
+                <h3><i class="fa-solid fa-gamepad" style="color: var(--theme-color); margin-right: 10px;"></i> Area Giochi</h3>
+                <p>Mettiti alla prova! Una raccolta di progetti videoludici interattivi sviluppati da me, giocabili direttamente online.</p>
+                <button class="card-btn">Gioca Ora</button>
+            </div>
+
+        </div>
+    </section>
+
     <section id="pubblicazioni">
         <h2 class="section-title reveal">Pubblicazioni</h2>
         <div class="slider-container reveal">
@@ -788,8 +795,16 @@
                 let diffX = Math.abs(e.clientX - startX);
                 let diffY = Math.abs(e.clientY - startY);
                 
-                // Apre la modale solo se il click è stato fermo (meno di 5px di spostamento)
                 if (diffX < 5 && diffY < 5) {
+                    
+                    // CONTROLLO LINK ESTERNO (Blog/Giochi)
+                    const externalLink = this.getAttribute('data-external');
+                    if (externalLink) {
+                        window.open(externalLink, '_blank');
+                        return; // Ferma il codice qui, non apre la modale
+                    }
+
+                    // Se non è un link esterno, apri la modale normalmente
                     const title = this.getAttribute('data-title');
                     const desc = this.getAttribute('data-desc');
                     const img = this.getAttribute('data-img');
