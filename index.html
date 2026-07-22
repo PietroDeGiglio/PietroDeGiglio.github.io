@@ -164,8 +164,9 @@
         
         /* FOTO DEVIL MODE */
         body.devil-mode .profile-pic { 
-            background-image: url('MiaFotoDevil.jpg'); /* FOTO DEVIL MODE */
+            background-image: url('MiaFotoDevil.jpg'); /* FOTO DEVIL MODE (ATTENZIONE AL NOME FILE!) */
         }
+        /* Effetto hover in Devil Mode (meno rotazione, manteniamo l'enfasi sulla nuova foto) */
         body.devil-mode .profile-pic:hover { transform: scale(1.08) rotate(-2deg); }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
@@ -324,7 +325,7 @@
         .modal-link-btn i { margin-right: 8px; font-size: 18px; }
         .modal-link-btn:hover { box-shadow: 0 0 25px var(--theme-color); transform: translateY(-3px); }
 
-        /* === FOOTER E EASTER EGG === */
+        /* === FOOTER === */
         footer {
             background: var(--card-bg); padding: 80px 20px 40px; text-align: center;
             border-top: 1px solid rgba(var(--theme-rgb), 0.1); margin-top: 80px; position: relative; overflow: hidden;
@@ -424,7 +425,7 @@
             
             <div class="card" 
                  data-title="Laurea Magistrale In Computer Science Security Engineering" 
-                 data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science (curriculum: Security Engineering) presso l&apos;Università Degli Studi Aldo Moro Di Bari.<br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>). Sono molto motivato a mettere in pratica le conoscenze apprese.<br><br><strong>Media attuale:</strong> 28.85/30<br><strong>Livello:</strong> 7 EQF" 
+                 data-desc="<strong>Università Degli Studi Aldo Moro Di Bari</strong> (09/2025 - Attuale)<br><br>Attualmente iscritto al corso di Laurea Magistrale internazionale in Computer Science (curriculum: Security Engineering) presso l&apos;Università Degli Studi Aldo Moro Di Bari.<br><br>Sto approfondendo le moderne sfide della <strong>Cybersecurity</strong> e dello sviluppo software sicuro. Attraverso questo percorso, sto acquisendo solide competenze nella progettazione di architetture resilienti, nell&apos;analisi del rischio e nell&apos;applicazione dell&apos;Intelligenza Artificiale alla sicurezza (<strong>AI for Security</strong>). Sono molto motivato a mettere in pratica le conoscenze apprese.<br><br><strong>Media attuale:</strong> 27.7/30<br><strong>Livello:</strong> 7 EQF" 
                  data-img="" data-link="">
                 <h3>Laurea Magistrale In Computer Science Security Engineering</h3>
                 <p>Università Degli Studi Aldo Moro Di Bari<br>01/09/2025 - Attuale</p>
@@ -572,14 +573,25 @@
         <h2 class="section-title reveal">Progetti</h2>
         <div class="slider-container reveal">
 
-            <!-- NUOVO PROGETTO: SECURE SOFTWARE ENGINEERING -->
+            <!-- NUOVO PROGETTO: USABLE PRIVACY AND SECURITY -->
+            <div class="card" 
+                 data-title="Usable Privacy and Security: Holistic Redesign of a Webmail Client" 
+                 data-desc="<strong>Corso di Usable Privacy and Security</strong> (09/06/2026 - 15/06/2026)<br><br>Il progetto descrive il redesign olistico e la validazione empirica di un client webmail simulato[cite: 2]. L&apos;obiettivo è mitigare vulnerabilità socio-tecniche critiche come la suscettibilità al phishing, l&apos;assuefazione agli avvisi di sicurezza e la password fatigue[cite: 2].<br><br><strong>Fasi principali del progetto:</strong><br><ul><li><strong>Approccio Human-Centered:</strong> Basandosi sul framework MORPHEUS, è stato implementato un set di mitigazioni architetturali che includono meccanismi di forced-scroll, contestualizzazione visiva (Trust Badges) e frizione cognitiva intenzionale[cite: 2].</li><li><strong>A/B Testing:</strong> L&apos;efficacia delle soluzioni è stata validata tramite un esperimento A/B controllato (within-subjects) su un campione di 10 partecipanti non esperti[cite: 2].</li><li><strong>Analisi delle Metriche:</strong> Sono stati valutati il Failure Rate, il Task Completion Time (TCT) e il carico cognitivo misurato tramite l&apos;indice NASA-TLX[cite: 2].</li><li><strong>Risultati:</strong> Il design mitigato (Condizione B) ha ridotto significativamente il Failure Rate (con riduzioni di picco del 70% negli scenari di phishing) rispetto al design originale (Condizione A)[cite: 2]. Questo è avvenuto con un aumento del TCT leggero e statisticamente non significativo, e una notevole riduzione della frustrazione dell&apos;utente, validando un eccellente punteggio SUS (>86)[cite: 2].</li></ul>" 
+                 data-img="" 
+                 data-link="https://github.com/PietroDeGiglio/Usable-Privacy-Security">
+                <h3>Usable Privacy and Security: Holistic Redesign of a Webmail Client</h3>
+                <p>09/06/2026 - 15/06/2026</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
+
+            <!-- PROGETTO: SECURE SOFTWARE ENGINEERING -->
             <div class="card" 
                  data-title="Secure Software Engineering: Hospital Management System" 
-                 data-desc="<strong>Corso di Secure Software Engineering</strong> (09/06/2026 - 14/06/2026)<br><br>Progetto accademico focalizzato sull&apos;analisi di sicurezza e il re-engineering di un&apos;applicazione web (Hospital Management System) in PHP e MySQL. L&apos;attività è stata condotta in team (DeGaGi).<br><br><strong>Fasi principali del progetto:</strong><br><ul><li><strong>Red Teaming & Reconnaissance:</strong> Mappatura della superficie di attacco (tramite OSINT, Nmap, Gobuster, SQLMap) e analisi manuale.</li><li><strong>Vulnerability Analysis:</strong> Identificazione di falle critiche (SQLi, XSS, CSRF, Info Leakage) utilizzando tecniche SAST (Fortify SCA) e DAST (OWASP ZAP).</li><li><strong>Security Fix:</strong> Mitigazione tecnica tramite l&apos;implementazione di Prepared Statements, Output Encoding e token Anti-CSRF, oltre alla gestione e classificazione dei Falsi Positivi.</li><li><strong>Privacy by Design (POSD):</strong> Riprogettazione dell&apos;architettura applicando rigorosamente i pattern Minimize, Hide, Separate, Inform & Enforce, e Control per la compliance al GDPR.</li></ul>" 
+                 data-desc="<strong>Corso di Secure Software Engineering</strong> (A.A. 2025-2026)[cite: 1]<br><br>Progetto accademico focalizzato sull&apos;analisi di sicurezza e il re-engineering di un&apos;applicazione web (Hospital Management System) in PHP e MySQL[cite: 1]. L&apos;attività è stata condotta in team (DeGaGi)[cite: 1].<br><br><strong>Fasi principali del progetto:</strong><br><ul><li><strong>Red Teaming & Reconnaissance:</strong> Mappatura della superficie di attacco (tramite OSINT, Nmap, Gobuster, SQLMap) e analisi manuale[cite: 1].</li><li><strong>Vulnerability Analysis:</strong> Identificazione di falle critiche (SQLi, XSS, CSRF, Info Leakage) utilizzando tecniche SAST (Fortify SCA) e DAST (OWASP ZAP)[cite: 1].</li><li><strong>Security Fix:</strong> Mitigazione tecnica tramite l&apos;implementazione di Prepared Statements, Output Encoding e token Anti-CSRF, oltre alla gestione e classificazione dei Falsi Positivi[cite: 1].</li><li><strong>Privacy by Design (POSD):</strong> Riprogettazione dell&apos;architettura applicando rigorosamente i pattern Minimize, Hide, Separate, Inform & Enforce, e Control per la compliance al GDPR[cite: 1].</li></ul>" 
                  data-img="" 
                  data-link="https://github.com/PietroDeGiglio/Secure-Software-Engineering">
                 <h3>Secure Software Engineering: Hospital Management System</h3>
-                <p>09/06/2026 - 14/06/2026</p>
+                <p>A.A. 2025-2026</p>
                 <button class="card-btn">Vedi Progetto</button>
             </div>
 
