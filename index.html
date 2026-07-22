@@ -164,9 +164,8 @@
         
         /* FOTO DEVIL MODE */
         body.devil-mode .profile-pic { 
-            background-image: url('MiaFotoDevil.jpg'); /* FOTO DEVIL MODE (ATTENZIONE AL NOME FILE!) */
+            background-image: url('MiaFotoDevil.jpg'); /* FOTO DEVIL MODE */
         }
-        /* Effetto hover in Devil Mode (meno rotazione, manteniamo l'enfasi sulla nuova foto) */
         body.devil-mode .profile-pic:hover { transform: scale(1.08) rotate(-2deg); }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); }
@@ -315,7 +314,6 @@
         .modal-body ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
         .modal-body li { margin-bottom: 5px; }
 
-        /* TASTO GITHUB NELLA MODALE */
         .modal-link-btn {
             display: inline-block; margin-top: 25px; padding: 12px 25px;
             background: var(--theme-color); color: var(--bg-color);
@@ -326,7 +324,7 @@
         .modal-link-btn i { margin-right: 8px; font-size: 18px; }
         .modal-link-btn:hover { box-shadow: 0 0 25px var(--theme-color); transform: translateY(-3px); }
 
-        /* === FOOTER === */
+        /* === FOOTER E EASTER EGG === */
         footer {
             background: var(--card-bg); padding: 80px 20px 40px; text-align: center;
             border-top: 1px solid rgba(var(--theme-rgb), 0.1); margin-top: 80px; position: relative; overflow: hidden;
@@ -344,7 +342,6 @@
         .social-links a:hover { background: var(--theme-color); color: var(--bg-color); border-color: var(--theme-color); box-shadow: 0 10px 20px rgba(var(--theme-rgb), 0.3); transform: translateY(-5px); }
         .social-links a:hover i { color: var(--bg-color); }
 
-        /* EASTER EGG TOGGLE UI */
         .easter-egg-toggle {
             display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 60px;
             padding-top: 30px; border-top: 1px dashed rgba(255,255,255,0.1);
@@ -461,11 +458,11 @@
         <div class="slider-container reveal">
             
             <div class="card" 
-                 data-title="Borsista di Ricerca" 
-                 data-desc="<strong>TELL Lab, UniBa &amp; Queen Mary University of London</strong> (02/05/2026 - 02/11/2026)<br><br>Progetto di ricerca esplorativa: <em>&quot;Unlocking new opportunities: rethinking higher education provisioning through lifelong learning programmes and initiatives in the era of AI&quot;</em>.<br><br>Studio di come l&apos;Intelligenza Artificiale stia trasformando i modelli di Lifelong Learning, con l&apos;obiettivo di ridefinire e innovare l&apos;offerta formativa accademica per renderla sempre più avanzata, personalizzata e accessibile. Un percorso all&apos;incrocio tra innovazione tecnologica, ricerca accademica e istruzione internazionale." 
+                 data-title="Borsista di Ricerca / Ricercatore a contratto" 
+                 data-desc="<strong>TELL Lab UniBa & Queen Mary University of London</strong> (02/05/2026 - 02/10/2026)<br><br>Collaborazione come Borsista di Ricerca con il Dipartimento di Informatica (DIB) dell&apos;Università degli Studi di Bari, in sinergia internazionale con la Queen Mary University of London.<br><br>Contribuisco al progetto di ricerca esplorativa: <em>&quot;Unlocking new opportunities: rethinking higher education provisioning through lifelong learning programmes and initiatives in the era of AI&quot;</em>. Nello specifico, studio come l&apos;Intelligenza Artificiale stia trasformando i modelli di Lifelong Learning, con l&apos;obiettivo di ridefinire e innovare l&apos;offerta formativa accademica per renderla sempre più avanzata, personalizzata e accessibile." 
                  data-img="" data-link="">
-                <h3>Borsista di Ricerca</h3>
-                <p>TELL Lab, UniBa & Queen Mary University of London</p>
+                <h3>Borsista di Ricerca / Ricercatore a contratto</h3>
+                <p>TELL Lab UniBa & QMUL</p>
                 <button class="card-btn">Analizza Ruolo</button>
             </div>
 
@@ -516,7 +513,7 @@
 
             <div class="card" 
                  data-title="Responsabile della trasformazione digitale" 
-                 data-desc="<strong>Crira Viaggi, Bari</strong> (08/01/2026 - 05/03/2026)<br><br>Responsabile della strategia digitale e della presenza online dell&apos;azienda. Per stabilire le fondamenta digitali del brand, mi sono occupato del setup iniziale creando e ottimizzando gli asset aziendali (tra cui account Google e posizionamento su Google Maps tramite Google Business Profile). Parallelamente, ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita della brand awareness e all&apos;espansione del mercato digitale." 
+                 data-desc="<strong>Crira Viaggi, Bari</strong> (08/01/2026 - 05/03/2026)<br><br>Responsabile della strategia digitale e della presenza online dell&apos;azienda. Per stabilire le fondamenta digitali del brand, mi sono occupato del setup iniziale creando e ottimizzando gli asset aziendali (tra cui account Google e posizionamento su Google Maps tramite Google Business Profile). Parallelamente, ho ideato e prodotto contenuti per i canali social, definendo piani editoriali mirati alla crescita della brand awareness e all&apos;espansione del mercato digitale. 📍 PAGA COMODAMENTE CON IL TUO WELFARE AZIENDALE! Hai dei crediti welfare a disposizione? Sfruttali nel modo migliore: viaggiando! Da Crira Viaggi puoi utilizzarli in modo semplice e veloce per prenotare le tue prossime vacanze. ✅ Accettiamo i voucher dei principali circuiti: 🔹 Randstad 🔹 Edenred 🔹 Aon" 
                  data-img="" data-link="">
                 <h3>Responsabile della trasformazione digitale</h3>
                 <p>Crira Viaggi</p>
@@ -574,6 +571,17 @@
     <section id="progetti">
         <h2 class="section-title reveal">Progetti</h2>
         <div class="slider-container reveal">
+
+            <!-- NUOVO PROGETTO: SECURE SOFTWARE ENGINEERING -->
+            <div class="card" 
+                 data-title="Secure Software Engineering: Hospital Management System" 
+                 data-desc="<strong>Corso di Secure Software Engineering</strong> (A.A. 2025-2026)[cite: 1]<br><br>Progetto accademico focalizzato sull&apos;analisi di sicurezza e il re-engineering di un&apos;applicazione web (Hospital Management System) in PHP e MySQL[cite: 1]. L&apos;attività è stata condotta in team (DeGaGi)[cite: 1].<br><br><strong>Fasi principali del progetto:</strong><br><ul><li><strong>Red Teaming & Reconnaissance:</strong> Mappatura della superficie di attacco (tramite OSINT, Nmap, Gobuster, SQLMap) e analisi manuale[cite: 1].</li><li><strong>Vulnerability Analysis:</strong> Identificazione di falle critiche (SQLi, XSS, CSRF, Info Leakage) utilizzando tecniche SAST (Fortify SCA) e DAST (OWASP ZAP)[cite: 1].</li><li><strong>Security Fix:</strong> Mitigazione tecnica tramite l&apos;implementazione di Prepared Statements, Output Encoding e token Anti-CSRF, oltre alla gestione e classificazione dei Falsi Positivi[cite: 1].</li><li><strong>Privacy by Design (POSD):</strong> Riprogettazione dell&apos;architettura applicando rigorosamente i pattern Minimize, Hide, Separate, Inform & Enforce, e Control per la compliance al GDPR[cite: 1].</li></ul>" 
+                 data-img="" 
+                 data-link="https://github.com/PietroDeGiglio/Secure-Software-Engineering">
+                <h3>Secure Software Engineering: Hospital Management System</h3>
+                <p>A.A. 2025-2026</p>
+                <button class="card-btn">Vedi Progetto</button>
+            </div>
 
             <div class="card" 
                  data-title="Regression Analysis &amp; Numerical Stability: Large-Scale Predictive Modeling" 
@@ -738,13 +746,13 @@
         <h2 class="section-title reveal">Blog & Games</h2>
         <div class="slider-container reveal" style="display: flex; gap: 35px; flex-wrap: wrap; justify-content: center;">
             
-            <div class="card" data-external="INSERISCI_QUI_IL_LINK_AL_TUO_BLOG">
+            <div class="card" data-external="blog.html">
                 <h3><i class="fa-solid fa-pen-nib" style="color: var(--theme-color); margin-right: 10px; transition: color 0.5s;"></i> Il mio Blog</h3>
                 <p>Articoli, riflessioni, tutorial e pensieri sul mondo della programmazione, Cybersecurity e Intelligenza Artificiale.</p>
                 <button class="card-btn">Leggi gli Articoli</button>
             </div>
 
-            <div class="card" data-external="INSERISCI_QUI_IL_LINK_AI_TUOI_GIOCHI">
+            <div class="card" data-external="giochi.html">
                 <h3><i class="fa-solid fa-gamepad" style="color: var(--theme-color); margin-right: 10px; transition: color 0.5s;"></i> Area Giochi</h3>
                 <p>Mettiti alla prova! Una raccolta di progetti videoludici interattivi sviluppati da me, giocabili direttamente online.</p>
                 <button class="card-btn">Gioca Ora</button>
