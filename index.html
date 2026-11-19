@@ -339,24 +339,6 @@
         .universe.is-visible { opacity: 1; }
         #space { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-        .u-planet { position: absolute; width: min(62vmin, 620px); aspect-ratio: 1; right: -12vmin; bottom: -16vmin; transform: translate(var(--px, 0), var(--py, 0)) translateY(30%) scale(.9); opacity: 0; transition: transform 1.6s cubic-bezier(.2,.8,.2,1), opacity 1.2s; pointer-events: none; }
-        .universe.is-visible .u-planet { transform: translate(var(--px, 0), var(--py, 0)); opacity: 1; }
-        .u-sphere {
-            position: absolute; inset: 0; border-radius: 50%; overflow: hidden; z-index: 1;
-            background: radial-gradient(circle at 32% 30%, var(--g2), var(--g1) 28%, rgba(var(--accent-rgb), .35) 52%, #020604 78%);
-            box-shadow: 0 0 120px -10px rgba(var(--accent-rgb), .55), inset 0 0 40px rgba(255,255,255,.08);
-        }
-        body.devil-mode .u-sphere { background: radial-gradient(circle at 32% 30%, var(--g2), var(--g1) 28%, rgba(var(--accent-rgb), .35) 52%, #060202 78%); }
-        .u-sphere::before { content: ''; position: absolute; inset: -20%; background: repeating-linear-gradient(-24deg, rgba(0,0,0,.0) 0 22px, rgba(0,0,0,.22) 22px 34px, rgba(255,255,255,.05) 34px 40px, rgba(0,0,0,0) 40px 70px); mix-blend-mode: overlay; }
-        .u-sphere::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 70% 75%, rgba(0,0,0,.92), rgba(0,0,0,.4) 45%, transparent 70%); }
-        @media (prefers-reduced-motion: no-preference) { .u-sphere::before { animation: bands 60s linear infinite; } }
-        @keyframes bands { to { transform: translateX(-140px); } }
-        .u-ring { position: absolute; left: -38%; right: -38%; top: 41%; height: 18%; border-radius: 50%; transform: rotate(-16deg);
-            background: radial-gradient(closest-side, transparent 72%, rgba(var(--accent-rgb), .55) 74%, rgba(255,255,255,.35) 80%, rgba(var(--accent-rgb), .25) 86%, transparent 88%, rgba(255,255,255,.18) 91%, transparent 94%); }
-        .u-ring.back { z-index: 0; }
-        .u-ring.front { z-index: 2; clip-path: inset(50% 0 0 0); }
-        .u-moon { position: absolute; left: 7vw; top: 9vh; width: min(9vmin, 90px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, var(--g2) 40%, #050505 80%); box-shadow: 0 0 50px -6px var(--g2); transform: translate(calc(var(--px, 0) * -1.6), calc(var(--py, 0) * -1.6)); opacity: 0; transition: opacity 1.2s .3s; }
-        .universe.is-visible .u-moon { opacity: .9; }
 
         .u-card {
             position: relative; z-index: 3; width: min(780px, 100%); max-height: 86vh; display: flex; flex-direction: column;
@@ -871,12 +853,6 @@
     <!-- UNIVERSO: si apre sui dettagli -->
     <div class="universe" id="universe" role="dialog" aria-modal="true" aria-labelledby="uTitle">
         <canvas id="space" aria-hidden="true"></canvas>
-        <div class="u-moon" aria-hidden="true"></div>
-        <div class="u-planet" aria-hidden="true">
-            <div class="u-ring back"></div>
-            <div class="u-sphere"></div>
-            <div class="u-ring front"></div>
-        </div>
         <div class="u-card">
             <button class="u-close" type="button" aria-label="Chiudi"><i class="fa-solid fa-xmark"></i></button>
             <div class="u-scroll">
@@ -1042,7 +1018,7 @@
         const card = uni.querySelector('.u-card');
         const uTitle = document.getElementById('uTitle'), uBody = document.getElementById('uBody'), uKicker = document.getElementById('uKicker');
         const uLink = document.getElementById('uLink'), uPrev = document.getElementById('uPrev'), uNext = document.getElementById('uNext'), uCount = document.getElementById('uCount');
-        let group = [], idx = 0, lastFocus = null;
+        let group = [], idx = 0, lastFocus = null, closeTimer = 0;
 
         function fill(item) {
             uKicker.textContent = item.dataset.kind + (item.dataset.when ? ', ' + item.dataset.when : '');
@@ -1057,23 +1033,25 @@
         function step(dir) {
             const n = idx + dir;
             if (n < 0 || n >= group.length) return;
-            idx = n; fill(group[idx]); space.boost(dir);
+            idx = n; fill(group[idx]); space.show(group[idx].dataset.title);
+            if (!reduce) uni.querySelector('.u-scroll').animate([{ opacity: 0, transform: `translateX(${dir * 24}px)` }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.2,.8,.2,1)' });
         }
         function openUniverse(item) {
+            clearTimeout(closeTimer);
             lastFocus = document.activeElement;
             group = [...item.parentElement.querySelectorAll(':scope > [data-title]')].filter(el => !el.classList.contains('is-filtered'));
             idx = group.indexOf(item);
             fill(item);
             uni.classList.add('is-open');
             document.body.classList.add('modal-open');
-            space.start();
+            space.start(item.dataset.title);
             requestAnimationFrame(() => requestAnimationFrame(() => uni.classList.add('is-visible')));
             uni.querySelector('.u-close').focus({ preventScroll: true });
         }
         function closeUniverse() {
             uni.classList.remove('is-visible');
             document.body.classList.remove('modal-open');
-            setTimeout(() => { uni.classList.remove('is-open'); space.stop(); }, 450);
+            closeTimer = setTimeout(() => { uni.classList.remove('is-open'); space.stop(); }, 450);
             if (lastFocus) lastFocus.focus({ preventScroll: true });
         }
         document.querySelectorAll('.tl-item, .project, .pub').forEach(item => item.addEventListener('click', e => {
@@ -1103,80 +1081,314 @@
             space.look(px, py);
         });
 
-        // campo stellare 3D con nebulose, salto a velocità luce e stelle cadenti
+        // UNIVERSO: campo stellare 3D, nebulose e uno scenario diverso per ogni scheda
         const space = (() => {
             const cv = document.getElementById('space'), ctx = cv.getContext('2d');
-            let W, H, dpr, stars = [], neb = null, raf = 0, speed = 0, target = .35, t = 0, lookX = 0, lookY = 0, camX = 0, camY = 0, shooting = [];
-            const N = 900;
+            let W = 0, H = 0, dpr = 1, stars = [], raf = 0, speed = 0, target = .35, t = 0;
+            let lookX = 0, lookY = 0, camX = 0, camY = 0, shooting = [];
+            let neb = null, nebOld = null, nebMix = 1, nebAngle = 0;
+            let scene = null, old = null, lastType = -1, curKey = '';
+            const vp = { x: 0, y: 0, roll: 0 }, vpT = { x: 0, y: 0, roll: 0 };
+            const N = 900, TYPES = 6;
             const css = n => getComputedStyle(document.body).getPropertyValue(n).trim();
-            function hexToRgb(h) { h = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); }
-            function resize() {
-                dpr = Math.min(devicePixelRatio || 1, 2);
-                W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
-                cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
-                makeNebula();
+            const hexToRgb = h => { h = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
+            const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+            const mix = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
+            const WHITE = [255, 255, 255], BLACK = [0, 0, 0];
+            const ease = x => 1 - Math.pow(1 - x, 3);
+            function hash(s) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+            function rng(seed) { let s = (seed % 2147483646) + 1; return () => (s = s * 16807 % 2147483647) / 2147483647; }
+            function pal() {
+                return { g1: hexToRgb(css('--g1')), g2: hexToRgb(css('--g2')), g3: hexToRgb(css('--g3')), g4: hexToRgb(css('--g4')),
+                         bg: css('--bg') === '#0a0505' ? '#030101' : '#010203' };
             }
-            function seed() {
-                stars = Array.from({ length: N }, () => ({ x: (Math.random() - .5) * 2, y: (Math.random() - .5) * 2, z: Math.random(), tw: Math.random() * 6.28 }));
-            }
-            function makeNebula() {
-                const s = 3, w = Math.ceil(W / s), h = Math.ceil(H / s);
-                neb = document.createElement('canvas'); neb.width = w; neb.height = h;
-                const n = neb.getContext('2d');
-                const cols = ['--g1', '--g3', '--g4', '--g2'].map(v => hexToRgb(css(v)));
+            const canvas = (w, h) => { const c = document.createElement('canvas'); c.width = Math.max(1, Math.ceil(w)); c.height = Math.max(1, Math.ceil(h)); return c; };
+
+            // ---------- texture pre-disegnate ----------
+            function makeNebula(seed) {
+                const r = rng(seed), s = 3, w = Math.ceil(W / s), h = Math.ceil(H / s);
+                const c = canvas(w, h), n = c.getContext('2d'), P = pal(), cols = [P.g1, P.g3, P.g4, P.g2];
+                const cx0 = w * (.2 + r() * .6), cy0 = h * (.2 + r() * .6), spread = .6 + r() * .5;
                 n.globalCompositeOperation = 'lighter';
-                let rnd = 7; const r = () => (rnd = (rnd * 9301 + 49297) % 233280) / 233280;
                 for (let i = 0; i < 26; i++) {
-                    const c = cols[i % cols.length];
-                    const cx = w * (.15 + r() * .7), cy = h * (.2 + r() * .6), rad = Math.max(w, h) * (.08 + r() * .26);
+                    const col = cols[i % 4], cx = cx0 + (r() - .5) * w * spread, cy = cy0 + (r() - .5) * h * spread;
+                    const rad = Math.max(w, h) * (.05 + r() * .24), a = .04 + r() * .09;
                     const g = n.createRadialGradient(cx, cy, 0, cx, cy, rad);
-                    const a = .05 + r() * .09;
-                    g.addColorStop(0, `rgba(${c},${a})`); g.addColorStop(.5, `rgba(${c},${a * .4})`); g.addColorStop(1, `rgba(${c},0)`);
+                    g.addColorStop(0, rgba(col, a)); g.addColorStop(.5, rgba(col, a * .4)); g.addColorStop(1, rgba(col, 0));
                     n.fillStyle = g; n.fillRect(0, 0, w, h);
                 }
-                // filamenti di polvere scura
                 n.globalCompositeOperation = 'destination-out';
-                for (let i = 0; i < 14; i++) {
-                    const cx = w * r(), cy = h * r(), rad = Math.max(w, h) * (.04 + r() * .1);
+                for (let i = 0; i < 16; i++) {
+                    const cx = w * r(), cy = h * r(), rad = Math.max(w, h) * (.03 + r() * .1);
                     const g = n.createRadialGradient(cx, cy, 0, cx, cy, rad);
                     g.addColorStop(0, 'rgba(0,0,0,.5)'); g.addColorStop(1, 'rgba(0,0,0,0)');
                     n.fillStyle = g; n.fillRect(0, 0, w, h);
                 }
+                return c;
             }
+
+            // sfera con luce, bande o crateri, ombra del terminatore e atmosfera (disegnata piccola e poi scalata)
+            function makeSphere(R, o, r) {
+                const k = Math.min(1, 520 / R), Rr = R * k, pad = Math.ceil(Rr * .45), S = Math.ceil(Rr * 2 + pad * 2);
+                const c = canvas(S, S), g = c.getContext('2d'), C = S / 2;
+                if (o.atmo) {
+                    const a = g.createRadialGradient(C, C, Rr * .92, C, C, Rr * 1.42);
+                    a.addColorStop(0, rgba(o.atmo, .5)); a.addColorStop(1, rgba(o.atmo, 0));
+                    g.fillStyle = a; g.beginPath(); g.arc(C, C, Rr * 1.44, 0, 6.3); g.fill();
+                }
+                g.save(); g.beginPath(); g.arc(C, C, Rr, 0, 6.3); g.clip();
+                const lx = C + o.lx * Rr * .6, ly = C + o.ly * Rr * .6;
+                const base = g.createRadialGradient(lx, ly, Rr * .05, C, C, Rr * 1.05);
+                base.addColorStop(0, rgba(o.light, 1)); base.addColorStop(.5, rgba(o.mid, 1)); base.addColorStop(1, rgba(o.dark, 1));
+                g.fillStyle = base; g.fillRect(C - Rr, C - Rr, Rr * 2, Rr * 2);
+                if (o.bands) {
+                    g.save(); g.translate(C, C); g.rotate(o.bandTilt || 0);
+                    for (let i = 0; i < o.bands; i++) {
+                        const y = -Rr + r() * 2 * Rr, hh = Rr * (.015 + r() * .1);
+                        g.fillStyle = r() < .55 ? `rgba(0,0,0,${.06 + r() * .18})` : `rgba(255,255,255,${.03 + r() * .1})`;
+                        g.beginPath(); g.ellipse(0, y, Rr * 1.4, hh, 0, 0, 6.3); g.fill();
+                    }
+                    g.restore();
+                }
+                if (o.craters) {
+                    for (let i = 0; i < o.craters; i++) {
+                        const a = r() * 6.283, d = Math.sqrt(r()) * Rr * .9, x = C + Math.cos(a) * d, y = C + Math.sin(a) * d, cr = Rr * (.025 + r() * .11);
+                        g.fillStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.arc(x, y, cr, 0, 6.3); g.fill();
+                        g.strokeStyle = 'rgba(255,255,255,.13)'; g.lineWidth = Math.max(1, cr * .16);
+                        g.beginPath(); g.arc(x + o.lx * cr * .2, y + o.ly * cr * .2, cr, 0, 6.3); g.stroke();
+                    }
+                }
+                const sx = C - o.lx * Rr * 1.05, sy = C - o.ly * Rr * 1.05;
+                const sh = g.createRadialGradient(sx, sy, Rr * .15, sx, sy, Rr * 1.7);
+                sh.addColorStop(0, 'rgba(0,0,0,.94)'); sh.addColorStop(.5, 'rgba(0,0,0,.6)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
+                g.fillStyle = sh; g.fillRect(C - Rr, C - Rr, Rr * 2, Rr * 2);
+                g.restore();
+                const la = Math.atan2(o.ly, o.lx);
+                g.strokeStyle = rgba(o.light, .45); g.lineWidth = Math.max(1, Rr * .012);
+                g.beginPath(); g.arc(C, C, Rr - g.lineWidth / 2, la - 1.2, la + 1.2); g.stroke();
+                return { img: c, scale: 1 / k };
+            }
+
+            // anelli: metà dietro e metà davanti al pianeta
+            function makeRing(R, o, r) {
+                const k = Math.min(1, 520 / R), Rr = R * k, S = Math.ceil(Rr * 2 * o.outer + 8);
+                const draw = front => {
+                    const c = canvas(S, S), g = c.getContext('2d');
+                    g.translate(S / 2, S / 2);
+                    g.beginPath(); front ? g.rect(-S / 2, 0, S, S / 2) : g.rect(-S / 2, -S / 2, S, S / 2); g.clip();
+                    g.scale(1, o.squash);
+                    const steps = 26;
+                    for (let i = 0; i < steps; i++) {
+                        const rr = Rr * (o.inner + (o.outer - o.inner) * (i / steps));
+                        const a = (r() < .2 ? .05 : .18 + r() * .4) * (front ? 1 : .8);
+                        g.strokeStyle = rgba(mix(o.col, WHITE, r() * .5), a);
+                        g.lineWidth = (Rr * (o.outer - o.inner) / steps) * 1.4;
+                        g.beginPath(); g.arc(0, 0, rr, 0, 6.3); g.stroke();
+                    }
+                    return c;
+                };
+                const seedState = r();
+                const r1 = rng(Math.floor(seedState * 1e9)), r2 = rng(Math.floor(seedState * 1e9));
+                const saved = r; r = r1; const back = draw(false); r = r2; const front = draw(true); r = saved;
+                return { back, front, scale: 1 / k };
+            }
+
+            function makeBlackHole(R, P) {
+                const S = Math.ceil(R * 7), c = canvas(S, S), g = c.getContext('2d'), C = S / 2;
+                const hot = mix(P.g2, WHITE, .55);
+                const disk = (front) => {
+                    g.save(); g.translate(C, C);
+                    g.beginPath(); front ? g.rect(-C, 0, S, C) : g.rect(-C, -C, S, C); g.clip();
+                    g.scale(1, .22);
+                    for (let i = 0; i < 40; i++) {
+                        const rr = R * (1.5 + i * .05), a = (1 - i / 40) * .35;
+                        g.strokeStyle = rgba(i < 8 ? hot : mix(P.g1, P.g4, i / 40), a);
+                        g.lineWidth = R * .07; g.beginPath(); g.arc(0, 0, rr, 0, 6.3); g.stroke();
+                    }
+                    g.restore();
+                };
+                // luce piegata dalla gravità, sopra e sotto l'orizzonte
+                g.save(); g.translate(C, C);
+                for (let i = 0; i < 14; i++) {
+                    g.strokeStyle = rgba(i < 4 ? hot : P.g1, (1 - i / 14) * .28);
+                    g.lineWidth = R * .06; g.beginPath(); g.ellipse(0, 0, R * (1.25 + i * .04), R * (1.12 + i * .035), 0, 0, 6.3); g.stroke();
+                }
+                g.restore();
+                disk(false);
+                g.fillStyle = '#000'; g.beginPath(); g.arc(C, C, R, 0, 6.3); g.fill();
+                g.strokeStyle = rgba(hot, .9); g.lineWidth = Math.max(1.5, R * .03); g.beginPath(); g.arc(C, C, R * 1.02, 0, 6.3); g.stroke();
+                disk(true);
+                return { img: c, scale: 1 };
+            }
+
+            // ---------- scenari ----------
+            function buildScene(key) {
+                const P = pal(), h = hash(key);
+                let type = h % TYPES;
+                if (type === lastType) type = (type + 1 + (h >>> 4) % (TYPES - 1)) % TYPES;
+                lastType = type;
+                const r = rng(h), U = Math.min(W, H), side = r() < .5 ? -1 : 1;
+                const lx = -side * (.4 + r() * .5), ly = -(.3 + r() * .6);
+                const objs = [];
+                const gas = R => makeSphere(R, { light: mix(P.g2, WHITE, .35), mid: P.g1, dark: mix(P.g4, BLACK, .7), atmo: P.g1, bands: 26, bandTilt: (r() - .5) * .5, lx, ly }, r);
+                const rock = R => makeSphere(R, { light: mix([196, 202, 198], P.g2, .12), mid: [88, 94, 90], dark: [8, 10, 9], atmo: null, craters: 34, lx, ly }, r);
+                const ice = R => makeSphere(R, { light: WHITE, mid: mix(P.g2, WHITE, .55), dark: mix(P.g4, BLACK, .5), atmo: mix(P.g2, WHITE, .4), bands: 8, lx, ly }, r);
+                const add = (o) => { objs.push(Object.assign({ depth: 1, delay: 0, alpha: 1 }, o)); return o; };
+
+                if (type === 0) { // gigante gassoso con anelli
+                    const R = U * (.26 + r() * .1);
+                    add({ sph: gas(R), ring: makeRing(R, { inner: 1.35, outer: 2.25, squash: .2 + r() * .14, col: mix(P.g2, WHITE, .2) }, r),
+                          rot: (r() - .5) * .9, x: W * (.5 + side * (.3 + r() * .08)), y: H * (.62 + r() * .2), depth: 1 });
+                    add({ sph: ice(U * .045), x: W * (.5 - side * (.36 + r() * .06)), y: H * (.16 + r() * .12), depth: .35, delay: 250 });
+                } else if (type === 1) { // pianeta roccioso con luna in orbita
+                    const R = U * (.2 + r() * .08);
+                    const p = add({ sph: rock(R), x: W * (.5 + side * (.3 + r() * .06)), y: H * (.35 + r() * .35), depth: .9 });
+                    p.moon = { sph: ice(R * .2), rx: R * 2.1, ry: R * (.35 + r() * .25), tilt: (r() - .5) * .6, a0: r() * 6.28, sp: .00018 + r() * .0002 };
+                    add({ sph: gas(U * .07), x: W * (.5 - side * (.34 + r() * .08)), y: H * (.78 + r() * .1), depth: .45, delay: 300 });
+                } else if (type === 2) { // pianeti gemelli
+                    const R1 = U * (.17 + r() * .06), R2 = R1 * (.5 + r() * .2);
+                    const x1 = W * (.5 + side * (.3 + r() * .06)), y1 = H * (.58 + r() * .22);
+                    add({ sph: gas(R1), x: x1, y: y1, depth: 1 });
+                    add({ sph: ice(R2), ring: makeRing(R2, { inner: 1.4, outer: 1.9, squash: .3, col: WHITE }, r), rot: (r() - .5) * .7,
+                          x: x1 - side * R1 * (1.6 + r() * .4), y: y1 - R1 * (1 + r() * .5), depth: .8, delay: 200 });
+                } else if (type === 3) { // buco nero
+                    const R = U * (.07 + r() * .03);
+                    add({ sph: makeBlackHole(R, P), x: W * (.5 + side * (.3 + r() * .08)), y: H * (.26 + r() * .22), depth: .8, pulse: true });
+                    add({ sph: rock(U * .05), x: W * (.5 - side * (.34 + r() * .06)), y: H * (.8 + r() * .08), depth: .5, delay: 300 });
+                } else if (type === 4) { // orizzonte: stai per atterrare
+                    const R = W * (1 + r() * .3);
+                    add({ sph: makeSphere(R, { light: mix(P.g2, WHITE, .25), mid: mix(P.g1, P.g4, .35), dark: mix(P.g4, BLACK, .8), atmo: P.g1, bands: 40, bandTilt: (r() - .5) * .3, lx: side * .3, ly: -1 }, r),
+                          x: W * (.5 + side * (r() * .2)), y: H + R * (.78 + r() * .06), depth: 1.2 });
+                    add({ sph: rock(U * (.05 + r() * .03)), x: W * (.5 - side * (.3 + r() * .1)), y: H * (.16 + r() * .14), depth: .4, delay: 250 });
+                } else { // cintura di asteroidi
+                    const R = U * (.13 + r() * .05);
+                    add({ sph: ice(R), x: W * (.5 + side * (.32 + r() * .06)), y: H * (.22 + r() * .2), depth: .6 });
+                    const belt = { rx: W * (.75 + r() * .2), ry: H * (.1 + r() * .08), tilt: (r() - .5) * .5, cx: W * .5, cy: H * (.62 + r() * .15), rocks: [] };
+                    for (let i = 0; i < 170; i++) belt.rocks.push({ a: r() * 6.283, d: .8 + r() * .4, s: (1 + r() * r() * 9) * dpr, sp: (.00004 + r() * .00005), v: Array.from({ length: 7 }, () => .6 + r() * .5), shade: .3 + r() * .5 });
+                    add({ belt, x: belt.cx, y: belt.cy, depth: 1.1, delay: 150 });
+                }
+                // su schermi larghi la scheda copre il centro: allontano i pianeti
+                const spread = W / dpr > 1000 ? 1.22 : 1;
+                for (const o of objs) if (!o.belt) o.x = W / 2 + (o.x - W / 2) * spread;
+                // prospettiva: punto di fuga e inclinazione diversi per ogni scena
+                vpT.x = (r() - .5) * .3; vpT.y = (r() - .5) * .24; vpT.roll = (r() - .5) * .5;
+                return { objs, type, t0: performance.now(), neb: h };
+            }
+
+            function setScene(key, warp) {
+                curKey = key;
+                if (scene && warp) { old = scene; old.tLeave = performance.now(); }
+                scene = buildScene(key);
+                nebOld = neb; neb = makeNebula(scene.neb); nebMix = nebOld ? 0 : 1;
+            }
+
+            // ---------- disegno ----------
+            function drawSphere(o, x, y, sc, alpha) {
+                const s = o.sph, w = s.img.width * s.scale * sc, hh = s.img.height * s.scale * sc;
+                let a = alpha; if (o.pulse) a *= .88 + .12 * Math.sin(t * .03);
+                ctx.globalAlpha = a; ctx.drawImage(s.img, x - w / 2, y - hh / 2, w, hh); ctx.globalAlpha = 1;
+            }
+            function drawRing(o, part, x, y, sc, alpha) {
+                const rg = o.ring, img = rg[part], w = img.width * rg.scale * sc;
+                ctx.save(); ctx.globalAlpha = alpha; ctx.translate(x, y); ctx.rotate(o.rot); ctx.drawImage(img, -w / 2, -w / 2, w, w); ctx.restore();
+            }
+            function drawMoon(o, x, y, sc, alpha, now, behind) {
+                const m = o.moon, a = m.a0 + now * m.sp, s = Math.sin(a);
+                if ((s < 0) !== behind) return;
+                const ca = Math.cos(m.tilt), sa = Math.sin(m.tilt);
+                const mx = Math.cos(a) * m.rx * sc, my = s * m.ry * sc;
+                const k = .8 + .3 * (s + 1) / 2;
+                drawSphere({ sph: m.sph }, x + mx * ca - my * sa, y + mx * sa + my * ca, sc * k, alpha);
+            }
+            function drawBelt(o, x, y, sc, alpha, now, P) {
+                const b = o.belt, ca = Math.cos(b.tilt), sa = Math.sin(b.tilt);
+                ctx.globalAlpha = alpha;
+                for (const rk of b.rocks) {
+                    const a = rk.a + now * rk.sp, px = Math.cos(a) * b.rx * rk.d * sc, py = Math.sin(a) * b.ry * rk.d * sc;
+                    const X = x + px * ca - py * sa, Y = y + px * sa + py * ca;
+                    if (X < -40 || X > W + 40 || Y < -40 || Y > H + 40) continue;
+                    const size = rk.s * sc * (.7 + .5 * (Math.sin(a) + 1) / 2);
+                    ctx.fillStyle = rgba(mix([120, 126, 122], P.g2, .15), rk.shade);
+                    ctx.beginPath();
+                    rk.v.forEach((v, i) => { const an = i / rk.v.length * 6.283 + a * 3; const vx = X + Math.cos(an) * size * v, vy = Y + Math.sin(an) * size * v; i ? ctx.lineTo(vx, vy) : ctx.moveTo(vx, vy); });
+                    ctx.closePath(); ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+            }
+            function drawScene(sc0, now, leaving, P) {
+                const cxv = W / 2 + vp.x * W, cyv = H / 2 + vp.y * H;
+                const list = [...sc0.objs].sort((a, b) => a.depth - b.depth);
+                for (const o of list) {
+                    let e, sc, alpha, x, y;
+                    const px = -camX * 60 * dpr * o.depth, py = -camY * 60 * dpr * o.depth;
+                    if (!leaving) {
+                        e = reduce ? 1 : ease(Math.min(1, Math.max(0, (now - sc0.t0 - o.delay) / 1700)));
+                        sc = .12 + .88 * e; alpha = Math.min(1, e * 1.4);
+                        x = cxv + (o.x - cxv) * e + px; y = cyv + (o.y - cyv) * e + py;
+                    } else {
+                        e = Math.min(1, (now - sc0.tLeave) / 900);
+                        sc = 1 + e * e * 2.2; alpha = 1 - e;
+                        x = o.x + (o.x - cxv) * e * 1.4 + px; y = o.y + (o.y - cyv) * e * 1.4 + py;
+                    }
+                    if (alpha <= 0) continue;
+                    if (o.belt) { drawBelt(o, x, y, sc, alpha, now, P); continue; }
+                    if (o.moon) drawMoon(o, x, y, sc, alpha, now, true);
+                    if (o.ring) drawRing(o, 'back', x, y, sc, alpha);
+                    drawSphere(o, x, y, sc, alpha);
+                    if (o.ring) drawRing(o, 'front', x, y, sc, alpha);
+                    if (o.moon) drawMoon(o, x, y, sc, alpha, now, false);
+                }
+            }
+
+            function resize() {
+                dpr = Math.min(devicePixelRatio || 1, 2);
+                W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
+                cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+            }
+            function seed() { stars = Array.from({ length: N }, () => ({ x: (Math.random() - .5) * 2, y: (Math.random() - .5) * 2, z: Math.random(), tw: Math.random() * 6.28 })); }
+
             function frame() {
+                const now = performance.now(), P = pal();
                 t += 1;
                 speed += (target - speed) * .045;
                 camX += (lookX - camX) * .05; camY += (lookY - camY) * .05;
+                for (const k of ['x', 'y', 'roll']) vp[k] += (vpT[k] - vp[k]) * .035;
+                if (nebMix < 1) nebMix = Math.min(1, nebMix + .025);
+                if (old && now - old.tLeave > 950) old = null;
+
                 ctx.globalCompositeOperation = 'source-over';
-                ctx.fillStyle = css('--bg') === '#0a0505' ? '#030101' : '#010203';
-                ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = P.bg; ctx.fillRect(0, 0, W, H);
 
-                // nebulosa che ruota piano
-                ctx.save();
-                ctx.globalAlpha = .9;
-                ctx.translate(W / 2 - camX * 40 * dpr, H / 2 - camY * 40 * dpr);
-                ctx.rotate(t * .00012);
-                const sc = 1.25 + Math.min(speed, 8) * .02;
-                ctx.drawImage(neb, -W * sc / 2, -H * sc / 2, W * sc, H * sc);
-                ctx.restore();
+                // nebulosa (con dissolvenza tra una scena e l'altra)
+                nebAngle += .00012;
+                const drawNeb = (img, a) => {
+                    if (!img || a <= 0) return;
+                    ctx.save(); ctx.globalAlpha = a * .9;
+                    ctx.translate(W / 2 + vp.x * W * .5 - camX * 40 * dpr, H / 2 + vp.y * H * .5 - camY * 40 * dpr);
+                    ctx.rotate(nebAngle + vp.roll);
+                    const s = 1.35 + Math.min(speed, 8) * .02;
+                    ctx.drawImage(img, -W * s / 2, -H * s / 2, W * s, H * s);
+                    ctx.restore();
+                };
+                drawNeb(nebOld, 1 - nebMix); drawNeb(neb, nebMix);
 
-                // stelle
-                const cx = W / 2 - camX * 120 * dpr, cy = H / 2 - camY * 120 * dpr, fov = Math.min(W, H) * .9;
-                const accent = css('--g1');
+                // stelle, con punto di fuga e inclinazione della scena
+                const cx = W / 2 + vp.x * W - camX * 120 * dpr, cy = H / 2 + vp.y * H - camY * 120 * dpr, fov = Math.min(W, H) * .9;
+                const cr = Math.cos(vp.roll), sr = Math.sin(vp.roll), accent = css('--g1');
                 ctx.globalCompositeOperation = 'lighter';
                 for (const s of stars) {
                     const pz = s.z;
                     s.z -= speed * .004;
                     if (s.z <= .02) { s.x = (Math.random() - .5) * 2; s.y = (Math.random() - .5) * 2; s.z = 1; continue; }
-                    const k = fov / s.z, sx = cx + s.x * k * .5, sy = cy + s.y * k * .5;
+                    const k = fov / s.z * .5, rx = s.x * k, ry = s.y * k;
+                    const sx = cx + rx * cr - ry * sr, sy = cy + rx * sr + ry * cr;
                     if (sx < -50 || sx > W + 50 || sy < -50 || sy > H + 50) continue;
-                    const size = (1 - s.z) * 2.2 * dpr + .3;
-                    const tw = .65 + .35 * Math.sin(t * .05 + s.tw);
+                    const size = (1 - s.z) * 2.2 * dpr + .3, tw = .65 + .35 * Math.sin(t * .05 + s.tw);
                     const alpha = Math.min(1, (1 - s.z) * 1.4) * tw;
                     if (speed > 1.2) {
-                        const k2 = fov / Math.min(1, pz + speed * .006), px = cx + s.x * k2 * .5, py = cy + s.y * k2 * .5;
+                        const k2 = fov / Math.min(1, pz + speed * .006) * .5, qx = s.x * k2, qy = s.y * k2;
                         ctx.strokeStyle = `rgba(255,255,255,${alpha})`; ctx.lineWidth = size;
-                        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(sx, sy); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(cx + qx * cr - qy * sr, cy + qx * sr + qy * cr); ctx.lineTo(sx, sy); ctx.stroke();
                     } else {
                         ctx.fillStyle = s.tw > 5.6 ? accent : `rgba(255,255,255,${alpha})`;
                         ctx.globalAlpha = s.tw > 5.6 ? alpha : 1;
@@ -1196,18 +1408,30 @@
                     s.x += s.vx; s.y += s.vy; s.life -= .012;
                 }
                 ctx.globalCompositeOperation = 'source-over';
-                raf = requestAnimationFrame(frame);
+
+                // pianeti: quelli vecchi ti sfrecciano accanto, i nuovi arrivano dal fondo
+                if (old) drawScene(old, now, true, P);
+                if (scene) drawScene(scene, now, false, P);
+
+                if (!reduce) raf = requestAnimationFrame(frame);
             }
-            addEventListener('resize', () => { if (raf) resize(); });
+
+            addEventListener('resize', () => { if (raf || reduce) { resize(); if (curKey) { lastType = -1; scene = buildScene(curKey); scene.t0 = -1e9; neb = makeNebula(scene.neb); nebOld = null; nebMix = 1; } } });
             return {
-                start() {
+                start(key) {
                     resize(); if (!stars.length) seed();
-                    cancelAnimationFrame(raf);
-                    if (reduce) { speed = target = 0; frame(); cancelAnimationFrame(raf); raf = 0; return; }
+                    cancelAnimationFrame(raf); old = null; neb = null; lastType = -1;
+                    setScene(key, false);
+                    Object.assign(vp, vpT);
+                    if (reduce) { speed = target = 0; scene.t0 = -1e9; frame(); return; }
                     speed = 14; target = .35; raf = requestAnimationFrame(frame);
                 },
+                show(key) {
+                    setScene(key, !reduce);
+                    if (reduce) { scene.t0 = -1e9; nebMix = 1; Object.assign(vp, vpT); frame(); return; }
+                    speed = 9;
+                },
                 stop() { cancelAnimationFrame(raf); raf = 0; },
-                boost() { if (!reduce && raf) speed = 6; },
                 look(x, y) { lookX = x; lookY = y; }
             };
         })();
